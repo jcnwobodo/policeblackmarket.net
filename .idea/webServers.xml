@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="2f86b86d-7dd0-47a6-8630-23c8bb9a0d85" name="PoliceBlackMarket" url="http://localhost/www/Leapscope/police-black-market">
+        <fileTransfer mountedRoot="C:\xampp\htdocs\www\Leapscope\police-black-market" accessType="MOUNT" />
+      </webServer>
+    </option>
+  </component>
+</project>

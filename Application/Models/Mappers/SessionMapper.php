@@ -70,7 +70,7 @@ class SessionMapper extends Mapper
         $class = $this->targetClass();
         $object = new $class($array['id']);
         $object->setSessionId($array['session_id']);
-        $session_user = Models\Account::getMapper('Account')->find($array['user_id']);
+        $session_user = Models\User::getMapper('User')->find($array['user_id']);
         $object->setSessionUser($session_user)->setUserType($array['user_type']);
         $object->setStartTime(DateTime::getDateTimeObjFromInt($array['start_time']));
         $object->setUserAgent($array['user_agent'])->setIpAddress($array['ip_address']);

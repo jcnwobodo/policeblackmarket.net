@@ -16,7 +16,7 @@ class Post extends DomainObject
     private $parent;
     private $post_type;
     private $template;
-    private $pamalink;
+    private $guid;
     private $title;
     private $content;
     private $excerpt;
@@ -67,13 +67,13 @@ class Post extends DomainObject
         return $this;
     }
 
-    public function getPamalink()
+    public function getGuid()
     {
-        return $this->pamalink;
+        return $this->guid;
     }
-    public function setPamalink($pamalink)
+    public function setGuid($guid)
     {
-        $this->pamalink = $pamalink;
+        $this->guid = $guid;
         $this->markDirty();
         return $this;
     }
@@ -126,7 +126,7 @@ class Post extends DomainObject
     {
         return $this->category;
     }
-    public function setCategory(PostCategory $category)
+    public function setCategory(Category $category)
     {
         $this->category = $category;
         $this->markDirty();

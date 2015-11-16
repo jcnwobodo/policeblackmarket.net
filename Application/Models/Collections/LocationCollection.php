@@ -2,17 +2,18 @@
 /**
  * Phoenix Laboratories NG.
  * Author: J. C. Nwobodo (jc.nwobodo@gmail.com)
- * Project: thehouseoflaws.org
- * Date:    10/27/2015
- * Time:    11:55 AM
+ * Project: PoliceBlackmarket
+ * Date:    11/16/2015
+ * Time:    10:52 PM
  */
 
 namespace Application\Models\Collections;
 
-class PostCategoryCollection extends Collection
+
+class LocationCollection extends Collection
 {
     public function targetClass()
     {
-        return "Application\\Models\\Category";
+        return "Application\\Models\\Location";
     }
 }

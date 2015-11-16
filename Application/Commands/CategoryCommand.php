@@ -19,7 +19,7 @@ class CategoryCommand extends Command
 
     protected function doExecute(RequestContext $requestContext)
     {
-        $this->category_mapper = Models\PostCategory::getMapper("PostCategory");
+        $this->category_mapper = Models\Category::getMapper("Category");
         $this->posts_mapper = Models\Post::getMapper("Post");
 
         $request_category = $this->category_mapper->findByPamalink($requestContext->getRequestUrlParam(1));

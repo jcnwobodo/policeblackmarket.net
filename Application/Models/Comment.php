@@ -1,0 +1,135 @@
+<?php
+/**
+ * Phoenix Laboratories NG.
+ * Author: J. C. Nwobodo (jc.nwobodo@gmail.com)
+ * Project: PoliceBlackmarket
+ * Date:    11/16/2015
+ * Time:    10:34 PM
+ */
+
+namespace Application\Models;
+
+use System\Utilities\DateTime;
+
+class Comment extends DomainObject
+{
+    private $parent;
+    private $post_id;
+    private $comment_author;
+    private $comment_time;
+    private $content;
+    private $status;
+
+    public function __construct($id=null)
+    {
+        parent::__construct($id);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * @param mixed $parent
+     * @return Comment
+     */
+    public function setParent(self $parent)
+    {
+        $this->parent = $parent;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPostId()
+    {
+        return $this->post_id;
+    }
+
+    /**
+     * @param mixed $post_id
+     * @return Comment
+     */
+    public function setPostId($post_id)
+    {
+        $this->post_id = $post_id;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCommentAuthor()
+    {
+        return $this->comment_author;
+    }
+
+    /**
+     * @param mixed $comment_author
+     * @return Comment
+     */
+    public function setCommentAuthor(User $comment_author)
+    {
+        $this->comment_author = $comment_author;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCommentTime()
+    {
+        return $this->comment_time;
+    }
+
+    /**
+     * @param mixed $comment_time
+     * @return Comment
+     */
+    public function setCommentTime(DateTime $comment_time)
+    {
+        $this->comment_time = $comment_time;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * @param mixed $content
+     * @return Comment
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     * @return Comment
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+        return $this;
+    }
+}

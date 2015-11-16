@@ -27,7 +27,7 @@ class Session extends DomainObject
         if(!is_array($user_type_array)){$user_type_array = array($user_type_array);}
         foreach($user_type_array as $user_type)
         {
-            if ($this->user_type == AccessLevel::getTypeNum($user_type)) return true;
+            if ($this->user_type == $user_type) return true;
         }
         return false;
     }
@@ -47,7 +47,7 @@ class Session extends DomainObject
     {
         return $this->session_user;
     }
-    public function setSessionUser(Account $session_user)
+    public function setSessionUser(User $session_user)
     {
         $this->session_user = $session_user;
         $this->markDirty();

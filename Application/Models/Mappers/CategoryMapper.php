@@ -12,7 +12,7 @@ namespace Application\Models\Mappers;
 use Application\Models;
 use Application\Models\Collections\PostCategoryCollection;
 
-class PostCategoryMapper extends Mapper
+class CategoryMapper extends Mapper
 {
     public function __construct()
     {
@@ -22,20 +22,20 @@ class PostCategoryMapper extends Mapper
         $this->selectAllStmt = self::$PDO->prepare(
             "SELECT * FROM site_posts_categories");
         $this->selectByPamalinkStmt = self::$PDO->prepare(
-            "SELECT * FROM site_posts_categories WHERE pamalink=?");
+            "SELECT * FROM site_posts_categories WHERE guid=?");
         $this->selectByParentStmt = self::$PDO->prepare(
             "SELECT * FROM site_posts_categories WHERE parent=?");
         $this->updateStmt = self::$PDO->prepare(
-            "UPDATE site_posts_categories set pamalink=?, parent=?, caption=? WHERE id=?");
+            "UPDATE site_posts_categories set guid=?, parent=?, caption=? WHERE id=?");
         $this->insertStmt = self::$PDO->prepare(
-            "INSERT INTO site_posts_categories (pamalink,parent,caption)VALUES(?,?,?)");
+            "INSERT INTO site_posts_categories (guid,parent,caption)VALUES(?,?,?)");
         $this->deleteStmt = self::$PDO->prepare(
             "DELETE FROM site_posts_categories WHERE id=?");
     }
 
     public function findByPamalink($pamalink)
     {
-        return $this->findHelper($pamalink, $this->selectByPamalinkStmt, 'pamalink');
+        return $this->findHelper($pamalink, $this->selectByPamalinkStmt, 'guid');
     }
 
     public function findByParent($parent_id)
@@ -54,7 +54,7 @@ class PostCategoryMapper extends Mapper
 
     protected function targetClass()
     {
-        return "Application\\Models\\PostCategory";
+        return "Application\\Models\\Category";
     }
 
     protected function getCollection( array $raw )
@@ -66,10 +66,10 @@ class PostCategoryMapper extends Mapper
     {
         $class = $this->targetClass();
         $object = new $class($array['id']);
-        $object->setPamalink($array['pamalink']);
+        $object->setPamalink($array['guid']);
 
         //parent category
-        $parent_category = Models\PostCategory::getMapper("PostCategory")->find($array['parent']);
+        $parent_category = Models\Category::getMapper("Category")->find($array['parent']);
         if( ! is_null($parent_category)) $object->setParent($parent_category);
 
         $object->setCaption($array['caption']);

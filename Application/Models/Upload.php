@@ -16,6 +16,8 @@ class Upload extends DomainObject
     private $MIME_type;
     private $upload_time;
     private $location;
+    private $guid;
+    private $author;
 
     public function __construct($id=null)
     {
@@ -48,10 +50,46 @@ class Upload extends DomainObject
     {
         return $this->location;
     }
-    public function setLocation($location)
+    public function setLocation(Location $location)
     {
         $this->location = $location;
         $this->markDirty();
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGuid()
+    {
+        return $this->guid;
+    }
+
+    /**
+     * @param mixed $guid
+     * @return Upload
+     */
+    public function setGuid($guid)
+    {
+        $this->guid = $guid;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param mixed $author
+     * @return Upload
+     */
+    public function setAuthor(User $author)
+    {
+        $this->author = $author;
         return $this;
     }
 }

@@ -9,9 +9,9 @@
 
 namespace Application\Models;
 
-class PostCategory extends DomainObject
+class Category extends DomainObject
 {
-    private $pamalink;
+    private $guid;
     private $parent;
     private $caption;
 
@@ -20,13 +20,13 @@ class PostCategory extends DomainObject
         parent::__construct($id);
     }
 
-    public function getPamalink()
+    public function getGuid()
     {
-        return $this->pamalink;
+        return $this->guid;
     }
-    public function setPamalink($pamalink)
+    public function setGuid($guid)
     {
-        $this->pamalink = $pamalink;
+        $this->guid = $guid;
         $this->markDirty();
         return $this;
     }
@@ -35,7 +35,7 @@ class PostCategory extends DomainObject
     {
         return $this->parent;
     }
-    public function setParent(PostCategory $parent)
+    public function setParent(Category $parent)
     {
         $this->parent = $parent;
         $this->markDirty();

@@ -25,7 +25,7 @@ class PostMapper extends Mapper
         $this->selectByTypeStmt = self::$PDO->prepare(
             "SELECT * FROM site_posts WHERE post_type=? ORDER BY id DESC;");
         $this->selectByPamalinkStmt = self::$PDO->prepare(
-            "SELECT * FROM site_posts WHERE pamalink=?");
+            "SELECT * FROM site_posts WHERE guid=?");
         $this->selectByCategoryStmt = self::$PDO->prepare(
             "SELECT * FROM site_posts WHERE category=? ORDER BY id DESC;");
         $this->selectByAuthorStmt = self::$PDO->prepare(
@@ -33,10 +33,10 @@ class PostMapper extends Mapper
         $this->selectByStatusStmt = self::$PDO->prepare(
             "SELECT * FROM site_posts WHERE status=? ORDER BY id DESC;");
         $this->updateStmt = self::$PDO->prepare(
-            "UPDATE site_posts SET post_type=?, template=?, pamalink=?, title=?, content=?, featured_image=?, category=?,
+            "UPDATE site_posts SET post_type=?, template=?, guid=?, title=?, content=?, featured_image=?, category=?,
 author=?, date_created=?,last_update=?, status=? WHERE id=?");
         $this->insertStmt = self::$PDO->prepare(
-            "INSERT INTO site_posts (post_type,template,pamalink,title,content,featured_image,category,
+            "INSERT INTO site_posts (post_type,template,guid,title,content,featured_image,category,
 author,date_created,last_update,status)VALUES(?,?,?,?,?,?,?,?,?,?,?)");
         $this->deleteStmt = self::$PDO->prepare(
             "DELETE FROM site_posts WHERE id=?");
@@ -52,7 +52,7 @@ author,date_created,last_update,status)VALUES(?,?,?,?,?,?,?,?,?,?,?)");
 
     public function findByPamalink($pamalink)
     {
-        return $this->findHelper($pamalink, $this->selectByPamalinkStmt, 'pamalink');
+        return $this->findHelper($pamalink, $this->selectByPamalinkStmt, 'guid');
     }
 
     public function findByCategory($category)
@@ -92,7 +92,7 @@ author,date_created,last_update,status)VALUES(?,?,?,?,?,?,?,?,?,?,?)");
         $object = new $class($array['id']);
         $object->setPostType($array['post_type']);
         $object->setTemplate($array['template']);
-        $object->setPamalink($array['pamalink']);
+        $object->setPamalink($array['guid']);
         $object->setTitle($array['title']);
         $object->setContent($array['content']);
 
@@ -101,7 +101,7 @@ author,date_created,last_update,status)VALUES(?,?,?,?,?,?,?,?,?,?,?)");
         if(! is_null($post_featured_image)) $object->setFeaturedImage($post_featured_image);
 
         //category
-        $post_category = Models\PostCategory::getMapper("PostCategory")->find($array['category']);
+        $post_category = Models\Category::getMapper("Category")->find($array['category']);
         if(! is_null($post_category)) $object->setCategory($post_category);
 
         //author
