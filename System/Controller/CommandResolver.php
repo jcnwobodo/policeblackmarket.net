@@ -13,7 +13,7 @@ class CommandResolver
             throw new \Exception("illegal characters in action");
         }
         $action = strlen($action) ? $action : 'Default';
-        $class_name = str_replace(' ','',UCFirst(strtolower(str_replace('-',' ',$action)))).'Command';
+        $class_name = str_replace(' ','',ucwords( strtolower( str_replace('-',' ',$action) ) ) ).'Command';
         $file = (!empty(self::$dir)) ? self::$dir.DIRECTORY_SEPARATOR.$class_name.'.php' : $class_name.'.php';
         if ( ! file_exists( $file ) )
         {
