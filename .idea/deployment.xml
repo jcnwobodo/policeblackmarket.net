@@ -2,6 +2,13 @@
 <project version="4">
   <component name="PublishConfigData" autoUpload="On explicit save action" promptOnRemoteOverwrite="CHECK_TIMESTAMP" serverName="PoliceBlackMarket" deleteMissingItems="true" createEmptyFolders="true" uploadOnCheckin="2f86b86d-7dd0-47a6-8630-23c8bb9a0d85" notifyRemoteChanges="true">
     <serverData>
+      <paths name="E-Stamp">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="PoliceBlackMarket">
         <serverdata>
           <mappings>

@@ -14,10 +14,10 @@ class Location extends DomainObject
 {
     private $parent;
     private $name;
-    private $longitude;
-    private $latitude;
-    private $type; //state || lga
     private $slogan;
+    private $type; //state || lga || town
+    private $latitude;
+    private $longitude;
     private $status;
 
     public function __construct($id=null)

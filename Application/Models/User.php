@@ -21,6 +21,8 @@ class User extends DomainObject
     private $gender;
     private $date_of_birth;
     private $date_joined;
+    private $place_of_origin;
+    private $place_of_residence;
     private $email;
     private $phone;
     private $photo;
@@ -172,6 +174,42 @@ class User extends DomainObject
     public function setDateJoined($date_joined)
     {
         $this->date_joined = $date_joined;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlaceOfOrigin()
+    {
+        return $this->place_of_origin;
+    }
+
+    /**
+     * @param mixed $place_of_origin
+     * @return User
+     */
+    public function setPlaceOfOrigin(Location $place_of_origin)
+    {
+        $this->place_of_origin = $place_of_origin;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlaceOfResidence()
+    {
+        return $this->place_of_residence;
+    }
+
+    /**
+     * @param mixed $place_of_residence
+     * @return User
+     */
+    public function setPlaceOfResidence(Location $place_of_residence)
+    {
+        $this->place_of_residence = $place_of_residence;
         return $this;
     }
 

@@ -14,6 +14,7 @@ class Category extends DomainObject
     private $guid;
     private $parent;
     private $caption;
+    private $type; // report || post
 
     public function __construct($id=null)
     {
@@ -50,6 +51,24 @@ class Category extends DomainObject
     {
         $this->caption = $caption;
         $this->markDirty();
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     * @return Category
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
         return $this;
     }
 }

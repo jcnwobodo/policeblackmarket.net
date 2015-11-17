@@ -17,6 +17,7 @@ class Comment extends DomainObject
     private $post_id;
     private $comment_author;
     private $comment_time;
+    private $comment_type;
     private $content;
     private $status;
 
@@ -94,6 +95,24 @@ class Comment extends DomainObject
     public function setCommentTime(DateTime $comment_time)
     {
         $this->comment_time = $comment_time;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCommentType()
+    {
+        return $this->comment_type;
+    }
+
+    /**
+     * @param mixed $comment_type
+     * @return Comment
+     */
+    public function setCommentType($comment_type)
+    {
+        $this->comment_type = $comment_type;
         return $this;
     }
 

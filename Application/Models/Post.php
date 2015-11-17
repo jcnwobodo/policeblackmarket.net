@@ -15,7 +15,6 @@ class Post extends DomainObject
 {
     private $parent;
     private $post_type;
-    private $template;
     private $guid;
     private $title;
     private $content;

@@ -10,7 +10,7 @@
 namespace Application\Models;
 
 use System\Utilities\DateTime;
-use \Application\Models\Collections\UploadCollection;
+use Application\Models\Collections\UploadCollection;
 
 class Report extends DomainObject
 {
