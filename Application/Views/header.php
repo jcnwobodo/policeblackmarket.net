@@ -1,53 +1,48 @@
+<?php
+$rc = \System\Request\RequestContext::instance();
+?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title><?php site_info('name'); ?></title>
-    <meta charset="<?php site_info('charset'); ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="<?php stylesheet_url(); ?>" rel="stylesheet"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="J. C. Nwobodo">
+    <link rel="icon" href="Assets/favicon.ico">
+
+    <title>Starter Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="<?php home_url('/Assets/css/style.css'); ?>" type="text/css" rel="stylesheet">
+
+    <!-- take out this line and the next in production version-->
+    <link href="../../Assets/css/style.css" type="text/css" rel="stylesheet">
 </head>
 
-<body class="no-padding no-margin">
-<div class="height-100vh margin-auto bg-color1 modal-thick">
-    <div class="width-95pc margin-auto">
-    <div id="masthead" class="bg-color2 color1 align-center mid-padding-top tiny-padding-bottom">
-        <div id="logo-container" class="display-inline-block vertical-middle width-15pc align-center">
-            <p id="header-logo" class="logo-big margin-auto">
-                <a href="<?php site_info('site_url')?>" class="color-inherit">
-                    <img src="<?php home_url('/Assets/images/logo.png'); ?>" alt="Logo" title="<?php site_info('name'); ?> Homepage" class="width-85pc margin-auto"/>
-                </a>
-            </p>
+<body>
+<nav class="navbar navbar-inverse bg-color1 no-margin text-nowrap" style="border-radius: 0%">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">POLICE BLACK-MARKET</a>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
         </div>
-        <div id="text-container" class="display-inline-block width-80pc vertical-middle">
-            <div id="header-col2" class="display-inline-block width-60pc align-left">
-                <a href="<?php site_info('site_url')?>" class="color-inherit">
-                    <h1><?php site_info('name')?></h1>
-                    <h6><?php site_info('description')?></h6>
-                    <h6 class="color3"><?php site_info('motto')?></h6>
-                </a>
-            </div>
-            <div id="header-col3" class="display-inline-block width-35pc align-left color4 text-small">
-                <p>
-                    LEGAL PRACTITIONERS, ARBITRATORS, CONSTITUTIONAL AND PEOPLES RIGHTS ADVOCATES
-                </p>
-            </div>
-        </div>
-
-        <div class="align-right">
-            <label for="toggle-menu" id="toggle-button" class="bg-color4 border2-surround color2 display-mobile-only">Menu</label>
-            <input type="checkbox" id="toggle-menu" role="button" class="display-none">
-            <div class="header-menu align-left mid-margin-top border-width-2px border-top border-color4">
-                <ul class="menu">
-                    <li><a href="<?php site_info('site_url')?>">HOME</a></li>
-                    <li><a href="<?php site_info('site_url')?>/about">ABOUT US</a></li>
-                    <li><a href="<?php site_info('site_url')?>/practice-areas">PRACTICE AREAS</a></li>
-                    <li><a href="<?php site_info('site_url')?>/lawyers">LAWYERS</a></li>
-                    <!--<li><a href="<?php site_info('site_url')?>/clients">CLIENTELE</a></li>-->
-                    <li><a href="<?php site_info('site_url')?>/publications">PUBLICATIONS</a></li>
-                    <li><a href="<?php site_info('site_url')?>/category/news">NEWS</a></li>
-                    <li><a href="<?php site_info('site_url')?>/contact">CONTACT US</a></li>
-                </ul>
-            </div>
-        </div>
+        <div id="navbar" class="collapse navbar-collapse navbar-right">
+            <ul class="nav navbar-nav">
+                <li <?= $s = ($rc->isRequestUrl('') ? 'class="active"': ''); ?>><a href="<?php home_url('/');?>">HOME</a></li>
+                <li <?= $s = ($rc->isRequestUrl('submit-report/') ? 'class="active"': ''); ?>><a href="<?php home_url('/submit-report/');?>">SUBMIT REPORT</a></li>
+                <li <?= $s = ($rc->isRequestUrl('reports/') ? 'class="active"': ''); ?>><a href="<?php home_url('/reports/');?>">REPORTS</a></li>
+                <li <?= $s = ($rc->isRequestUrl('how-it-works/') ? 'class="active"': ''); ?>><a href="<?php home_url('/how-it-works/');?>">HOW IT WORKS</a></li>
+                <li <?= $s = ($rc->isRequestUrl('news/') ? 'class="active"': ''); ?>><a href="<?php home_url('/news/');?>">NEWS</a></li>
+                <li <?= $s = ($rc->isRequestUrl('contact/') ? 'class="active"': ''); ?>><a href="<?php home_url('/contact/');?>">CONTACT</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
     </div>
-    <!--/masthead-->
+</nav>
+<div class="container-fluid">
+    <!--rest of the body-->

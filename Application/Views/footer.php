@@ -7,31 +7,28 @@
  * Time: 6:43 PM
  */
 ?>
-    <!--
-    <div class="footer-widget-area mid-padding-top bg-color2 color3">
-        <div class="widgets-container">
-            <h6 class="">title</h6>
-            some text
+    <div class="row bg-color1 mid-padding-all">
+        <div class="col-lg-6 col-md-6">
+            <nav role="navigation">
+                <ul class="list-inline">
+                    <li><a href="#">LEGAL NOTICE</a></li>
+                    <li><a href="#">ABOUT</a></li>
+                    <li><a href="#">SITE-MAP</a></li>
+                </ul>
+            </nav>
         </div>
-        <div class="widgets-container">
-            <h6 class="">title</h6>
-            some text
-        </div>
-        <div class="widgets-container">
-            <h6 class="">title</h6>
-            some text
-        </div>
-        <div class="widgets-container">
-            <h6 class="">title</h6>
-            some text
+        <div class="col-lg-6 col-md-6 text-right">
+            <p>Designed and Developed by J. C. Nwobodo</p>
         </div>
     </div>
-    -->
-    <div id="foot-note" class="bg-color4 color2 align-center mid-margin-top mid-padding-top full-padding-bottom">
-        Copyright, The House of Laws Chambers and Publications Ltd. All Rights Reserved.
-        <br/>Designed and Developed by <a href="http://facebook.com/dejoetech" class="color-inherit" target="_blank">J. C. Nwobodo</a>
-    </div>
-</div>
-</div>
+</div><!-- /.container-fluid-->
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="<?php home_url('/Assets/js/jquery.min.js'); ?>"></script>
+<script src="<?php home_url('/Assets/js/bootstrap.min.js'); ?>"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="<?php home_url('/Assets/js/ie10-viewport-bug-workaround.js'); ?>"></script>
 </body>
 </html>

@@ -2,98 +2,83 @@
 /**
  * Phoenix Laboratories NG.
  * Author: J. C. Nwobodo (jc.nwobodo@gmail.com)
- * Project: thehouseoflaws.org
- * Date: 10/4/2015
+ * Project: PoliceBlackMarket
+ * Date: 11/17/2015
  * Time: 12:17 PM
  */
 
-include_once('header.php');
+require_once("header.php");
 ?>
-<div class="z-index2 align-left mid-padding-top">
-    <div class="align-left bg-color2 color3">
-        <div class="bg-color4 color2">
-            <h3 class="tiny-padding-all">Welcome to <?php site_info('name'); ?></h3>
-        </div>
-        <div class="bg-color2">
-            <div class="tiny-padding-top align-center">
-                <article>
-                <?php include_once("includes/homepage_slider.php"); ?>
-                </article>
-            </div>
-        </div>
-        <div class="height-15vh text-large color3">
-            <div class="align-center full-padding-all">
-                <aside class="mid-padding-all">
-                    <blockquote cite="Barr. JMCC Ogbuka">
-                        <p>
-                            The only condition for the preservation of the institute of the rule of law as a guarantee for the enjoyment
-                            of liberty, freedom and justice by the people under our constitution is the existence of men possessed of
-                            <b>unlimited erudition</b>, <b>robust intellect</b> and <b>a fearless spirit of incorruptible conscience</b>.
-                            Upon this tripod of virtue is founded the BAR and BENCH of every great nation or state.
-                        </p>
-                        <p class="align-right">
-                            <cite>Barr JMCC Ogbuka</cite>
-                        </p>
-                    </blockquote>
-                    <p class="text-x-large color3">
-                        WELCOME TO THE HOUSE OF LAWS CHAMBERS
-                    </p>
-                </aside>
-            </div>
-        </div>
-        <div class="height-15vh text-large bg-color5 color4">
-            <div class="align-center full-padding-all">
-                <h2 class="align-left mid-padding-all page-title">About Us</h2>
-                <aside class="mid-padding-all">
-                    <p>
-                        <?php
-                        $about_page = \Application\Models\Post::getMapper('Post')->findByPamalink('about');
-                        echo $about_page->getExcerpt();
-                        ?>
-                    </p>
-                    <p class="align-right">
-                        <a href="<?php home_url('/'.$about_page->getPamalink());?>" class="border-surround border-color4 border-width-1px tiny-padding-all bg-color2">Learn More</a>
-                    </p>
-                </aside>
-            </div>
-        </div>
+<div class="row bg-color5">
+    <div class="col-lg-12 height-95vh text-center">
+        <h4>Data Map</h4>
+        <p class="lead">Google map with a layer of reports data.</p>
+    </div>
+</div>
 
-        <div class="height-15vh text-large bg-color2 color1">
-            <div class="align-center full-padding-all">
-                <h2 class="align-left mid-padding-all page-title">Practice Areas</h2>
-                <aside class="mid-padding-all">
-                    <p>
-                        Our experience in legal practice span across various areas, from Human Rights Enforcement/Defense to Constitutional Law.
-                    </p>
-                    <p class="align-right">
-                        <a href="<?php home_url('/practice-areas');?>" class="border-surround border-color4 border-width-1px tiny-padding-all bg-color2">Learn More</a>
-                    </p>
-                </aside>
-            </div>
-        </div>
-        <div class="bg-color5 color4">
-            <?php include_once('includes/social-connect.php'); ?>
+<div class="row border-bottom border-color2 border-width-1px">
+    <div class="col-lg-12 height-50vh text-center">
+        <div>
+            <h4>REPORTS TIME-LINE</h4>
+            <p>some frequency polygon here...</p>
         </div>
     </div>
 </div>
 
-<!--featured content-->
-<!--
-<div id="featured-widget-area" class="mid-padding-top">
-    <div class="bg-color2 color4 align-center mid-padding-bottom">
-        <div class="bg-color4 align-left">
-            <h6 class="tiny-padding-left color2">What we do</h6>
-        </div>
-        <div class="display-inline-block width-30pc mid-margin-all align-left tiny-padding-all">
-            some text
-        </div>
-        <div class="display-inline-block width-30pc mid-margin-all align-left tiny-padding-all">
-            some text
-        </div>
-        <div class="display-inline-block width-30pc mid-margin-all align-left tiny-padding-all">
-            some text
+<div class="row">
+    <div class="col-lg-12 height-40vh text-center">
+        <div>
+            <h4>TOP STATES</h4>
+            <p>some horizontal bar chart here...</p>
         </div>
     </div>
 </div>
--->
-<?php include_once("footer.php"); ?>
+
+<div class="row">
+    <div class="col-lg-12 height-40vh text-center">
+        <div>
+            <h4>TOP TOWNS</h4>
+            <p>some horizontal bar chart here...</p>
+        </div>
+    </div>
+</div>
+
+<div class="row bg-color5">
+    <div class="col-lg-12 height-30vh text-center">
+        <h4>CALL TO ACTION</h4>
+        <p class="lead">
+            some text that will move people to start filling in reports
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-4 col-lg-offset-1 col-md-4 col-md-offset-1">
+        <h4>TRENDING</h4>
+        <ul class="list-unstyled">
+            <li>report 1</li>
+            <li>report 2</li>
+            <li>report 3</li>
+            <li>report 4</li>
+            <li>report 5</li>
+        </ul>
+    </div>
+    <div class="col-lg-4 col-md-4">
+        <h4>NEWSROOM</h4>
+        <ul class="list-unstyled">
+            <li>news 1</li>
+            <li>news 2</li>
+            <li>news 3</li>
+            <li>news 4</li>
+            <li>news 5</li>
+        </ul>
+    </div>
+</div>
+<div id="home-reports-filter-container" class="border-width-1px border-color1 border-surround mid-padding-all">
+    <?php
+    require_once("filter-form.php");
+    ?>
+</div>
+<?php
+require_once("footer.php");
+?>

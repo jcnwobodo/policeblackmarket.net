@@ -1,0 +1,328 @@
+@import url("bootstrap.css");
+
+/*----margins----*/
+.no-margin{
+    margin: 0;
+}
+.margin-auto{
+    margin: auto;
+}
+.full-margin-top{
+    margin-top: 1em;
+}
+.full-margin-bottom{
+    margin-bottom: 1em;
+}
+.mid-margin-all{
+    margin: 0.5em;
+}
+.mid-margin-top{
+    margin-top: 0.5em;
+}
+.mid-margin-right{
+    margin-right: 0.5em;
+}
+.mid-margin-bottom{
+    margin-bottom: 0.5em;
+}
+.mid-margin-left{
+    margin-left: 0.5em;
+}
+.tiny-margin-top{
+    margin-top: 0.25em;
+}
+.tiny-margin-right{
+    margin-right: 0.25em;
+}
+.tiny-margin-bottom{
+    margin-bottom: 0.25em;
+}
+.tiny-margin-left{
+    margin-left: 0.25em;
+}
+
+/*----padding----*/
+.no-padding{
+    padding: 0;
+}
+.full-padding-top{
+    padding-top: 1em;
+}
+.full-padding-right{
+    padding-right: 1em;
+}
+.full-padding-bottom{
+    padding-bottom: 1em;
+}
+.full-padding-left{
+    padding-left: 1em;
+}
+.full-padding-all{
+    padding: 1em;
+}
+.mid-padding-top{
+    padding-top: 0.5em;
+}
+.mid-padding-right{
+    padding-right: 0.5em;
+}
+.mid-padding-bottom{
+    padding-bottom: 0.5em;
+}
+.mid-padding-left{
+    padding-left: 0.5em;
+}
+.mid-padding-all{
+    padding: 0.5em;
+}
+.tiny-padding-top{
+    padding-top: 0.25em;
+}
+.tiny-padding-right{
+    padding-right: 0.25em;
+}
+.tiny-padding-bottom{
+    padding-bottom: 0.25em;
+}
+.tiny-padding-left{
+    padding-left: 0.25em;
+}
+.tiny-padding-all{
+    padding: 0.25em;
+}
+
+/*----vertical-align----*/
+.vertical-top{
+    vertical-align: top;
+}
+.vertical-middle{
+    vertical-align: middle;
+}
+.vertical-bottom{
+    vertical-align: bottom;
+}
+.vh-centralize{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+/*----object positions----*/
+.clear-left{
+    clear: left;
+}
+.clear-right{
+    clear: right;
+}
+.clear-both{
+    clear: both;
+}
+.float-none{
+    float: none;
+}
+.float-left{
+    float: left;
+}
+.float-right{
+    float: right;
+}
+
+/*----height options----*/
+.height-auto{
+    height: auto;
+}
+.height-100vh {
+    min-height: 100vh;
+    height: auto;
+}
+.height-95vh {
+    min-height: 95vh;
+    height: auto;
+}
+.height-90vh {
+    min-height: 90vh;
+    height: auto;
+}
+.height-80vh{
+    min-height: 80vh;
+    height: auto;
+}
+.height-70vh{
+    min-height: 70vh;
+    height: auto;
+}
+.height-60vh{
+    min-height: 60vh;
+    height: auto;
+}
+.height-50vh {
+    min-height: 50vh;
+    height: auto;
+}
+.height-40vh {
+    min-height: 40vh;
+    height: auto;
+}
+.height-30vh {
+    min-height: 30vh;
+    height: auto;
+}
+.height-25vh {
+    min-height: 25vh;
+    height: auto;
+}
+.height-20vh {
+    min-height: 20vh;
+    height: auto;
+}
+.height-15vh{
+    min-height: 15vh;
+    height: auto;
+}
+.height-10vh{
+    min-height: 15vh;
+    height: auto;
+}
+.height-5vh{
+    min-height: 5vh;
+    height: auto;
+}
+
+/*----positions----*/
+.position-absolute{
+    position: absolute;
+}
+.position-relative{
+    position: relative;
+}
+.position-static{
+    position: static;
+}
+
+/*----------------------------------COLORS, MEDIA AND GRAPHICS STYLING-------------------------------------*/
+
+/*----colors----*/
+.color-inherit{
+    color: inherit !important;
+}
+.color1{
+    color: black;
+}
+.color2{
+    color: #3c3c3c;
+}
+.color3{
+    color: blue;
+}
+.color4{
+    color: orangered;
+}
+
+/*----backgrounds----*/
+.no-bg{
+    background-color: transparent !important;
+}
+.bg-color1{
+    background-color: black;
+}
+.bg-color2{
+    background-color: #3c3c3c;
+}
+.bg-color3, .active{
+    background-color: blue;
+}
+.bg-color4{
+    background-color: orangered;
+}
+.bg-color5{
+    background-color: #DDD;
+}
+.modal-light{
+    opacity: 0.5;
+}
+.modal-mid{
+    opacity: 0.65;
+}
+.modal-thick{
+    opacity: 0.9;
+}
+
+/*----borders----*/
+.no-border{
+    border: none;
+}
+.border-color1{
+    border-color: black;
+}
+.border-color2{
+    border-color: #3c3c3c;
+}
+.border-color3{
+    border-color: blue;
+}
+.border-color4{
+    border-color: orangered;
+}
+.border-width-1px{
+    border-width: 1px;
+}
+.border-width-2px{
+    border-width: 2px;
+}
+.border-top{
+    border-top-style: solid;
+}
+.border-left{
+    border-left-style: solid;
+}
+.border-bottom{
+    border-bottom-style: solid;
+}
+.border-right{
+    border-right-style: solid;
+}
+.border-surround{
+    border-style: solid;
+}
+
+/*----box-shadows----*/
+.shadow-color1{
+    box-shadow: 0 0.2em 0.2em 0.2em black;
+}
+.shadow-color2{
+    box-shadow: 0 0.2em 0.2em 0.2em white;
+}
+.shadow-color3{
+    box-shadow: 0 0.2em 0.2em 0.2em green;
+}
+.shadow-color4, .page-featured-image-large img{
+    box-shadow: 0 0.2em 0.2em 0.2em orangered;
+}
+
+/*----Layouts----*/
+#home-reports-filter-container{
+    display: block;
+    position: fixed;
+    z-index: 90;
+    width: 30vw;
+    height: auto;
+    bottom: 0;
+    right: 0;
+    background-color: whitesmoke;
+}
+
+#home-reports-filter-container .form-control{
+    padding-top: 0.05em;
+    padding-bottom: 0.05em;
+    height: auto;
+    font-size: 90%;
+}
+#home-reports-filter-container .form-control label{
+    font-size: 90%;
+}
+#home-reports-filter-container legend{
+    font-size: 90%;
+    font-weight: bold;
+}

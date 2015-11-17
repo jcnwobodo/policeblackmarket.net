@@ -106,6 +106,10 @@ class RequestContext
         }
         return null;
     }
+    public function isRequestUrl($url)
+    {
+        return ( strtolower($url) == strtolower($this->getRequestUrl()) );
+    }
 
     public function addCommand($command)
     {
