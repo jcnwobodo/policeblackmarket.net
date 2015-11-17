@@ -37,7 +37,7 @@ class RequestContext
         filter_input_array(INPUT_GET);
         $array = array_merge($_POST, $_GET );
         $this->sanitizeInput($array);
-        $this->setRequestUrl("/www/eStampTeam/E-Stamp", ""); //no slashes at the end of address
+        $this->setRequestUrl("/www/leapscope/police-black-market", ""); //no slashes at the end of address
         $this->request_url_params = explode("/", $this->getRequestUrl());
         $this->setRequestDataArray($array);
         $this->addCommand( isset($this->request_url_params[0]) ? $this->request_url_params[0] : "Default" );
@@ -96,7 +96,7 @@ class RequestContext
     }
     public function setRequestUrl($replace_path='', $replacement='')
     {
-        $this->request_url = substr( str_replace($replace_path, $replacement, $_SERVER['REQUEST_URI']) , 1);
+        $this->request_url = substr( str_replace(strtolower($replace_path), $replacement, strtolower($_SERVER['REQUEST_URI'])) , 1);
     }
     public function getRequestUrlParam($index)
     {
