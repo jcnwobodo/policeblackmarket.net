@@ -16,7 +16,9 @@ class PostsCommand extends Command
     protected function doExecute(RequestContext $requestContext)
     {
         $data = $requestContext->getResponseData();
-        $possible_views = array('single.php', $data->getTemplate());
+        $post_type = $data->getPostType();
+        $possible_view1 = $post_type == 'page' ? 'page-view.php' : 'post-view.php';
+        $possible_views = array('single.php', $possible_view1);
         foreach($possible_views as $possible_view)
         {
             if($requestContext->viewExists($possible_view)) $requestContext->setView($possible_view);

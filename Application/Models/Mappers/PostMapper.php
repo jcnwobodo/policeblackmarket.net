@@ -33,11 +33,11 @@ class PostMapper extends Mapper
         $this->selectByStatusStmt = self::$PDO->prepare(
             "SELECT * FROM site_posts WHERE status=? ORDER BY id DESC;");
         $this->updateStmt = self::$PDO->prepare(
-            "UPDATE site_posts SET post_type=?, template=?, guid=?, title=?, content=?, featured_image=?, category=?,
+            "UPDATE site_posts SET post_type=?, guid=?, title=?, content=?, featured_image=?, category=?,
 author=?, date_created=?,last_update=?, status=? WHERE id=?");
         $this->insertStmt = self::$PDO->prepare(
-            "INSERT INTO site_posts (post_type,template,guid,title,content,featured_image,category,
-author,date_created,last_update,status)VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+            "INSERT INTO site_posts (post_type,guid,title,content,featured_image,category,
+author,date_created,last_update,status)VALUES(?,?,?,?,?,?,?,?,?,?)");
         $this->deleteStmt = self::$PDO->prepare(
             "DELETE FROM site_posts WHERE id=?");
     }
@@ -91,8 +91,7 @@ author,date_created,last_update,status)VALUES(?,?,?,?,?,?,?,?,?,?,?)");
         $class = $this->targetClass();
         $object = new $class($array['id']);
         $object->setPostType($array['post_type']);
-        $object->setTemplate($array['template']);
-        $object->setPamalink($array['guid']);
+        $object->setGuid($array['guid']);
         $object->setTitle($array['title']);
         $object->setContent($array['content']);
 
@@ -105,7 +104,7 @@ author,date_created,last_update,status)VALUES(?,?,?,?,?,?,?,?,?,?,?)");
         if(! is_null($post_category)) $object->setCategory($post_category);
 
         //author
-        $post_author = Models\Account::getMapper("Account")->find($array['author']);
+        $post_author = Models\User::getMapper("User")->find($array['author']);
         $object->setAuthor($post_author);
 
         $object->setDateCreated(DateTime::getDateTimeObjFromInt($array['date_created']));
@@ -119,8 +118,7 @@ author,date_created,last_update,status)VALUES(?,?,?,?,?,?,?,?,?,?,?)");
     {
         $values = array(
             $object->getPostType(),
-            $object->getTemplate(),
-            $object->getPamalink(),
+            $object->getGuid(),
             $object->getTitle(),
             $object->getContent(),
             $object->getFeaturedImage()->getId(),
@@ -138,8 +136,7 @@ author,date_created,last_update,status)VALUES(?,?,?,?,?,?,?,?,?,?,?)");
     {
         $values = array(
             $object->getPostType(),
-            $object->getTemplate(),
-            $object->getPamalink(),
+            $object->getGuid(),
             $object->getTitle(),
             $object->getContent(),
             $object->getFeaturedImage()->getId(),
