@@ -24,12 +24,12 @@ class AccessManager
 
     public function login($username, $password)
     {
-        $UserMapper = Models\Account::getMapper("Account");
+        $UserMapper = Models\User::getMapper("User");
         $UserObj = $UserMapper->findByUsername($username);
 
         if(is_null($UserObj))
         {
-            $this->setMessage("Account $username does not exist.");
+            $this->setMessage("User $username does not exist.");
             return false;
         }
         elseif($UserObj->getPassword() !== $password)

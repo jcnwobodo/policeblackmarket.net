@@ -75,7 +75,7 @@ user_type=:user_type ORDER BY RAND() LIMIT :num");
 
     protected function targetClass()
     {
-        return "Application\\Models\\Account";
+        return "Application\\Models\\User";
     }
 
     protected function getCollection( array $raw )
@@ -87,13 +87,13 @@ user_type=:user_type ORDER BY RAND() LIMIT :num");
     {
         $class = $this->targetClass();
         $object = new $class($array['id']);
+        /*
         $object->setUsername($array['username']);
         $object->setPassword($array['password']);
         $profile_photo = Models\Upload::getMapper('Upload')->find($array['photo']);
         if(! is_null($profile_photo)) $object->setProfilePhoto($profile_photo);
         $object->setFirstName($array['first_name']);
         $object->setLastName($array['last_name']);
-        $object->setOtherNames($array['other_names']);
         $object->setGender($array['gender']);
         $object->setDateOfBirth(DateTime::getDateTimeObjFromInt($array['date_of_birth']));
         $object->setNationality($array['nationality']);
@@ -108,19 +108,20 @@ user_type=:user_type ORDER BY RAND() LIMIT :num");
         $object->setBiography($array['biography']);
         $office_location = Models\OfficeLocation::getMapper('OfficeLocation')->find($array['office_location']);
         if(! is_null($office_location)) $object->setOfficeLocation($office_location);
+        */
 
         return $object;
     }
 
     protected function doInsert(Models\DomainObject $object )
     {
+        /*
         $values = array(
             $object->getUsername(),
             $object->getPassword(),
             $object->getProfilePhoto()->getId(),
             $object->getFirstName(),
             $object->getLastName(),
-            $object->getOtherNames(),
             $object->getGender(),
             $object->getDateOfBirth()->getDateTimeInt(),
             $object->getNationality(),
@@ -135,6 +136,8 @@ user_type=:user_type ORDER BY RAND() LIMIT :num");
             $object->getBiography(),
             (!is_null($object->getOfficeLocation()) ? $object->getOfficeLocation()->getId() : null)
         );
+        */
+        $values = array();
         $this->insertStmt->execute( $values );
         $id = self::$PDO->lastInsertId();
         $object->setId( $id );
@@ -142,13 +145,13 @@ user_type=:user_type ORDER BY RAND() LIMIT :num");
 
     protected function doUpdate(Models\DomainObject $object )
     {
+        /*
         $values = array(
             $object->getUsername(),
             $object->getPassword(),
             $object->getProfilePhoto()->getId(),
             $object->getFirstName(),
             $object->getLastName(),
-            $object->getOtherNames(),
             $object->getGender(),
             $object->getDateOfBirth()->getDateTimeInt(),
             $object->getNationality(),
@@ -164,6 +167,8 @@ user_type=:user_type ORDER BY RAND() LIMIT :num");
             (!is_null($object->getOfficeLocation()) ? $object->getOfficeLocation()->getId() : null ),
             $object->getId()
         );
+        */
+        $values = array();
         $this->updateStmt->execute( $values );
     }
 

@@ -18,19 +18,19 @@ class CategoryMapper extends Mapper
     {
         parent::__construct();
         $this->selectStmt = self::$PDO->prepare(
-            "SELECT * FROM site_posts_categories WHERE id=?");
+            "SELECT * FROM site_categories WHERE id=?");
         $this->selectAllStmt = self::$PDO->prepare(
-            "SELECT * FROM site_posts_categories");
+            "SELECT * FROM site_categories");
         $this->selectByPamalinkStmt = self::$PDO->prepare(
-            "SELECT * FROM site_posts_categories WHERE guid=?");
+            "SELECT * FROM site_categories WHERE guid=?");
         $this->selectByParentStmt = self::$PDO->prepare(
-            "SELECT * FROM site_posts_categories WHERE parent=?");
+            "SELECT * FROM site_categories WHERE parent=?");
         $this->updateStmt = self::$PDO->prepare(
-            "UPDATE site_posts_categories set guid=?, parent=?, caption=? WHERE id=?");
+            "UPDATE site_categories set guid=?, parent=?, caption=? WHERE id=?");
         $this->insertStmt = self::$PDO->prepare(
-            "INSERT INTO site_posts_categories (guid,parent,caption)VALUES(?,?,?)");
+            "INSERT INTO site_categories (guid,parent,caption)VALUES(?,?,?)");
         $this->deleteStmt = self::$PDO->prepare(
-            "DELETE FROM site_posts_categories WHERE id=?");
+            "DELETE FROM site_categories WHERE id=?");
     }
 
     public function findByPamalink($pamalink)
