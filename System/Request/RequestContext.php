@@ -38,7 +38,7 @@ class RequestContext
         $array = array_merge($_POST, $_GET );
         $this->sanitizeInput($array);
         $this->setRequestUrl("/www/leapscope/police-black-market", ""); //no slashes at the end of address
-        $this->request_url_params = explode("/", $this->getRequestUrl());
+        $this->request_url_params = $this->setRequestUrlParamsArray();
         $this->setRequestDataArray($array);
         $this->addCommand( isset($this->request_url_params[0]) ? $this->request_url_params[0] : "Default" );
         $this->request_cookies = filter_input_array(INPUT_COOKIE);
@@ -69,6 +69,16 @@ class RequestContext
             $this->request_data = $array;
         }
     }
+    private function setRequestUrlParamsArray()
+    {
+        $raw = explode("/", $this->request_url);
+        $processed = array();
+        foreach($raw as $param)
+        {
+            if(strlen($param)) $processed[] = $param;
+        }
+        return $processed;
+    }
 
     public function redirect($url, $replace=true)
     {
@@ -92,7 +102,7 @@ class RequestContext
 
     public function getRequestUrl()
     {
-        return $this->request_url;
+        return implode('/' , $this->request_url_params);
     }
     public function setRequestUrl($replace_path='', $replacement='')
     {
