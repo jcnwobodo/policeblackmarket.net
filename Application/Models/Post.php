@@ -55,17 +55,6 @@ class Post extends DomainObject
         return $this;
     }
 
-    public function getTemplate()
-    {
-        return $this->template;
-    }
-    public function setTemplate($template)
-    {
-        $this->template = $template;
-        $this->markDirty();
-        return $this;
-    }
-
     public function getGuid()
     {
         return $this->guid;
@@ -136,7 +125,7 @@ class Post extends DomainObject
     {
         return $this->author;
     }
-    public function setAuthor(Account $author)
+    public function setAuthor(User $author)
     {
         $this->author = $author;
         $this->markDirty();

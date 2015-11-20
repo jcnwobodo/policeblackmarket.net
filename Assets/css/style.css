@@ -313,15 +313,6 @@
     background-color: whitesmoke;
 }
 
-#home-reports-filter-container .form-control{
-    padding-top: 0.05em;
-    padding-bottom: 0.05em;
-    height: auto;
-    font-size: 90%;
-}
-#home-reports-filter-container .form-control label{
-    font-size: 90%;
-}
 #home-reports-filter-container legend{
     font-size: 90%;
     font-weight: bold;

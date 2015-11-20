@@ -76,7 +76,7 @@ require_once("header.php");
 </div>
 <div id="home-reports-filter-container" class="border-width-1px border-color1 border-surround mid-padding-all">
     <?php
-    require_once("filter-form.php");
+    require_once("includes/filter-form.php");
     ?>
 </div>
 <?php
