@@ -10,6 +10,8 @@
 namespace Application\Models;
 
 use System\Utilities\DateTime;
+use Application\Models\Collections\CategoryCollection;
+use Application\Models\Collections\ReportCollection;
 use Application\Models\Collections\UploadCollection;
 
 class Report extends DomainObject
@@ -18,12 +20,13 @@ class Report extends DomainObject
     private $description;
     private $event_time;
     private $report_time;
-    private $categories;
+    private $categories; //meta
     private $location;
-    private $related_reports;
-    private $news_sources;
-    private $video_links;
-    private $photos;
+    private $related_reports; //meta
+    private $news_sources; //meta
+    private $video_links; //meta
+    private $photos; //meta
+    private $status;
 
     public function __construct($id=null)
     {
@@ -116,7 +119,7 @@ class Report extends DomainObject
      * @param mixed $categories
      * @return Report
      */
-    public function setCategories($categories)
+    public function setCategories(CategoryCollection $categories)
     {
         $this->categories = $categories;
         return $this;
@@ -134,7 +137,7 @@ class Report extends DomainObject
      * @param mixed $location
      * @return Report
      */
-    public function setLocation($location)
+    public function setLocation(Location $location)
     {
         $this->location = $location;
         return $this;
@@ -152,7 +155,7 @@ class Report extends DomainObject
      * @param mixed $related_reports
      * @return Report
      */
-    public function setRelatedReports($related_reports)
+    public function setRelatedReports(ReportCollection $related_reports)
     {
         $this->related_reports = $related_reports;
         return $this;
@@ -170,10 +173,15 @@ class Report extends DomainObject
      * @param mixed $news_sources
      * @return Report
      */
-    public function setNewsSources($news_sources)
+    public function setNewsSources(array $news_sources)
     {
         $this->news_sources = $news_sources;
         return $this;
+    }
+
+    public function addNewsSource($news_source)
+    {
+        $this->news_sources[] = $news_source;
     }
 
     /**
@@ -188,9 +196,15 @@ class Report extends DomainObject
      * @param mixed $video_links
      * @return Report
      */
-    public function setVideoLinks($video_links)
+    public function setVideoLinks(array $video_links)
     {
         $this->video_links = $video_links;
+        return $this;
+    }
+
+    public function addVideoLink($video_link)
+    {
+        $this->video_links[] = $video_link;
         return $this;
     }
 
@@ -199,6 +213,7 @@ class Report extends DomainObject
      */
     public function getPhotos()
     {
+        if(! isset($this->photos)) $this->photos = new UploadCollection();
         return $this->photos;
     }
 
@@ -209,6 +224,29 @@ class Report extends DomainObject
     public function setPhotos(UploadCollection $photos)
     {
         $this->photos = $photos;
+        return $this;
+    }
+
+    public function addPhoto($photo)
+    {
+        $this->getPhotos()->add($photo);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     * @return Report
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
         return $this;
     }
 }

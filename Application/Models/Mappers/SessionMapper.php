@@ -19,21 +19,21 @@ class SessionMapper extends Mapper
     {
         parent::__construct();
         $this->selectStmt = self::$PDO->prepare(
-            "SELECT * FROM users_sessions WHERE id=?");
+            "SELECT * FROM site_sessions WHERE id=?");
         $this->selectAllStmt = self::$PDO->prepare(
-            "SELECT * FROM users_sessions ORDER BY last_activity_time DESC");
+            "SELECT * FROM site_sessions ORDER BY last_activity_time DESC");
         $this->selectBySessionIdStmt = self::$PDO->prepare(
-            "SELECT * FROM users_sessions WHERE session_id=?");
+            "SELECT * FROM site_sessions WHERE session_id=?");
         $this->selectByUserIdStmt = self::$PDO->prepare(
-            "SELECT * FROM users_sessions WHERE user_id=? ORDER BY last_activity_time DESC");
+            "SELECT * FROM site_sessions WHERE user_id=? ORDER BY last_activity_time DESC");
         $this->selectByUserTypeStmt = self::$PDO->prepare(
-            "SELECT * FROM users_sessions WHERE user_type=? ORDER BY last_activity_time DESC");
+            "SELECT * FROM site_sessions WHERE user_type=? ORDER BY last_activity_time DESC");
         $this->updateStmt = self::$PDO->prepare(
-            "UPDATE users_sessions SET session_id=?, user_id=?, user_type=?, start_time=?, user_agent=?, ip_address=?, last_activity_time=?, status=? WHERE id=?");
+            "UPDATE site_sessions SET session_id=?, user_id=?, user_type=?, start_time=?, user_agent=?, ip_address=?, last_activity_time=?, status=? WHERE id=?");
         $this->insertStmt = self::$PDO->prepare(
-            "INSERT INTO users_sessions (session_id,user_id,user_type,start_time,user_agent,ip_address,last_activity_time,status) VALUES (?,?,?,?,?,?,?,?)");
+            "INSERT INTO site_sessions (session_id,user_id,user_type,start_time,user_agent,ip_address,last_activity_time,status) VALUES (?,?,?,?,?,?,?,?)");
         $this->deleteStmt = self::$PDO->prepare(
-            "DELETE FROM users_sessions WHERE id=?");
+            "DELETE FROM site_sessions WHERE id=?");
     }
 
     public function findBySessionId($session_id)
@@ -71,7 +71,8 @@ class SessionMapper extends Mapper
         $object = new $class($array['id']);
         $object->setSessionId($array['session_id']);
         $session_user = Models\User::getMapper('User')->find($array['user_id']);
-        $object->setSessionUser($session_user)->setUserType($array['user_type']);
+        $object->setSessionUser($session_user);
+        $object->setUserType($array['user_type']);
         $object->setStartTime(DateTime::getDateTimeObjFromInt($array['start_time']));
         $object->setUserAgent($array['user_agent'])->setIpAddress($array['ip_address']);
         $object->setLastActivityTime(DateTime::getDateTimeObjFromInt($array['last_activity_time']));

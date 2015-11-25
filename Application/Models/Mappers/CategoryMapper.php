@@ -10,7 +10,7 @@
 namespace Application\Models\Mappers;
 
 use Application\Models;
-use Application\Models\Collections\PostCategoryCollection;
+use Application\Models\Collections\CategoryCollection;
 
 class CategoryMapper extends Mapper
 {
@@ -59,7 +59,7 @@ class CategoryMapper extends Mapper
 
     protected function getCollection( array $raw )
     {
-        return new PostCategoryCollection( $raw, $this );
+        return new CategoryCollection( $raw, $this );
     }
 
     protected function doCreateObject( array $array )

@@ -13,9 +13,9 @@ namespace Application\Models;
 class Location extends DomainObject
 {
     private $parent;
-    private $name;
+    private $location_name;
     private $slogan;
-    private $type; //state || lga || town
+    private $location_type; //state || lga || town
     private $latitude;
     private $longitude;
     private $status;
@@ -46,18 +46,18 @@ class Location extends DomainObject
     /**
      * @return mixed
      */
-    public function getName()
+    public function getLocationName()
     {
-        return $this->name;
+        return $this->location_name;
     }
 
     /**
-     * @param mixed $name
+     * @param mixed $location_name
      * @return Location
      */
-    public function setName($name)
+    public function setLocationName($location_name)
     {
-        $this->name = $name;
+        $this->location_name = $location_name;
         return $this;
     }
 
@@ -100,18 +100,18 @@ class Location extends DomainObject
     /**
      * @return mixed
      */
-    public function getType()
+    public function getLocationType()
     {
-        return $this->type;
+        return $this->location_type;
     }
 
     /**
-     * @param mixed $type
+     * @param mixed $location_type
      * @return Location
      */
-    public function setType($type)
+    public function setLocationType($location_type)
     {
-        $this->type = $type;
+        $this->location_type = $location_type;
         return $this;
     }
 

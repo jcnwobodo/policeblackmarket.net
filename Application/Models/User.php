@@ -15,6 +15,7 @@ class User extends DomainObject
 {
     private $username;
     private $password;
+    private $user_type;
     private $first_name;
     private $last_name;
     private $nickname;
@@ -27,6 +28,9 @@ class User extends DomainObject
     private $phone;
     private $photo;
     private $biography;
+
+    const USER_TYPE_ADMIN = 'admin';
+    const USER_TYPE_USER = 'user';
 
     public function __construct($id=null)
     {
@@ -66,6 +70,24 @@ class User extends DomainObject
     public function setPassword($password)
     {
         $this->password = $password;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserType()
+    {
+        return $this->user_type;
+    }
+
+    /**
+     * @param mixed $user_type
+     * @return User
+     */
+    public function setUserType($user_type)
+    {
+        $this->user_type = $user_type;
         return $this;
     }
 
@@ -283,5 +305,21 @@ class User extends DomainObject
     {
         $this->biography = $biography;
         return $this;
+    }
+
+    public static function getDefaultCommand($user_type)
+    {
+        $command = null;
+        switch(strtolower($user_type))
+        {
+            case 'admin':{
+                $command = 'admin-area';
+            } break;
+
+            case 'user':{
+                $command = 'user-area';
+            } break;
+        }
+        return $command;
     }
 }
