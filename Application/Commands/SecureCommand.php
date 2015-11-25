@@ -10,7 +10,7 @@
 namespace Application\Commands;
 
 use System\Request\RequestContext;
-use Application\Models\AccessLevel;
+use Application\Models\User;
 
 abstract class SecureCommand extends Command
 {
@@ -23,7 +23,7 @@ abstract class SecureCommand extends Command
         }
         elseif(! is_null($session) and !$session->userAuthorized($allowed_user_types))
         {
-            $requestContext->redirect( home_url( '/'.AccessLevel::getDefaultCommand($session->getUserType()).'/', false ) );
+            $requestContext->redirect( home_url( '/'.User::getDefaultCommand($session->getUserType()).'/', false ) );
         }
         else
         {

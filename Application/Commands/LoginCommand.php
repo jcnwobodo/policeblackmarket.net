@@ -1,9 +1,11 @@
 <?php
 namespace Application\Commands;
 
+use System\Models\DomainObjectHelper;
+use System\Models\DomainObjectWatcher;
 use System\Request\RequestContext;
 use System\Auth\AccessManager;
-use Application\Models\AccessLevel;
+use Application\Models\User;
 
 class LoginCommand extends Command
 {
@@ -12,7 +14,9 @@ class LoginCommand extends Command
         $possible_session = $requestContext->getSession();
         if(! is_null($possible_session))
         {
-            $requestContext->redirect(home_url('/'.AccessLevel::getDefaultCommand($possible_session->getUserType()), false));
+            $redirect_url = home_url( '/'.User::getDefaultCommand($possible_session->getUserType()), false );
+            //print_r($redirect_url); exit;
+            $requestContext->redirect($redirect_url);//);
         }
         $requestContext->setView('page-login.php');
         if($requestContext->fieldIsSet('login'))
@@ -26,12 +30,19 @@ class LoginCommand extends Command
         $username = $requestContext->getField('username');
         $password = $requestContext->getField('password');
         $manager = AccessManager::instance();
-		if($manager->login( $username, $password ))
+        $logged_in = $manager->login($username, $password);
+
+		if( $logged_in )
         {
-            $command = AccessLevel::getDefaultCommand($requestContext->getSession()->getUserType());
-            $redirect = $requestContext->fieldIsSet('redirect') ? $requestContext->getField('redirect') : home_url('/'.$command.'/', false);
-            $requestContext->redirect($redirect);
+            $session = $requestContext->getSession();
+            if(is_object($session))
+            {
+                $command = User::getDefaultCommand($session->getUserType());
+                $redirect = $requestContext->fieldIsSet('redirect') ? $requestContext->getField('redirect') : home_url('/'.$command.'/', false);
+                $requestContext->redirect($redirect);
+            }
+            $requestContext->setFlashData("something bad has happened");
         }
-        $requestContext->setFlashData( $manager->getMessage() );
+        //$requestContext->setFlashData( $manager->getMessage() );
 	}
 }

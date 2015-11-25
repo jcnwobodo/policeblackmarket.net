@@ -10,13 +10,13 @@
 namespace Application\Commands;
 
 use System\Request\RequestContext;
-use Application\Models\AccessLevel;
+use Application\Models\User;
 
 class AdminAreaCommand extends SecureCommand
 {
     public function execute(RequestContext $requestContext)
     {
-        if($this->securityPass($requestContext, AccessLevel::USER_TYPE_ADMIN, 'admin-area'))
+        if($this->securityPass($requestContext, User::USER_TYPE_ADMIN, 'admin-area'))
         {
             parent::execute($requestContext);
         }

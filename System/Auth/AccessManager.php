@@ -1,7 +1,8 @@
 <?php
 namespace System\Auth;
 
-use Application\Models;
+use Application\Models\User;
+use Application\Models\Session;
 use System\Request\RequestContext;
 use System\Utilities\DateTime;
 
@@ -10,7 +11,8 @@ class AccessManager
 {
     private static $instance;
     private $message = null;
-    const SESSION_COOKIE_NAME = "SESSION_ID";
+    const SESSION_COOKIE_NAME = "PBM_SESSION_ID";
+    const SESSION_COOKIE_DOMAIN = "localhost";
 
     private function __construct(){}
     public static function instance()
@@ -24,7 +26,7 @@ class AccessManager
 
     public function login($username, $password)
     {
-        $UserMapper = Models\User::getMapper("User");
+        $UserMapper = User::getMapper("User");
         $UserObj = $UserMapper->findByUsername($username);
 
         if(is_null($UserObj))
@@ -40,44 +42,53 @@ class AccessManager
         elseif(is_object($UserObj))
         {
             $this->startSession($UserObj);
+            $this->setMessage("Login successful");
             return true;
         }
         else//an internal error has probably occurred
         {
             $this->setMessage("Login attempt failed. Please try again later. If problem persists, contact the site administrator.");
-            return false;
         }
+        return false;
     }
     public function validateSession(RequestContext $requestContext)
     {
         $session_id = $requestContext->getCookie(self::SESSION_COOKIE_NAME);
+//        print_r($session_id);
+//        exit;
         if(! is_null($session_id))
         {
-            $session = Models\Session::getMapper('Session')->findBySessionId($session_id);
-            if(!is_null($session) and $session->getStatus() == $session::ON_STATE)
+            $session = Session::getMapper('Session')->findBySessionId($session_id);
+//            print_r($session);
+//            exit;
+            if(is_object($session) and $session->getStatus() == $session::ON_STATE)
             {
+//                print_r($session);
+//                exit;
                 $session->setLastActivityTime(new DateTime());
                 $requestContext->setSession($session);
+                return true;
             }
         }
+        return false;
     }
     public function logout($session_id)
     {
-        $session = Models\Session::getMapper('Session')->findBySessionId($session_id);
+        $session = Session::getMapper('Session')->findBySessionId($session_id);
         if(! is_null($session))
         {
             $session->setStatus($session::OFF_STATE);
         }
     }
 
-    private function startSession($UserObj)
+    private function startSession(User $UserObj)
     {
         $session_id = $this->getUniqueId();
-        $user_type = $this->getUserType($UserObj);
+        $user_type = $UserObj->getUserType();
 
-        if(!is_null($user_type) and setrawcookie(self::SESSION_COOKIE_NAME,$session_id,0,'/',home_url()))
+        if(!is_null($user_type) and setcookie( self::SESSION_COOKIE_NAME, $session_id, null, '/', self::SESSION_COOKIE_DOMAIN) )
         {
-            $session = new Models\Session();
+            $session = new Session();
             $session->setSessionId($session_id);
             $session->setSessionUser($UserObj)->setUserType($user_type);
             $session->setStartTime(new DateTime())->setLastActivityTime(new DateTime());
@@ -87,6 +98,7 @@ class AccessManager
             //TODO log this event
 
             RequestContext::instance()->setSession($session);
+            $this->setMessage("Session started successfully");
             return true;
         }
         elseif(is_null($user_type))
@@ -104,26 +116,6 @@ class AccessManager
     public function getUniqueId($prefix="")
     {
         return uniqid($prefix, true);
-    }
-    public function getUserType($UserObj)
-    {
-        $user_type = null;
-        $default_access_level = Models\AccessLevel::getMapper('AccessLevel')->findUserDefault($UserObj->getId());
-        $last_session = Models\Session::getMapper("Session")->findByUserId($UserObj->getId())->current();
-        $all_access_levels = Models\AccessLevel::getMapper('AccessLevel')->findAll();
-        if(!is_null($default_access_level))
-        {
-            $user_type = $default_access_level->getUserType();
-        }
-        elseif(!is_null($last_session))
-        {
-            $user_type = $last_session->getUserType();
-        }
-        else
-        {
-            $user_type = $all_access_levels->current()->getUserType();
-        }
-        return $user_type;
     }
 
     public function getMessage()
