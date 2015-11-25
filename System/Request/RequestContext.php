@@ -106,7 +106,10 @@ class RequestContext
     }
     public function setRequestUrl($replace_path='', $replacement='')
     {
-        $this->request_url = substr( str_replace(strtolower($replace_path), $replacement, strtolower($_SERVER['REQUEST_URI'])) , 1);
+        $complete_url = $_SERVER['REQUEST_URI'];
+        $complete_url_arr = explode('?', $complete_url);
+        $fore_q_mark = $complete_url_arr[0];
+        $this->request_url = substr( str_replace(strtolower($replace_path), $replacement, strtolower($fore_q_mark)) , 1);
     }
     public function getRequestUrlParam($index)
     {
@@ -204,10 +207,10 @@ class RequestContext
 
     public function getView()
     {
-	    if(isset($this->view))
+        if(isset($this->view))
         {
-		    return $this->view;
-	    }
+            return $this->view;
+        }
         return null;
     }
     public function setView($view)

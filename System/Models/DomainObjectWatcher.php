@@ -78,17 +78,18 @@ class DomainObjectWatcher
         //START TRANSACTION
         foreach ( $this->delete as $key=>$obj )
         {
-            $obj->mapper()->del( $obj );
+            $obj->mapper()->delete( $obj );
             unset($this->all[$key]);
-        }
-        foreach ( $this->dirty as $key=>$obj )
-        {
-            $obj->mapper()->update( $obj );
         }
         foreach ( $this->new as $key=>$obj )
         {
             $obj->mapper()->insert( $obj );
         }
+        foreach ( $this->dirty as $key=>$obj )
+        {
+            $obj->mapper()->update( $obj );
+        }
+        $this->delete = array();
         $this->dirty = array();
         $this->new = array();
         //END TRANSACTION

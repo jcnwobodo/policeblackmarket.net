@@ -18,7 +18,7 @@ class DateTime
     private $minute;
     private $seconds;
 
-    public function __construct($year=null, $month=null, $day=null, $hour=0, $minute=0, $seconds=0)
+    public function __construct($year=null, $month=null, $day=null, $hour=null, $minute=null, $seconds=null)
     {
         if(is_null($year) and is_null($month) and is_null($day))
         {
@@ -28,12 +28,10 @@ class DateTime
         }
         $this->setDate($year, $month, $day);
 
-        if( ($hour < 0 or $hour > 23) or ($minute < 0 or $minute > 59) or ($seconds < 0 or $seconds > 59))
-        {
-            $hour = date("h");
-            $minute = date("i");
-            $seconds = date("s");
-        }
+        $hour = is_null($hour) or ($hour < 0 or $hour > 23) ? date("h") : $hour;
+        $minute = is_null($minute) or ($minute < 0 or $minute > 59) ? date("i") : $minute;
+        $seconds = is_null($seconds) or ($seconds < 0 or $seconds > 59) ? date("s") : $seconds;
+
         $this->setTime($hour, $minute, $seconds);
     }
     public static function getDateTimeObjFromInt($dateTimeInt)
@@ -77,7 +75,7 @@ class DateTime
 
     public function getDateTimeInt()
     {
-        return mktime($this->hour,$this->minute,$this->hour,$this->month,$this->day,$this->year);
+        return mktime($this->hour,$this->minute,$this->seconds,$this->month,$this->day,$this->year);
     }
     public function getDateTimeStr($separator="-")
     {

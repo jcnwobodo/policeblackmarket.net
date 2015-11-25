@@ -20,6 +20,8 @@ abstract class DomainObject
     public function setId($id)
     {
         $this->id = $id;
+        $this->markDirty();
+        return $this;
     }
     public function getId()
     {

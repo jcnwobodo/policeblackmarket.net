@@ -62,7 +62,7 @@ abstract class Mapper
         $domainObject->markClean();
     }
 
-    public function del(DomainObject $domainObject)
+    public function delete(DomainObject $domainObject)
     {
         $this->doDelete( $domainObject );
         $domainObject->markClean();
