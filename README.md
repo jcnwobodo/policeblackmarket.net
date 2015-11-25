@@ -1,22 +1,19 @@
 Project Police Black-Market
 
-    A public awareness portal specializing in capture, documentation, and publicizing of abnormalities in the
-    Nigerian Police Force.
-
-----------------------------------------------------------------------------------------------------
-
-Designed for 
-    
-    Concerned Citizens of the Federal Republic of Nigeria
+    A web-based data gathering, analysis and reporting system
+    designed and developed for Concerned Citizens of the Federal Republic of Nigeria
+    to enable them quickly and conveniently report incidences of job related illegal acts and sharp-practices
+    by members of the Nigerian Police Force.
 
 ----------------------------------------------------------------------------------------------------
 
 Web Address:
 
     loading...
+
 ---------------------------------------------------------------------------------------------------
 
-Designed and Implemented by:
+Designed and Implemented with all the love in the world by:
 
 	Joseph Chukwuemeka Nwobodo
 	Email: jc.nwobodo@gmail.com
@@ -30,4 +27,4 @@ Start Date:
 
 Last Update:
 
-    16th November, 2015
+    20th November, 2015
