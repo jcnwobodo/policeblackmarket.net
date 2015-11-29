@@ -11,22 +11,22 @@
     <h3 class="">FILTER REPORTS</h3>
     <fieldset>
         <legend class="no-margin full-margin-top small">CATEGORY</legend>
-        <div class="form-group-sm checkbox">
+        <div class="form-group form-group-sm checkbox">
             <label>
                 <input type="checkbox" value=""> Category 1
             </label>
         </div>
-        <div class="form-group-sm checkbox">
+        <div class="form-group form-group-sm checkbox">
             <label>
                 <input type="checkbox" value=""> Category 2
             </label>
         </div>
-        <div class="form-group-sm checkbox">
+        <div class="form-group form-group-sm checkbox">
             <label>
                 <input type="checkbox" value=""> Category 3
             </label>
         </div>
-        <div class="form-group-sm checkbox">
+        <div class="form-group form-group-sm checkbox">
             <label>
                 <input type="checkbox" value=""> Category 4
             </label>
@@ -35,7 +35,7 @@
 
     <fieldset>
         <legend class="no-margin full-margin-top small">LOCATION</legend>
-        <div class="form-group-sm">
+        <div class="form-group form-group-sm">
             <div class="row">
                 <div class="col-sm-3">
                     <label for="location_state">State</label>
@@ -48,7 +48,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-group-sm">
+        <div class="form-group form-group-sm">
             <div class="row">
                 <div class="col-sm-3">
                     <label for="location_lga" title="Local Government Area">LGA</label>
@@ -61,7 +61,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-group-sm">
+        <div class="form-group form-group-sm">
             <div class="row">
                 <div class="col-sm-3">
                     <label for="location_town">Town</label>
@@ -78,7 +78,7 @@
 
     <fieldset>
         <legend class="no-margin full-margin-top small">DATE</legend>
-        <div class="form-group-sm">
+        <div class="form-group form-group-sm">
             <div class="row">
                 <div class="col-sm-3">
                     <label for="start_year">From</label>
@@ -95,7 +95,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-group-sm">
+        <div class="form-group form-group-sm">
             <div class="row">
                 <div class="col-sm-3">
                     <label for="stop_year">To</label>

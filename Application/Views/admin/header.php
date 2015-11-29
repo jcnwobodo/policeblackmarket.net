@@ -1,4 +1,12 @@
 <?php
+/**
+ * Phoenix Laboratories NG.
+ * Author: J. C. Nwobodo (jc.nwobodo@gmail.com)
+ * Project: PoliceBlackMarket
+ * Date:    11/29/2015
+ * Time:    1:06 PM
+ **/
+
 $rc = \System\Request\RequestContext::instance();
 ?>
 <!DOCTYPE html>
@@ -9,16 +17,21 @@ $rc = \System\Request\RequestContext::instance();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="J. C. Nwobodo">
-    <link rel="icon" href="Assets/favicon.ico">
+    <link rel="icon" href="<?php home_url('/Assets/favicon.ico'); ?>">
 
     <title>Starter Template for Bootstrap</title>
 
     <!-- Bootstrap core CSS -->
     <link href="<?php home_url('/Assets/css/style.css'); ?>" type="text/css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="<?php home_url('/Assets/css/dashboard.css'); ?>" type="text/css" rel="stylesheet">
+
 </head>
 
 <body>
-<nav class="navbar navbar-inverse bg-color1 no-margin text-nowrap" style="border-radius: 0%">
+
+<nav class="navbar navbar-inverse bg-color1 navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">POLICE BLACK-MARKET</a>
@@ -41,5 +54,5 @@ $rc = \System\Request\RequestContext::instance();
         </div><!--/.nav-collapse -->
     </div>
 </nav>
+
 <div class="container-fluid">
-    <!--rest of the body-->
