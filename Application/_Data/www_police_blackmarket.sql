@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 25, 2015 at 03:42 PM
+-- Generation Time: Nov 29, 2015 at 10:31 PM
 -- Server version: 10.0.17-MariaDB
 -- PHP Version: 5.5.30
 
@@ -30,10 +30,21 @@ CREATE TABLE `pbm_reports` (
   `id` int(16) NOT NULL,
   `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `event_time` datetime NOT NULL,
-  `report_time` datetime NOT NULL,
-  `location` int(16) NOT NULL COMMENT 'site_locations.id'
+  `event_time` bigint(32) NOT NULL,
+  `report_time` bigint(32) NOT NULL,
+  `location_state` int(16) NOT NULL COMMENT 'site_locations.id',
+  `location_lga` int(16) NOT NULL,
+  `location_district` int(16) NOT NULL,
+  `location_scene` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` int(1) NOT NULL DEFAULT '2' COMMENT '0|1|2'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `pbm_reports`
+--
+
+INSERT INTO `pbm_reports` (`id`, `title`, `description`, `event_time`, `report_time`, `location_state`, `location_lga`, `location_district`, `location_scene`, `status`) VALUES
+(2, 'title', 'text', 1448755261, 1448751600, 1, 2, 3, '', 2);
 
 -- --------------------------------------------------------
 
@@ -67,7 +78,9 @@ CREATE TABLE `site_categories` (
 --
 
 INSERT INTO `site_categories` (`id`, `guid`, `parent`, `caption`, `type`) VALUES
-(1, 'news', NULL, 'News', '');
+(1, 'news', NULL, 'News', 'post'),
+(2, 'extortion', NULL, 'Extortion', 'report'),
+(3, 'bribery', NULL, 'Bribery', 'report');
 
 -- --------------------------------------------------------
 
@@ -94,14 +107,23 @@ CREATE TABLE `site_comments` (
 
 CREATE TABLE `site_locations` (
   `id` bigint(16) NOT NULL,
-  `parent` bigint(16) NOT NULL,
+  `parent` bigint(16) DEFAULT NULL,
   `location_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `slogan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slogan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `location_type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `latitude` decimal(5,3) NOT NULL,
-  `longitude` decimal(5,3) NOT NULL,
-  `status` int(11) NOT NULL
+  `latitude` decimal(5,3) DEFAULT NULL,
+  `longitude` decimal(5,3) DEFAULT NULL,
+  `status` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `site_locations`
+--
+
+INSERT INTO `site_locations` (`id`, `parent`, `location_name`, `slogan`, `location_type`, `latitude`, `longitude`, `status`) VALUES
+(1, NULL, 'Enugu', 'Coal City State', 'state', '0.000', '0.000', 1),
+(2, 1, 'Nsukka', '', 'lga', '0.000', '0.000', 1),
+(3, 2, 'UNN', NULL, 'district', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -155,7 +177,7 @@ CREATE TABLE `site_sessions` (
 --
 
 INSERT INTO `site_sessions` (`id`, `session_id`, `user_id`, `user_type`, `start_time`, `user_agent`, `ip_address`, `last_activity_time`, `status`) VALUES
-(5, '5655b327c70403.28696123', 1, 'admin', 1448406000, 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:40.0) Gecko/20100101 Firefox/40.0', '::1', 1448409661, 1);
+(7, '565875b0bdbe06.70203316', 1, 'admin', 1448578800, 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:40.0) Gecko/20100101 Firefox/40.0', '::1', 1448755261, 1);
 
 -- --------------------------------------------------------
 
@@ -275,7 +297,7 @@ ALTER TABLE `site_users`
 -- AUTO_INCREMENT for table `pbm_reports`
 --
 ALTER TABLE `pbm_reports`
-  MODIFY `id` int(16) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(16) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `pbm_reports_meta`
 --
@@ -285,7 +307,7 @@ ALTER TABLE `pbm_reports_meta`
 -- AUTO_INCREMENT for table `site_categories`
 --
 ALTER TABLE `site_categories`
-  MODIFY `id` int(16) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(16) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `site_comments`
 --
@@ -295,7 +317,7 @@ ALTER TABLE `site_comments`
 -- AUTO_INCREMENT for table `site_locations`
 --
 ALTER TABLE `site_locations`
-  MODIFY `id` bigint(16) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(16) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `site_posts`
 --
@@ -305,7 +327,7 @@ ALTER TABLE `site_posts`
 -- AUTO_INCREMENT for table `site_sessions`
 --
 ALTER TABLE `site_sessions`
-  MODIFY `id` int(16) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(16) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `site_uploads`
 --
