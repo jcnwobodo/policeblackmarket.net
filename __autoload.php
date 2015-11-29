@@ -11,7 +11,8 @@ $__autoload = array(
     "Application/Config/config.php",
     "System/Functions/site-info.php",
     "System/Functions/view-helpers.php",
-    "System/Functions/functions-lib.php"
+    "System/Functions/functions-lib.php",
+    "System/Functions/form-elements.php"
 );
 
 foreach($__autoload as $file)
