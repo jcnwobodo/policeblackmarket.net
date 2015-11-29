@@ -25,6 +25,8 @@ class CategoryMapper extends Mapper
             "SELECT * FROM site_categories WHERE guid=?");
         $this->selectByParentStmt = self::$PDO->prepare(
             "SELECT * FROM site_categories WHERE parent=?");
+        $this->selectByTypeStmt = self::$PDO->prepare(
+            "SELECT * FROM site_categories WHERE type=?");
         $this->updateStmt = self::$PDO->prepare(
             "UPDATE site_categories set guid=?, parent=?, caption=? WHERE id=?");
         $this->insertStmt = self::$PDO->prepare(
@@ -45,10 +47,10 @@ class CategoryMapper extends Mapper
         return $this->getCollection( $raw_data );
     }
 
-    public function findByAuthor($user_id)
+    public function findByType($type)
     {
-        $this->selectByAuthorStmt->execute( array($user_id) );
-        $raw_data = $this->selectByAuthorStmt->fetchAll(\PDO::FETCH_ASSOC);
+        $this->selectByTypeStmt->execute( array($type) );
+        $raw_data = $this->selectByTypeStmt->fetchAll(\PDO::FETCH_ASSOC);
         return $this->getCollection( $raw_data );
     }
 
@@ -66,7 +68,7 @@ class CategoryMapper extends Mapper
     {
         $class = $this->targetClass();
         $object = new $class($array['id']);
-        $object->setPamalink($array['guid']);
+        $object->setGuid($array['guid']);
 
         //parent category
         $parent_category = Models\Category::getMapper("Category")->find($array['parent']);

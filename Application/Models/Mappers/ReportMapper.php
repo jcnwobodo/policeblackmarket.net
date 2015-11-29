@@ -26,8 +26,8 @@ class ReportMapper extends Mapper
          *      selectByTimeRangeStmt
          *      selectByLocationStmt
         **/
-        $this->updateStmt = self::$PDO->prepare("UPDATE pbm_reports SET title=?, description=?, event_time=?, report_time=?, location=?, status=? WHERE id=?");
-        $this->insertStmt = self::$PDO->prepare("INSERT INTO pbm_reports (title, description, event_time, report_time, location, status) VALUES (?,?,?,?,?,?)");
+        $this->updateStmt = self::$PDO->prepare("UPDATE pbm_reports SET title=?, description=?, event_time=?, report_time=?, location_state=?, location_lga=?, location_district=?, location_scene=?, status=? WHERE id=?");
+        $this->insertStmt = self::$PDO->prepare("INSERT INTO pbm_reports (title, description, event_time, report_time, location_state,location_lga, location_district, location_scene, status) VALUES (?,?,?,?,?,?,?,?,?)");
         $this->deleteStmt = self::$PDO->prepare("DELETE FROM pbm_reports WHERE id=?");
     }
 
@@ -49,8 +49,13 @@ class ReportMapper extends Mapper
         $object->setDescription($array['description']);
         $object->setEventTime(DateTime::getDateTimeObjFromInt($array['event_time']));
         $object->setReportTime(DateTime::getDateTimeObjFromInt($array['report_time']));
-        $location = Models\Location::getMapper("Location")->find($array['location']);
-        if(! is_null($location)) $object->setLocation($location);
+        $location_state = Models\Location::getMapper("Location")->find($array['location_state']);
+        if(! is_null($location_state)) $object->setLocationState($location_state);
+        $location_lga = Models\Location::getMapper("Location")->find($array['location_lga']);
+        if(! is_null($location_lga)) $object->setLocationLga($location_lga);
+        $location_district = Models\Location::getMapper("Location")->find($array['location_district']);
+        if(! is_null($location_district)) $object->setLocationDistrict($location_district);
+        $object->setLocationScene($array['location_scene']);
         $object->setStatus($array['status']);
         $this->setReportMeta($object);
 
@@ -64,7 +69,10 @@ class ReportMapper extends Mapper
             $object->getDescription(),
             $object->getEventTime()->getDateTimeInt(),
             $object->getReportTime()->getDateTimeInt(),
-            $object->getLocation()->getId(),
+            $object->getLocationState()->getId(),
+            $object->getLocationLga()->getId(),
+            $object->getLocationDistrict()->getId(),
+            $object->getLocationScene(),
             $object->getStatus()
         );
         $this->insertStmt->execute($values);
@@ -80,6 +88,10 @@ class ReportMapper extends Mapper
             $object->getDescription(),
             $object->getEventTime()->getDateTimeInt(),
             $object->getReportTime()->getDateTimeInt(),
+            $object->getLocationState()->getId(),
+            $object->getLocationLga()->getId(),
+            $object->getLocationDistrict()->getId(),
+            $object->getLocationScene(),
             $object->getStatus(),
             $object->getId()
         );

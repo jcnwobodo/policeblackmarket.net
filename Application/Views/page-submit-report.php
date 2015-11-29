@@ -7,10 +7,18 @@
  * Time:    5:49 PM
  **/
 
+$requestContext = \System\Request\RequestContext::instance();
+
+$data = $requestContext->getResponseData();
+$categories = $data['categories'];
+$location_states = $data['location-states'];
+$location_lgas = $data['location-lgas'];
+$location_districts = $data['location-districts'];
+
 require_once("header.php");
 ?>
 <div class="row">
-    <form>
+    <form method="post">
         <div class="col-md-10 col-md-offset-1 full-margin-top">
             <div class="form-group form-group-sm">
                 <div class="row">
@@ -38,7 +46,17 @@ require_once("header.php");
                             <label for="report_date">Date</label>
                         </div>
                         <div class="col-sm-9">
-                            <input name="report_date" id="report_date" type="text" maxlength="10" class="form-control"/>
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <?= drop_month('report_date[month]', date('n')); ?>
+                                </div>
+                                <div class="col-sm-3">
+                                    <?= drop_month_days('report_date[day]'); ?>
+                                </div>
+                                <div class="col-sm-4">
+                                    <?= drop_years('report_date[year]'); ?>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -48,7 +66,17 @@ require_once("header.php");
                             <label for="report_time">Time</label>
                         </div>
                         <div class="col-sm-9">
-                            <input name="report_time" id="report_time" type="text" maxlength="10" class="form-control"/>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <?= drop_hours('report_time[hour]'); ?>
+                                </div>
+                                <div class="col-sm-4">
+                                    <?= drop_minutes('report_time[minute]'); ?>
+                                </div>
+                                <div class="col-sm-4">
+                                    <?= drop_AmPM('report_time[am_pm]', date('A')); ?>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -58,31 +86,136 @@ require_once("header.php");
                             <label for="report_categories">Categories</label>
                         </div>
                         <div class="col-sm-9">
+                            <?php
+                            foreach($categories as $category)
+                            {
+                            ?>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" value=""> Category 1
+                                    <input name="report_categories[]" type="checkbox" value="<?= $category->getId(); ?>"> <?= $category->getCaption(); ?>
                                 </label>
                             </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value=""> Category 2
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value=""> Category 3
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value=""> Category 4
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value=""> Category 5
-                                </label>
-                            </div>
+                            <?php
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!--location-->
+            <fieldset>
+                <legend>Location</legend>
+                <div class="form-group form-group-sm">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="location_state">State</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <select name="location_state" class="form-control" id="location_state">
+                                <?php
+                                foreach($location_states as $state)
+                                {
+                                    ?>
+                                    <option value="<?= $state->getId(); ?>"><?= $state->getLocationName(); ?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="location_lga" title="Local Government Area">LGA</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <select name="location_lga" class="form-control" id="location_lga">
+                                <?php
+                                foreach($location_lgas as $lga)
+                                {
+                                    ?>
+                                    <option value="<?= $lga->getId(); ?>"><?= $lga->getLocationName(); ?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="location_district">District</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <select name="location_district" class="form-control" id="location_district">
+                                <?php
+                                foreach($location_districts as $district)
+                                {
+                                    ?>
+                                    <option value="<?= $district->getId(); ?>"><?= $district->getLocationName(); ?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="location_scene">Scene</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input name="location_scene" id="location_scene" type="text" maxlength="255" class="form-control" placeholder="e.g. No. 10 New Street, Town-name"/>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+        </div>
+        <div class="col-md-5">
+
+            <!--supporting evidences-->
+            <fieldset>
+                <legend>Supporting Evidences</legend>
+                <div class="form-group form-group-sm">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="evidence_news1">News Source</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input name="evidence_news[]" id="evidence_news1" type="url" class="form-control" placeholder="http://"/>
+                            <input name="evidence_news[]" id="evidence_news2" type="url" class="form-control" placeholder="http://"/>
+                            <input name="evidence_news[]" id="evidence_news3" type="url" class="form-control" placeholder="http://"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="evidence_video1">Video Link</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input name="evidence_video[]" id="evidence_video1" type="url" class="form-control" placeholder="http://"/>
+                            <input name="evidence_video[]" id="evidence_video2" type="url" class="form-control" placeholder="http://"/>
+                            <input name="evidence_video[]" id="evidence_video3" type="url" class="form-control" placeholder="http://"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="evidence_photos1">Photos</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input name="evidence_photos[]" id="evidence_photos1" type="file"/>
+                            <input name="evidence_photos[]" id="evidence_photos2" type="file"/>
+                            <input name="evidence_photos[]" id="evidence_photos3" type="file"/>
+                            <input name="evidence_photos[]" id="evidence_photos4" type="file"/>
+                            <input name="evidence_photos[]" id="evidence_photos5" type="file"/>
                         </div>
                     </div>
                 </div>
@@ -128,87 +261,6 @@ require_once("header.php");
                         </div>
                         <div class="col-sm-9">
                             <input name="reporter_phone" id="reporter_phone" type="tel" class="form-control">
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
-        </div>
-        <div class="col-md-5">
-            <!--location-->
-            <fieldset>
-                <legend>Location</legend>
-                <div class="form-group form-group-sm">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label for="location_state">State</label>
-                        </div>
-                        <div class="col-sm-9">
-                            <select name="location_state" class="form-control" id="location_state">
-                                <option value="enugu">Enugu</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group form-group-sm">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label for="location_lga" title="Local Government Area">LGA</label>
-                        </div>
-                        <div class="col-sm-9">
-                            <select name="location_lga" class="form-control" id="location_lga">
-                                <option value="nsk-lga">Nsukka LGA</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group form-group-sm">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label for="location_town">Town</label>
-                        </div>
-                        <div class="col-sm-9">
-                            <select name="location_town" class="form-control" id="location_town">
-                                <option value="nsukka">Nsukka Town</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group form-group-sm">
-                    <label for="scene">Scene</label>
-                    <textarea name="scene" id="scene" placeholder="Describe the scene of the event (if applicable)" class="form-control height-10vh"></textarea>
-                </div>
-            </fieldset>
-
-            <!--supporting evidences-->
-            <fieldset>
-                <legend>Supporting Evidences</legend>
-                <div class="form-group form-group-sm">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label for="evidence_news">News Source</label>
-                        </div>
-                        <div class="col-sm-9">
-                            <input name="evidence_news" id="evidence_news" type="url" class="form-control" placeholder="http://"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group form-group-sm">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label for="evidence_video">Video Link</label>
-                        </div>
-                        <div class="col-sm-9">
-                            <input name="evidence_video" id="evidence_video" type="url" class="form-control" placeholder="http://"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group form-group-sm">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label for="evidence_photos1">Photos</label>
-                        </div>
-                        <div class="col-sm-9">
-                            <input name="evidence_photos[]" id="evidence_photos1" type="file"/>
                         </div>
                     </div>
                 </div>

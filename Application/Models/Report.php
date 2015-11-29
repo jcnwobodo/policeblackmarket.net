@@ -21,12 +21,15 @@ class Report extends DomainObject
     private $event_time;
     private $report_time;
     private $categories; //meta
-    private $location;
+    private $location_state;
+    private $location_lga;
+    private $location_district;
+    private $location_scene;
     private $related_reports; //meta
     private $news_sources; //meta
     private $video_links; //meta
     private $photos; //meta
-    private $status;
+    private $status; // pending || approved
 
     public function __construct($id=null)
     {
@@ -128,18 +131,72 @@ class Report extends DomainObject
     /**
      * @return mixed
      */
-    public function getLocation()
+    public function getLocationState()
     {
-        return $this->location;
+        return $this->location_state;
     }
 
     /**
-     * @param mixed $location
+     * @param mixed $location_state
      * @return Report
      */
-    public function setLocation(Location $location)
+    public function setLocationState(Location $location_state)
     {
-        $this->location = $location;
+        $this->location_state = $location_state;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLocationLga()
+    {
+        return $this->location_lga;
+    }
+
+    /**
+     * @param mixed $location_lga
+     * @return Report
+     */
+    public function setLocationLga($location_lga)
+    {
+        $this->location_lga = $location_lga;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLocationDistrict()
+    {
+        return $this->location_district;
+    }
+
+    /**
+     * @param mixed $location_district
+     * @return Report
+     */
+    public function setLocationDistrict($location_district)
+    {
+        $this->location_district = $location_district;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLocationScene()
+    {
+        return $this->location_scene;
+    }
+
+    /**
+     * @param mixed $location_scene
+     * @return Report
+     */
+    public function setLocationScene($location_scene)
+    {
+        $this->location_scene = $location_scene;
         return $this;
     }
 
