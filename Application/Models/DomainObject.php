@@ -13,6 +13,10 @@ use System\Models\DomainObject as SystemDomainObject;
 
 abstract class DomainObject extends SystemDomainObject
 {
+    const STATUS_PENDING = 2;
+    const STATUS_APPROVED = 1;
+    const STATUS_DELETED = 0;
+
     public function __construct($id=null)
     {
         parent::__construct($id);

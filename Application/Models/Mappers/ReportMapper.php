@@ -26,11 +26,18 @@ class ReportMapper extends Mapper
          *      selectByTimeRangeStmt
          *      selectByLocationStmt
         **/
+        $this->selectByStatusStmt = self::$PDO->prepare("SELECT * FROM pbm_reports WHERE status=?");
         $this->updateStmt = self::$PDO->prepare("UPDATE pbm_reports SET title=?, description=?, event_time=?, report_time=?, location_state=?, location_lga=?, location_district=?, location_scene=?, status=? WHERE id=?");
         $this->insertStmt = self::$PDO->prepare("INSERT INTO pbm_reports (title, description, event_time, report_time, location_state,location_lga, location_district, location_scene, status) VALUES (?,?,?,?,?,?,?,?,?)");
         $this->deleteStmt = self::$PDO->prepare("DELETE FROM pbm_reports WHERE id=?");
     }
 
+    public function findByStatus($status)
+    {
+        $this->selectByStatusStmt->execute( array($status) );
+        $raw_data = $this->selectByStatusStmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $this->getCollection( $raw_data );
+    }
     protected function targetClass()
     {
         return "Application\\Models\\Report";

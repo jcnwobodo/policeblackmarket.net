@@ -17,24 +17,26 @@ class LocationMapper extends Mapper
     public function __construct()
     {
         parent::__construct();
-        $this->selectStmt = self::$PDO->prepare(
-            "SELECT * FROM site_locations WHERE id=?");
-        $this->selectAllStmt = self::$PDO->prepare(
-            "SELECT * FROM site_locations");
-        $this->selectByTypeStmt = self::$PDO->prepare(
-            "SELECT * FROM site_locations WHERE location_type=?");
-        $this->updateStmt = self::$PDO->prepare(
-            "UPDATE site_locations set parent=?, location_name=?, slogan=?, location_type=?, latitude=?, longitude=?, status=? WHERE id=?");
-        $this->insertStmt = self::$PDO->prepare(
-            "INSERT INTO site_locations (parent, location_name, slogan, location_type, latitude, longitude, status) VALUES (?,?,?,?,?,?,?)");
-        $this->deleteStmt = self::$PDO->prepare(
-            "DELETE FROM site_locations WHERE id=?");
+        $this->selectStmt = self::$PDO->prepare("SELECT * FROM site_locations WHERE id=?");
+        $this->selectAllStmt = self::$PDO->prepare("SELECT * FROM site_locations");
+        $this->selectByTypeStmt = self::$PDO->prepare("SELECT * FROM site_locations WHERE location_type=?");
+        $this->selectByStatusStmt = self::$PDO->prepare("SELECT * FROM site_locations WHERE status=?");
+        $this->updateStmt = self::$PDO->prepare("UPDATE site_locations set parent=?, location_name=?, slogan=?, location_type=?, latitude=?, longitude=?, status=? WHERE id=?");
+        $this->insertStmt = self::$PDO->prepare("INSERT INTO site_locations (parent, location_name, slogan, location_type, latitude, longitude, status) VALUES (?,?,?,?,?,?,?)");
+        $this->deleteStmt = self::$PDO->prepare("DELETE FROM site_locations WHERE id=?");
     }
 
     public function findByType($type)
     {
         $this->selectByTypeStmt->execute( array($type) );
         $raw_data = $this->selectByTypeStmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $this->getCollection( $raw_data );
+    }
+
+    public function findByStatus($status)
+    {
+        $this->selectByStatusStmt->execute( array($status) );
+        $raw_data = $this->selectByStatusStmt->fetchAll(\PDO::FETCH_ASSOC);
         return $this->getCollection( $raw_data );
     }
 

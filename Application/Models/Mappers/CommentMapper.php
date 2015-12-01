@@ -18,16 +18,19 @@ class CommentMapper extends Mapper
     public function __construct()
     {
         parent::__construct();
-        $this->selectStmt = self::$PDO->prepare(
-            "SELECT * FROM site_comments WHERE id=?");
-        $this->selectAllStmt = self::$PDO->prepare(
-            "SELECT * FROM site_comments");
-        $this->updateStmt = self::$PDO->prepare(
-            "UPDATE site_comments set parent=?, post_id=?, comment_author=?, comment_time=?, comment_type=?, content=?, status=? WHERE id=?");
-        $this->insertStmt = self::$PDO->prepare(
-            "INSERT INTO site_comments (parent, post_id, comment_author, comment_time, comment_type, content, status) VALUES (?,?,?,?,?,?,?)");
-        $this->deleteStmt = self::$PDO->prepare(
-            "DELETE FROM site_comments WHERE id=?");
+        $this->selectStmt = self::$PDO->prepare("SELECT * FROM site_comments WHERE id=?");
+        $this->selectAllStmt = self::$PDO->prepare("SELECT * FROM site_comments");
+        $this->selectByStatusStmt = self::$PDO->prepare("SELECT * FROM site_comments WHERE status=?");
+        $this->updateStmt = self::$PDO->prepare("UPDATE site_comments set parent=?, post_id=?, comment_author=?, comment_time=?, comment_type=?, content=?, status=? WHERE id=?");
+        $this->insertStmt = self::$PDO->prepare("INSERT INTO site_comments (parent, post_id, comment_author, comment_time, comment_type, content, status) VALUES (?,?,?,?,?,?,?)");
+        $this->deleteStmt = self::$PDO->prepare("DELETE FROM site_comments WHERE id=?");
+    }
+
+    public function findByStatus($status)
+    {
+        $this->selectByStatusStmt->execute( array($status) );
+        $raw_data = $this->selectByStatusStmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $this->getCollection( $raw_data );
     }
 
     protected function targetClass()
