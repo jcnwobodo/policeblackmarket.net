@@ -37,7 +37,7 @@ catch (\PDOException $exception)
     ///*
     //development mode
     print_r($exception->getMessage()."<br/>");
-    print_r( implode( "<br/>", $exception->getTrace() ) );
+    print_r( recursive_implode( "<br/>", $exception->getTrace() ) );
     //*/
 }
 catch (\Exception $exception)
