@@ -21,8 +21,10 @@
             <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                 <div class="panel-body">
                     <ul>
-                        <li><a href="">Pending</a></li>
-                        <li><a href="">Approved</a></li>
+                        <li><a href="<?php home_url('/admin-area/manage-reports/'); ?>">Manage Reports</a></li>
+                        <li><a href="<?php home_url('/admin-area/manage-comments/'); ?>">Moderate Comments</a></li>
+                        <li><a href="<?php home_url('/admin-area/manage-locations/'); ?>">Manage Locations</a></li>
+                        <li><a href="<?php home_url('/admin-area/manage-categories/'); ?>">Manage Categories</a></li>
                     </ul>
                 </div>
             </div>
