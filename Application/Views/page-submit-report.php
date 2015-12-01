@@ -17,7 +17,7 @@ $location_districts = $data['location-districts'];
 
 require_once("header.php");
 ?>
-<div class="row">
+<div class="row full-margin-bottom">
     <form method="post">
         <div class="col-md-10 col-md-offset-1 full-margin-top">
             <div class="form-group form-group-sm">
