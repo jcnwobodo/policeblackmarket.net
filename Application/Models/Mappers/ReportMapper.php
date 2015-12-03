@@ -181,7 +181,7 @@ class ReportMapper extends Mapper
     {
         $report_meta_mapper = MapperRegistry::getMapper('ReportMeta');
         $rel_reports_meta = $report_meta_mapper->findReportMeta($report, Models\ReportMeta::MT_RR);
-        $reports_collection = new Models\Collections\ReportMetaCollection();
+        $reports_collection = new Models\Collections\ReportCollection();
         foreach($rel_reports_meta as $report_meta)
         {
             $report_object = $this->find($report_meta->getMetaValue());
