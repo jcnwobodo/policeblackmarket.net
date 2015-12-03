@@ -16,6 +16,7 @@ class User extends DomainObject
     private $username;
     private $password;
     private $user_type;
+    private $status;
     private $first_name;
     private $last_name;
     private $nickname;
@@ -31,6 +32,8 @@ class User extends DomainObject
 
     const USER_TYPE_ADMIN = 'admin';
     const USER_TYPE_USER = 'user';
+    const STATUS_ACTIVE = 1;
+    const STATUS_INACTIVE = 0;
 
     public function __construct($id=null)
     {
@@ -90,6 +93,25 @@ class User extends DomainObject
     public function setUserType($user_type)
     {
         $this->user_type = $user_type;
+        $this->markDirty();
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     * @return User
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
         $this->markDirty();
         return $this;
     }

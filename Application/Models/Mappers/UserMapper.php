@@ -18,30 +18,27 @@ class UserMapper extends Mapper
     public function __construct()
     {
         parent::__construct();
-        $this->selectStmt = self::$PDO->prepare(
-            "SELECT * FROM site_users WHERE id=?");
-        $this->selectAllStmt = self::$PDO->prepare(
-            "SELECT * FROM site_users");
-        $this->selectByUsernameStmt = self::$PDO->prepare(
-            "SELECT * FROM site_users WHERE username=?");
-        $this->selectByGenderStmt = self::$PDO->prepare(
-            "SELECT * FROM site_users WHERE gender=?");
-        $this->updateStmt = self::$PDO->prepare(
-            "UPDATE site_users set username=?, password=?, user_type=?, first_name=?, last_name=?, nickname=?, gender=?, date_of_birth=?,
+        $this->selectStmt = self::$PDO->prepare("SELECT * FROM site_users WHERE id=?");
+        $this->selectAllStmt = self::$PDO->prepare("SELECT * FROM site_users");
+        $this->selectByUsernameStmt = self::$PDO->prepare("SELECT * FROM site_users WHERE username=?");
+        $this->selectByEmailStmt = self::$PDO->prepare("SELECT * FROM site_users WHERE username=?");
+        $this->selectByGenderStmt = self::$PDO->prepare("SELECT * FROM site_users WHERE gender=?");
+        $this->updateStmt = self::$PDO->prepare("UPDATE site_users SET username=?, password=?, user_type=?, status=?, first_name=?, last_name=?, nickname=?, gender=?, date_of_birth=?,
             date_joined=?, place_of_origin=?, place_of_residence=?, email=?, phone=?,
             photo=?, biography=? WHERE id=?");
-        $this->insertStmt = self::$PDO->prepare(
-            "INSERT INTO site_users (username,password,user_type,first_name,last_name,nickname,gender,date_of_birth,date_joined,place_of_origin,place_of_residence,email,phone,photo,biography) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-        $this->deleteStmt = self::$PDO->prepare(
-            "DELETE FROM site_users WHERE id=?");
-
-        $this->selectByUserTypeStmt = self::$PDO->prepare(
-            "SELECT * FROM site_users WHERE user_type=?;");
+        $this->insertStmt = self::$PDO->prepare("INSERT INTO site_users (username,password,user_type,status,first_name,last_name,nickname,gender,date_of_birth,date_joined,place_of_origin,place_of_residence,email,phone,photo,biography) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        $this->deleteStmt = self::$PDO->prepare("DELETE FROM site_users WHERE id=?");
+        $this->selectByUserTypeStmt = self::$PDO->prepare("SELECT * FROM site_users WHERE user_type=?;");
     }
 
     public function findByUsername($username)
     {
         return $this->findHelper($username, $this->selectByUsernameStmt, 'username');
+    }
+
+    public function findByEmail($email)
+    {
+        return $this->findHelper($email, $this->selectByEmailStmt, 'email');
     }
 
     public function findByGender($gender)
@@ -75,6 +72,7 @@ class UserMapper extends Mapper
         $object->setUsername($array['username']);
         $object->setPassword($array['password']);
         $object->setUserType($array['user_type']);
+        $object->setStatus($array['status']);
         $object->setFirstName($array['first_name']);
         $object->setLastName($array['last_name']);
         $object->setNickname($array['nickname']);
@@ -105,6 +103,7 @@ class UserMapper extends Mapper
             $object->getUsername(),
             $object->getPassword(),
             $object->getUserType(),
+            $object->getStatus(),
             $object->getFirstName(),
             $object->getLastName(),
             $object->getNickname(),
@@ -115,7 +114,7 @@ class UserMapper extends Mapper
             $object->getPlaceOfResidence()->getId(),
             $object->getEmail(),
             $object->getPhone(),
-            $object->getPhoto()->getId(),
+            is_object($object->getPhoto()) ? $object->getPhoto()->getId() : null,
             $object->getBiography()
         );
         $this->insertStmt->execute( $values );
@@ -129,6 +128,7 @@ class UserMapper extends Mapper
             $object->getUsername(),
             $object->getPassword(),
             $object->getUserType(),
+            $object->getStatus(),
             $object->getFirstName(),
             $object->getLastName(),
             $object->getNickname(),
@@ -139,7 +139,7 @@ class UserMapper extends Mapper
             $object->getPlaceOfResidence()->getId(),
             $object->getEmail(),
             $object->getPhone(),
-            $object->getPhoto()->getId(),
+            is_object($object->getPhoto()) ? $object->getPhoto()->getId() : null,
             $object->getBiography(),
             $object->getId()
         );
