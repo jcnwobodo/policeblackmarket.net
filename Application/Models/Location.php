@@ -40,6 +40,7 @@ class Location extends DomainObject
     public function setParent(self $parent)
     {
         $this->parent = $parent;
+        $this->markDirty();
         return $this;
     }
 
@@ -58,6 +59,7 @@ class Location extends DomainObject
     public function setLocationName($location_name)
     {
         $this->location_name = $location_name;
+        $this->markDirty();
         return $this;
     }
 
@@ -76,6 +78,7 @@ class Location extends DomainObject
     public function setLongitude($longitude)
     {
         $this->longitude = $longitude;
+        $this->markDirty();
         return $this;
     }
 
@@ -94,6 +97,7 @@ class Location extends DomainObject
     public function setLatitude($latitude)
     {
         $this->latitude = $latitude;
+        $this->markDirty();
         return $this;
     }
 
@@ -112,6 +116,7 @@ class Location extends DomainObject
     public function setLocationType($location_type)
     {
         $this->location_type = $location_type;
+        $this->markDirty();
         return $this;
     }
 
@@ -130,6 +135,7 @@ class Location extends DomainObject
     public function setSlogan($slogan)
     {
         $this->slogan = $slogan;
+        $this->markDirty();
         return $this;
     }
 
@@ -148,6 +154,7 @@ class Location extends DomainObject
     public function setStatus($status)
     {
         $this->status = $status;
+        $this->markDirty();
         return $this;
     }
 }

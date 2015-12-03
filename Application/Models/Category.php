@@ -69,6 +69,7 @@ class Category extends DomainObject
     public function setType($type)
     {
         $this->type = $type;
+        $this->markDirty();
         return $this;
     }
 }

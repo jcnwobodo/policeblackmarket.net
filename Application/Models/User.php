@@ -52,6 +52,7 @@ class User extends DomainObject
     public function setUsername($username)
     {
         $this->username = $username;
+        $this->markDirty();
         return $this;
     }
 
@@ -70,6 +71,7 @@ class User extends DomainObject
     public function setPassword($password)
     {
         $this->password = $password;
+        $this->markDirty();
         return $this;
     }
 
@@ -88,6 +90,7 @@ class User extends DomainObject
     public function setUserType($user_type)
     {
         $this->user_type = $user_type;
+        $this->markDirty();
         return $this;
     }
 
@@ -106,6 +109,7 @@ class User extends DomainObject
     public function setFirstName($first_name)
     {
         $this->first_name = $first_name;
+        $this->markDirty();
         return $this;
     }
 
@@ -124,6 +128,7 @@ class User extends DomainObject
     public function setLastName($last_name)
     {
         $this->last_name = $last_name;
+        $this->markDirty();
         return $this;
     }
 
@@ -142,6 +147,7 @@ class User extends DomainObject
     public function setNickname($nickname)
     {
         $this->nickname = $nickname;
+        $this->markDirty();
         return $this;
     }
 
@@ -160,6 +166,7 @@ class User extends DomainObject
     public function setGender($gender)
     {
         $this->gender = $gender;
+        $this->markDirty();
         return $this;
     }
 
@@ -178,6 +185,7 @@ class User extends DomainObject
     public function setDateOfBirth(DateTime $date_of_birth)
     {
         $this->date_of_birth = $date_of_birth;
+        $this->markDirty();
         return $this;
     }
 
@@ -196,6 +204,7 @@ class User extends DomainObject
     public function setDateJoined($date_joined)
     {
         $this->date_joined = $date_joined;
+        $this->markDirty();
         return $this;
     }
 
@@ -214,6 +223,7 @@ class User extends DomainObject
     public function setPlaceOfOrigin(Location $place_of_origin)
     {
         $this->place_of_origin = $place_of_origin;
+        $this->markDirty();
         return $this;
     }
 
@@ -232,6 +242,7 @@ class User extends DomainObject
     public function setPlaceOfResidence(Location $place_of_residence)
     {
         $this->place_of_residence = $place_of_residence;
+        $this->markDirty();
         return $this;
     }
 
@@ -250,6 +261,7 @@ class User extends DomainObject
     public function setEmail($email)
     {
         $this->email = $email;
+        $this->markDirty();
         return $this;
     }
 
@@ -268,6 +280,7 @@ class User extends DomainObject
     public function setPhone($phone)
     {
         $this->phone = $phone;
+        $this->markDirty();
         return $this;
     }
 
@@ -286,6 +299,7 @@ class User extends DomainObject
     public function setPhoto($photo)
     {
         $this->photo = $photo;
+        $this->markDirty();
         return $this;
     }
 
@@ -304,6 +318,7 @@ class User extends DomainObject
     public function setBiography($biography)
     {
         $this->biography = $biography;
+        $this->markDirty();
         return $this;
     }
 

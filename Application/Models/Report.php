@@ -51,6 +51,7 @@ class Report extends DomainObject
     public function setTitle($title)
     {
         $this->title = $title;
+        $this->markDirty();
         return $this;
     }
 
@@ -69,6 +70,7 @@ class Report extends DomainObject
     public function setDescription($description)
     {
         $this->description = $description;
+        $this->markDirty();
         return $this;
     }
 
@@ -88,6 +90,7 @@ class Report extends DomainObject
     public function setEventTime(DateTime $event_time)
     {
         $this->event_time = $event_time;
+        $this->markDirty();
         return $this;
     }
 
@@ -107,6 +110,7 @@ class Report extends DomainObject
     public function setReportTime(DateTime $report_time)
     {
         $this->report_time = $report_time;
+        $this->markDirty();
         return $this;
     }
 
@@ -125,6 +129,7 @@ class Report extends DomainObject
     public function setCategories(CategoryCollection $categories)
     {
         $this->categories = $categories;
+        $this->markDirty();
         return $this;
     }
 
@@ -143,6 +148,7 @@ class Report extends DomainObject
     public function setLocationState(Location $location_state)
     {
         $this->location_state = $location_state;
+        $this->markDirty();
         return $this;
     }
 
@@ -161,6 +167,7 @@ class Report extends DomainObject
     public function setLocationLga($location_lga)
     {
         $this->location_lga = $location_lga;
+        $this->markDirty();
         return $this;
     }
 
@@ -179,6 +186,7 @@ class Report extends DomainObject
     public function setLocationDistrict($location_district)
     {
         $this->location_district = $location_district;
+        $this->markDirty();
         return $this;
     }
 
@@ -197,6 +205,7 @@ class Report extends DomainObject
     public function setLocationScene($location_scene)
     {
         $this->location_scene = $location_scene;
+        $this->markDirty();
         return $this;
     }
 
@@ -304,6 +313,7 @@ class Report extends DomainObject
     public function setStatus($status)
     {
         $this->status = $status;
+        $this->markDirty();
         return $this;
     }
 }

@@ -41,6 +41,7 @@ class Comment extends DomainObject
     public function setParent(self $parent)
     {
         $this->parent = $parent;
+        $this->markDirty();
         return $this;
     }
 
@@ -59,6 +60,7 @@ class Comment extends DomainObject
     public function setPostId($post_id)
     {
         $this->post_id = $post_id;
+        $this->markDirty();
         return $this;
     }
 
@@ -77,6 +79,7 @@ class Comment extends DomainObject
     public function setCommentAuthor(User $comment_author)
     {
         $this->comment_author = $comment_author;
+        $this->markDirty();
         return $this;
     }
 
@@ -95,6 +98,7 @@ class Comment extends DomainObject
     public function setCommentTime(DateTime $comment_time)
     {
         $this->comment_time = $comment_time;
+        $this->markDirty();
         return $this;
     }
 
@@ -113,6 +117,7 @@ class Comment extends DomainObject
     public function setCommentType($comment_type)
     {
         $this->comment_type = $comment_type;
+        $this->markDirty();
         return $this;
     }
 
@@ -131,6 +136,7 @@ class Comment extends DomainObject
     public function setContent($content)
     {
         $this->content = $content;
+        $this->markDirty();
         return $this;
     }
 
@@ -149,6 +155,7 @@ class Comment extends DomainObject
     public function setStatus($status)
     {
         $this->status = $status;
+        $this->markDirty();
         return $this;
     }
 }

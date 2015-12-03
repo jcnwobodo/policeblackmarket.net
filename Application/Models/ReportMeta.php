@@ -40,6 +40,7 @@ class ReportMeta extends DomainObject
     public function setReportId($report_id)
     {
         $this->report_id = $report_id;
+        $this->markDirty();
         return $this;
     }
 
@@ -58,6 +59,7 @@ class ReportMeta extends DomainObject
     public function setMetaType($meta_type)
     {
         $this->meta_type = $meta_type;
+        $this->markDirty();
         return $this;
     }
 
@@ -76,6 +78,7 @@ class ReportMeta extends DomainObject
     public function setMetaValue($meta_value)
     {
         $this->meta_value = $meta_value;
+        $this->markDirty();
         return $this;
     }
 }

@@ -72,6 +72,7 @@ class Upload extends DomainObject
     public function setGuid($guid)
     {
         $this->guid = $guid;
+        $this->markDirty();
         return $this;
     }
 
@@ -90,6 +91,7 @@ class Upload extends DomainObject
     public function setAuthor(User $author)
     {
         $this->author = $author;
+        $this->markDirty();
         return $this;
     }
 }
