@@ -76,19 +76,41 @@ class DomainObjectWatcher
     public function performOperations()
     {
         //START TRANSACTION
-        foreach ( $this->delete as $key=>$obj )
-        {
-            $obj->mapper()->delete( $obj );
-            unset($this->all[$key]);
-        }
-        foreach ( $this->new as $key=>$obj )
-        {
-            $obj->mapper()->insert( $obj );
-        }
-        foreach ( $this->dirty as $key=>$obj )
-        {
-            $obj->mapper()->update( $obj );
-        }
+        $this->processDeletedObjects($this->delete);
+        $this->processNewObjects($this->new);
+        $this->processModifiedObjects($this->dirty);
         //END TRANSACTION
+    }
+
+    private function processNewObjects(&$array)
+    {
+        $object = array_shift($array);
+        if(is_object($object))
+        {
+            $object->mapper()->insert( $object );
+            $this->processNewObjects($array);
+        }
+    }
+
+    private function processDeletedObjects(&$array)
+    {
+        $object = array_shift($array);
+        if(is_object($object))
+        {
+            $object->mapper()->delete( $object );
+            $key = array_keys($array, $object);
+            unset($this->all[ $key[0] ]);
+            $this->processDeletedObjects($array);
+        }
+    }
+
+    private function processModifiedObjects(&$array)
+    {
+        $object = array_shift($array);
+        if(is_object($object))
+        {
+            $object->mapper()->update( $object );
+            $this->processModifiedObjects( $array );
+        }
     }
 }
