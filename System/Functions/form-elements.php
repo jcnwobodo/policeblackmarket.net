@@ -46,7 +46,7 @@ function drop_month_days($name, $current_val=null)
 
 function drop_hours($name, $current_val=null, $mode12=true)
 {
-    return drop_num($mode12?11:23, 0, $name,  is_null($current_val) ? date('g') : $current_val);
+    return drop_num($mode12?12:23, $mode12?1:0, $name,  is_null($current_val) ? date('g') : $current_val);
 }
 
 function drop_minutes($name, $current_val=null)
@@ -87,8 +87,8 @@ function selected_multi($value, $name)
     if(! is_array($name)){$name = array(); }
     if(in_array($value,$name)) return 'selected="selected"';
 }
-function checked($value,$name)
+function checked($value, $options)
 {
-    if(! is_array($name)){$name[] = $name; }
-    if(in_array($value,$name)) return 'checked="checked"';
+    if(! is_array($options)){$options[] = $options; }
+    if(in_array($value,$options)) return 'checked="checked"';
 }

@@ -89,9 +89,6 @@ class DomainObjectWatcher
         {
             $obj->mapper()->update( $obj );
         }
-        $this->delete = array();
-        $this->dirty = array();
-        $this->new = array();
         //END TRANSACTION
     }
 }

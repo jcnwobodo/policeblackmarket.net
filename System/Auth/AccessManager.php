@@ -41,6 +41,11 @@ class AccessManager
         }
         elseif(is_object($UserObj))
         {
+            if($UserObj->getStatus() == User::STATUS_INACTIVE)
+            {
+                $this->setMessage("This account has not been activated, you need to activate your account before you can login.");
+                return false;
+            }
             $this->startSession($UserObj);
             $this->setMessage("Login successful");
             return true;

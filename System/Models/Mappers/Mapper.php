@@ -54,6 +54,7 @@ abstract class Mapper
     {
         $this->doInsert( $domainObject );
         $this->addToMap( $domainObject );
+        $domainObject->markClean();
     }
 
     public function update(DomainObject $domainObject)
