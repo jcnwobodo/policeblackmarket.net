@@ -15,18 +15,21 @@ $location_states = $data['location-states'];
 $location_lgas = $data['location-lgas'];
 $location_districts = $data['location-districts'];
 
+$fields = $requestContext->getAllFields();
+
 require_once("header.php");
 ?>
 <div class="row full-margin-bottom">
     <form method="post">
         <div class="col-md-10 col-md-offset-1 full-margin-top">
+            <h1 class="page-header">Submit Report</h1>
             <div class="form-group form-group-sm">
                 <div class="row">
                     <div class="col-sm-2">
-                        <label for="report_title">Title</label>
+                        <label for="report_title">Report Title</label>
                     </div>
                     <div class="col-sm-10">
-                        <input name="report_title" id="report_title" type="text" maxlength="255" class="form-control"/>
+                        <input name="report_title" id="report_title" type="text" maxlength="255" class="form-control" value="<?= isset($fields['report_title']) ? $fields['report_title'] : ''; ?>"/>
                     </div>
                 </div>
             </div>
@@ -38,7 +41,7 @@ require_once("header.php");
                 <legend>Report Particulars</legend>
                 <div class="form-group form-group-sm">
                     <label for="report_description">Description</label>
-                    <textarea name="report_description" id="report_description" class="form-control height-20vh"></textarea>
+                    <textarea name="report_description" id="report_description" class="form-control height-20vh"><?= isset($fields['report_description']) ? $fields['report_description'] : ''; ?></textarea>
                 </div>
                 <div class="form-group form-group-sm">
                     <div class="row">
@@ -48,13 +51,13 @@ require_once("header.php");
                         <div class="col-sm-9">
                             <div class="row">
                                 <div class="col-sm-5">
-                                    <?= drop_month('report_date[month]', date('n')); ?>
+                                    <?= drop_month('report_date[month]', isset($fields['report_date']['month']) ? $fields['report_date']['month'] : null ); ?>
                                 </div>
                                 <div class="col-sm-3">
-                                    <?= drop_month_days('report_date[day]'); ?>
+                                    <?= drop_month_days('report_date[day]', isset($fields['report_date']['day']) ? $fields['report_date']['day'] : null ); ?>
                                 </div>
                                 <div class="col-sm-4">
-                                    <?= drop_years('report_date[year]'); ?>
+                                    <?= drop_years('report_date[year]', isset($fields['report_date']['year']) ? $fields['report_date']['year'] : null ); ?>
                                 </div>
                             </div>
                         </div>
@@ -68,13 +71,13 @@ require_once("header.php");
                         <div class="col-sm-9">
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <?= drop_hours('report_time[hour]'); ?>
+                                    <?= drop_hours('report_time[hour]', isset($fields['report_time']['hour']) ? $fields['report_time']['hour'] : null); ?>
                                 </div>
                                 <div class="col-sm-4">
-                                    <?= drop_minutes('report_time[minute]'); ?>
+                                    <?= drop_minutes('report_time[minute]', isset($fields['report_time']['minute']) ? $fields['report_time']['minute'] : null); ?>
                                 </div>
                                 <div class="col-sm-4">
-                                    <?= drop_AmPM('report_time[am_pm]', date('A')); ?>
+                                    <?= drop_AmPM('report_time[am_pm]',  isset($fields['report_time']['am_pm']) ? $fields['report_time']['am_pm'] : date('A')); ?>
                                 </div>
                             </div>
                         </div>
@@ -92,7 +95,7 @@ require_once("header.php");
                             ?>
                             <div class="checkbox">
                                 <label>
-                                    <input name="report_categories[]" type="checkbox" value="<?= $category->getId(); ?>"> <?= $category->getCaption(); ?>
+                                    <input name="report_categories[]" type="checkbox" value="<?= $category->getId(); ?>" <?= checked($category->getId(), isset($fields['report_categories'])?$fields['report_categories']:array()); ?>> <?= $category->getCaption(); ?>
                                 </label>
                             </div>
                             <?php
@@ -117,7 +120,7 @@ require_once("header.php");
                                 foreach($location_states as $state)
                                 {
                                     ?>
-                                    <option value="<?= $state->getId(); ?>"><?= $state->getLocationName(); ?></option>
+                                    <option value="<?= $state->getId(); ?>" <?= selected($state->getId(), isset($fields['location_state']) ? $fields['location_state'] : null); ?>><?= $state->getLocationName(); ?></option>
                                     <?php
                                 }
                                 ?>
@@ -136,7 +139,7 @@ require_once("header.php");
                                 foreach($location_lgas as $lga)
                                 {
                                     ?>
-                                    <option value="<?= $lga->getId(); ?>"><?= $lga->getLocationName(); ?></option>
+                                    <option value="<?= $lga->getId(); ?>" <?= selected($lga->getId(), isset($fields['location_lga']) ? $fields['location_lga'] : null )?>><?= $lga->getLocationName(); ?></option>
                                     <?php
                                 }
                                 ?>
@@ -155,7 +158,7 @@ require_once("header.php");
                                 foreach($location_districts as $district)
                                 {
                                     ?>
-                                    <option value="<?= $district->getId(); ?>"><?= $district->getLocationName(); ?></option>
+                                    <option value="<?= $district->getId(); ?>" <?= selected($district->getId(), isset($fields['location_district']) ? $fields['location_district'] : null)?>><?= $district->getLocationName(); ?></option>
                                     <?php
                                 }
                                 ?>
@@ -169,7 +172,7 @@ require_once("header.php");
                             <label for="location_scene">Scene</label>
                         </div>
                         <div class="col-sm-9">
-                            <input name="location_scene" id="location_scene" type="text" maxlength="255" class="form-control" placeholder="e.g. No. 10 New Street, Town-name"/>
+                            <input name="location_scene" id="location_scene" type="text" maxlength="255" class="form-control" placeholder="e.g. No. 10 New Street, Town-name" value="<?= isset($fields['location_scene']) ? $fields['location_scene'] : ''; ?>"/>
                         </div>
                     </div>
                 </div>
@@ -187,9 +190,9 @@ require_once("header.php");
                             <label for="evidence_news1">News Source</label>
                         </div>
                         <div class="col-sm-9">
-                            <input name="evidence_news[]" id="evidence_news1" type="url" class="form-control" placeholder="http://"/>
-                            <input name="evidence_news[]" id="evidence_news2" type="url" class="form-control" placeholder="http://"/>
-                            <input name="evidence_news[]" id="evidence_news3" type="url" class="form-control" placeholder="http://"/>
+                            <input name="evidence_news[]" id="evidence_news1" type="url" class="form-control" placeholder="http://site1.com/item" value="<?= isset($fields['evidence_news'][0]) ? $fields['evidence_news'][0] : ''; ?>"/>
+                            <input name="evidence_news[]" id="evidence_news2" type="url" class="form-control" placeholder="http://site2.com/item" value="<?= isset($fields['evidence_news'][1]) ? $fields['evidence_news'][1] : ''; ?>"/>
+                            <input name="evidence_news[]" id="evidence_news3" type="url" class="form-control" placeholder="http://site3.com/item" value="<?= isset($fields['evidence_news'][2]) ? $fields['evidence_news'][2] : ''; ?>"/>
                         </div>
                     </div>
                 </div>
@@ -199,9 +202,9 @@ require_once("header.php");
                             <label for="evidence_video1">Video Link</label>
                         </div>
                         <div class="col-sm-9">
-                            <input name="evidence_video[]" id="evidence_video1" type="url" class="form-control" placeholder="http://"/>
-                            <input name="evidence_video[]" id="evidence_video2" type="url" class="form-control" placeholder="http://"/>
-                            <input name="evidence_video[]" id="evidence_video3" type="url" class="form-control" placeholder="http://"/>
+                            <input name="evidence_video[]" id="evidence_video1" type="url" class="form-control" placeholder="http://" value="<?= isset($fields['evidence_video'][0]) ? $fields['evidence_video'][0] : ''; ?>"/>
+                            <input name="evidence_video[]" id="evidence_video2" type="url" class="form-control" placeholder="http://" value="<?= isset($fields['evidence_video'][1]) ? $fields['evidence_video'][1] : ''; ?>"/>
+                            <input name="evidence_video[]" id="evidence_video3" type="url" class="form-control" placeholder="http://" value="<?= isset($fields['evidence_video'][2]) ? $fields['evidence_video'][2] : ''; ?>"/>
                         </div>
                     </div>
                 </div>
@@ -223,14 +226,14 @@ require_once("header.php");
 
             <!--reporter's info-->
             <fieldset>
-                <legend>Reporter's Data (Optional)</legend>
+                <legend>Reporter's Data</legend>
                 <div class="form-group form-group-sm">
                     <div class="row">
                         <div class="col-sm-3">
                             <label for="reporter_first-name">First Name</label>
                         </div>
                         <div class="col-sm-9">
-                            <input name="reporter_first-name" id="reporter_first-name" type="text" class="form-control"/>
+                            <input name="reporter_first-name" id="reporter_first-name" type="text" class="form-control" value="<?= isset($fields['reporter_first-name']) ? $fields['reporter_first-name'] : ''; ?>"/>
                         </div>
                     </div>
                 </div>
@@ -240,7 +243,7 @@ require_once("header.php");
                             <label for="reporter_last-name">Last Name</label>
                         </div>
                         <div class="col-sm-9">
-                            <input name="reporter_last-name" id="reporter_last-name" type="text" class="form-control"/>
+                            <input name="reporter_last-name" id="reporter_last-name" type="text" class="form-control" value="<?= isset($fields['reporter_last-name']) ? $fields['reporter_last-name'] : ''; ?>"/>
                         </div>
                     </div>
                 </div>
@@ -250,7 +253,7 @@ require_once("header.php");
                             <label for="reporter_email">Email Address</label>
                         </div>
                         <div class="col-sm-9">
-                            <input name="reporter_email" id="reporter_email" type="email" class="form-control"/>
+                            <input name="reporter_email" id="reporter_email" type="email" class="form-control" value="<?= isset($fields['reporter_email']) ? $fields['reporter_email'] : ''; ?>"/>
                         </div>
                     </div>
                 </div>
@@ -260,7 +263,7 @@ require_once("header.php");
                             <label for="reporter_phone">Phone</label>
                         </div>
                         <div class="col-sm-9">
-                            <input name="reporter_phone" id="reporter_phone" type="tel" class="form-control">
+                            <input name="reporter_phone" id="reporter_phone" type="tel" class="form-control" value="<?= isset($fields['reporter_phone']) ? $fields['reporter_phone'] : ''; ?>">
                         </div>
                     </div>
                 </div>

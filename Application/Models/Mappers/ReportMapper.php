@@ -27,8 +27,8 @@ class ReportMapper extends Mapper
          *      selectByLocationStmt
         **/
         $this->selectByStatusStmt = self::$PDO->prepare("SELECT * FROM pbm_reports WHERE status=?");
-        $this->updateStmt = self::$PDO->prepare("UPDATE pbm_reports SET title=?, description=?, event_time=?, report_time=?, location_state=?, location_lga=?, location_district=?, location_scene=?, status=? WHERE id=?");
-        $this->insertStmt = self::$PDO->prepare("INSERT INTO pbm_reports (title, description, event_time, report_time, location_state,location_lga, location_district, location_scene, status) VALUES (?,?,?,?,?,?,?,?,?)");
+        $this->updateStmt = self::$PDO->prepare("UPDATE pbm_reports SET title=?, description=?, event_time=?, report_time=?, location_state=?, location_lga=?, location_district=?, location_scene=?, reporter=?, status=? WHERE id=?");
+        $this->insertStmt = self::$PDO->prepare("INSERT INTO pbm_reports (title, description, event_time, report_time, location_state,location_lga, location_district, location_scene, reporter, status) VALUES (?,?,?,?,?,?,?,?,?,?)");
         $this->deleteStmt = self::$PDO->prepare("DELETE FROM pbm_reports WHERE id=?");
     }
 
@@ -63,6 +63,8 @@ class ReportMapper extends Mapper
         $location_district = Models\Location::getMapper("Location")->find($array['location_district']);
         if(! is_null($location_district)) $object->setLocationDistrict($location_district);
         $object->setLocationScene($array['location_scene']);
+        $reporter = Models\User::getMapper('User')->find($array['reporter']);
+        $object->setReporter($reporter);
         $object->setStatus($array['status']);
         $this->setReportMeta($object);
 
@@ -80,6 +82,7 @@ class ReportMapper extends Mapper
             $object->getLocationLga()->getId(),
             $object->getLocationDistrict()->getId(),
             $object->getLocationScene(),
+            $object->getReporter()->getId(),
             $object->getStatus()
         );
         $this->insertStmt->execute($values);
@@ -99,6 +102,7 @@ class ReportMapper extends Mapper
             $object->getLocationLga()->getId(),
             $object->getLocationDistrict()->getId(),
             $object->getLocationScene(),
+            $object->getReporter()->getId(),
             $object->getStatus(),
             $object->getId()
         );
@@ -173,6 +177,7 @@ class ReportMapper extends Mapper
                 $meta_object->setReportId($report->getId());
                 $meta_object->setMetaType(Models\ReportMeta::MT_CAT);
                 $meta_object->setMetaValue($category->getId());
+                $meta_object->markNew();
             }
         }
     }
@@ -228,10 +233,13 @@ class ReportMapper extends Mapper
         {
             foreach($news_links as $news_link)
             {
-                $meta_object = new Models\ReportMeta();
-                $meta_object->setReportId($report->getId());
-                $meta_object->setMetaType(Models\ReportMeta::MT_NS);
-                $meta_object->setMetaValue($news_link);
+                if(strlen($news_link))
+                {
+                    $meta_object = new Models\ReportMeta();
+                    $meta_object->setReportId($report->getId());
+                    $meta_object->setMetaType(Models\ReportMeta::MT_NS);
+                    $meta_object->setMetaValue($news_link);
+                }
             }
         }
     }
@@ -257,10 +265,13 @@ class ReportMapper extends Mapper
         {
             foreach($video_links as $video_link)
             {
-                $meta_object = new Models\ReportMeta();
-                $meta_object->setReportId($report->getId());
-                $meta_object->setMetaType(Models\ReportMeta::MT_VID);
-                $meta_object->setMetaValue($video_link);
+                if(strlen($video_link))
+                {
+                    $meta_object = new Models\ReportMeta();
+                    $meta_object->setReportId($report->getId());
+                    $meta_object->setMetaType(Models\ReportMeta::MT_VID);
+                    $meta_object->setMetaValue($video_link);
+                }
             }
         }
     }

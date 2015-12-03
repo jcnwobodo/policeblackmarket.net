@@ -29,6 +29,7 @@ class Report extends DomainObject
     private $news_sources; //meta
     private $video_links; //meta
     private $photos; //meta
+    private $reporter; //meta
     private $status; // pending || approved
 
     public function __construct($id=null)
@@ -296,6 +297,25 @@ class Report extends DomainObject
     public function addPhoto($photo)
     {
         $this->getPhotos()->add($photo);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReporter()
+    {
+        return $this->reporter;
+    }
+
+    /**
+     * @param mixed $reporter
+     * @return Report
+     */
+    public function setReporter(User $reporter)
+    {
+        $this->reporter = $reporter;
+        $this->markDirty();
+        return $this;
     }
 
     /**

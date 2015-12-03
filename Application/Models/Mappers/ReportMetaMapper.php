@@ -17,22 +17,14 @@ class ReportMetaMapper extends Mapper
     public function __construct()
     {
         parent::__construct();
-        $this->selectStmt = self::$PDO->prepare(
-            "SELECT * FROM pbm_reports_meta WHERE id=?");
-        $this->selectAllStmt = self::$PDO->prepare(
-            "SELECT * FROM pbm_reports_meta");
-        $this->selectReportMetaStmt = self::$PDO->prepare(
-            "SELECT * FROM pbm_reports_meta WHERE report_id=? AND meta_type=?");
-        $this->updateStmt = self::$PDO->prepare(
-            "UPDATE pbm_reports_meta SET report_id=?, meta_type=?, meta_value=? WHERE id=?");
-        $this->insertStmt = self::$PDO->prepare(
-            "INSERT INTO pbm_reports_meta (report_id, meta_type, meta_value) VALUES (?,?,?)");
-        $this->deleteStmt = self::$PDO->prepare(
-            "DELETE FROM pbm_reports_meta WHERE id=?");
-        $this->deleteReportMetaStmt = self::$PDO->prepare(
-            "DELETE FROM pbm_reports_meta WHERE report_id=? AND meta_type=?");
-        $this->deleteAllReportMetaStmt = self::$PDO->prepare(
-            "DELETE FROM pbm_reports_meta WHERE report_id=?");
+        $this->selectStmt = self::$PDO->prepare("SELECT * FROM pbm_reports_meta WHERE id=?");
+        $this->selectAllStmt = self::$PDO->prepare("SELECT * FROM pbm_reports_meta");
+        $this->selectReportMetaStmt = self::$PDO->prepare("SELECT * FROM pbm_reports_meta WHERE report_id=? AND meta_type=?");
+        $this->updateStmt = self::$PDO->prepare("UPDATE pbm_reports_meta SET report_id=?, meta_type=?, meta_value=? WHERE id=?");
+        $this->insertStmt = self::$PDO->prepare("INSERT INTO pbm_reports_meta (report_id, meta_type, meta_value) VALUES (?,?,?)");
+        $this->deleteStmt = self::$PDO->prepare("DELETE FROM pbm_reports_meta WHERE id=?");
+        $this->deleteReportMetaStmt = self::$PDO->prepare("DELETE FROM pbm_reports_meta WHERE report_id=? AND meta_type=?");
+        $this->deleteAllReportMetaStmt = self::$PDO->prepare("DELETE FROM pbm_reports_meta WHERE report_id=?");
     }
 
     public function findReportMeta(Models\Report $report, $meta_type)
