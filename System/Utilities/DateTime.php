@@ -77,9 +77,10 @@ class DateTime
     {
         return mktime($this->hour,$this->minute,$this->seconds,$this->month,$this->day,$this->year);
     }
-    public function getDateTimeStr($separator="-")
+    public function getDateTimeStr($date_separator="-", $time_seperator=":")
     {
-        return (string)$this->getYear().$separator.$this->getMonth().$separator.$this->getDay();
+        return (string)$this->getYear().$date_separator.$this->getMonth().$date_separator.$this->getDay().'|'.
+            $this->getHour().$time_seperator.$this->getMinute().$time_seperator.$this->getSeconds();
     }
     public function getDateTimeStrF($format)
     {
