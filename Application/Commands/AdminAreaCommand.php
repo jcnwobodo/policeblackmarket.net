@@ -9,6 +9,7 @@
 
 namespace Application\Commands;
 
+use System\Models\DomainObjectWatcher;
 use System\Request\RequestContext;
 use Application\Models\User;
 use Application\Models\Comment;
@@ -50,5 +51,68 @@ class AdminAreaCommand extends SecureCommand
 
         $requestContext->setResponseData($data);
         $requestContext->setView('admin/dashboard.php');
+    }
+
+    protected function ManageReports(RequestContext $requestContext)
+    {
+        $status = $requestContext->fieldIsSet('status') ? $requestContext->getField('status') : 'pending';
+        $action = $requestContext->fieldIsSet('action') ? $requestContext->getField('action') : null;
+        $reports_ids = $requestContext->fieldIsSet('report-ids') ? $requestContext->getField('report-ids') : array();
+
+        switch(strtolower($action))
+        {
+            case 'approve' : {
+                foreach($reports_ids as $reports_id)
+                {
+                    $report_obj = Report::getMapper('Report')->find($reports_id);
+                    if(is_object($report_obj)) $report_obj->setStatus(Report::STATUS_APPROVED);
+                }
+            } break;
+            case 'delete' : {
+                foreach($reports_ids as $reports_id)
+                {
+                    $report_obj = Report::getMapper('Report')->find($reports_id);
+                    if(is_object($report_obj)) $report_obj->setStatus(Report::STATUS_DELETED);
+                }
+            } break;
+            case 'disapprove' : {
+                foreach($reports_ids as $reports_id)
+                {
+                    $report_obj = Report::getMapper('Report')->find($reports_id);
+                    if(is_object($report_obj)) $report_obj->setStatus(Report::STATUS_PENDING);
+                }
+            } break;
+            case 'restore' : {
+                foreach($reports_ids as $reports_id)
+                {
+                    $report_obj = Report::getMapper('Report')->find($reports_id);
+                    if(is_object($report_obj)) $report_obj->setStatus(Report::STATUS_APPROVED);
+                }
+            } break;
+            default : {}
+        }
+        DomainObjectWatcher::instance()->performOperations();
+
+        switch($status)
+        {
+            case 'pending' : {
+                $reports = Report::getMapper('Report')->findByStatus(Report::STATUS_PENDING);
+            } break;
+            case 'approved' : {
+                $reports = Report::getMapper('Report')->findByStatus(Report::STATUS_APPROVED);
+            } break;
+            case 'deleted' : {
+                $reports = Report::getMapper('Report')->findByStatus(Report::STATUS_DELETED);
+            } break;
+            default : {
+                $reports = Report::getMapper('Report')->findAll();
+            }
+        }
+
+        $data = array();
+        $data['status'] = $status;
+        $data['reports'] = $reports;
+        $requestContext->setResponseData($data);
+        $requestContext->setView('admin/manage-reports.php');
     }
 }
