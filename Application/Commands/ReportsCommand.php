@@ -10,20 +10,18 @@
 namespace Application\Commands;
 
 use System\Request\RequestContext;
+use Application\Models\Report;
 
 class ReportsCommand extends Command
 {
     protected function doExecute(RequestContext $requestContext)
     {
-        $requestContext->setView('page-reports.php');
-        if($requestContext->fieldIsSet('submit'))
-        {
-            $this->doSubmit($requestContext);
-        }
-    }
+        $approved_reports = Report::getMapper('Report')->findByStatus(Report::STATUS_APPROVED);
 
-    private function doSubmit(RequestContext $requestContext)
-    {
-        //TODO implement actual report processing algorithm
+        $data = array();
+        $data['reports'] = $approved_reports;
+
+        $requestContext->setResponseData($data);
+        $requestContext->setView('page-reports.php');
     }
 }
