@@ -26,6 +26,10 @@ class Post extends DomainObject
     private $last_update;
     private $status;
 
+    const TYPE_POST = 'post';
+    const TYPE_PAGE = 'page';
+    const TYPE_NEWS = 'news';
+
     private $states = array('Deleted'=>0, 'Published'=>1, 'Draft'=>2);
 
     public function __construct($id=null)

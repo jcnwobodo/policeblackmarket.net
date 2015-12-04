@@ -18,28 +18,16 @@ class PostMapper extends Mapper
     public function __construct()
     {
         parent::__construct();
-        $this->selectStmt = self::$PDO->prepare(
-            "SELECT * FROM site_posts WHERE id=?");
-        $this->selectAllStmt = self::$PDO->prepare(
-            "SELECT * FROM site_posts ORDER BY id DESC;");
-        $this->selectByTypeStmt = self::$PDO->prepare(
-            "SELECT * FROM site_posts WHERE post_type=? ORDER BY id DESC;");
-        $this->selectByPamalinkStmt = self::$PDO->prepare(
-            "SELECT * FROM site_posts WHERE guid=?");
-        $this->selectByCategoryStmt = self::$PDO->prepare(
-            "SELECT * FROM site_posts WHERE category=? ORDER BY id DESC;");
-        $this->selectByAuthorStmt = self::$PDO->prepare(
-            "SELECT * FROM site_posts WHERE author=? ORDER BY id DESC;");
-        $this->selectByStatusStmt = self::$PDO->prepare(
-            "SELECT * FROM site_posts WHERE status=? ORDER BY id DESC;");
-        $this->updateStmt = self::$PDO->prepare(
-            "UPDATE site_posts SET post_type=?, guid=?, title=?, content=?, featured_image=?, category=?,
-author=?, date_created=?,last_update=?, status=? WHERE id=?");
-        $this->insertStmt = self::$PDO->prepare(
-            "INSERT INTO site_posts (post_type,guid,title,content,featured_image,category,
-author,date_created,last_update,status)VALUES(?,?,?,?,?,?,?,?,?,?)");
-        $this->deleteStmt = self::$PDO->prepare(
-            "DELETE FROM site_posts WHERE id=?");
+        $this->selectStmt = self::$PDO->prepare("SELECT * FROM site_posts WHERE id=?");
+        $this->selectAllStmt = self::$PDO->prepare("SELECT * FROM site_posts ORDER BY id DESC;");
+        $this->selectByTypeStmt = self::$PDO->prepare("SELECT * FROM site_posts WHERE post_type=? ORDER BY id DESC;");
+        $this->selectByPamalinkStmt = self::$PDO->prepare("SELECT * FROM site_posts WHERE guid=?");
+        $this->selectByCategoryStmt = self::$PDO->prepare("SELECT * FROM site_posts WHERE category=? ORDER BY id DESC;");
+        $this->selectByAuthorStmt = self::$PDO->prepare("SELECT * FROM site_posts WHERE author=? ORDER BY id DESC;");
+        $this->selectByStatusStmt = self::$PDO->prepare("SELECT * FROM site_posts WHERE status=? ORDER BY id DESC;");
+        $this->updateStmt = self::$PDO->prepare("UPDATE site_posts SET post_type=?, guid=?, title=?, content=?, excerpt=?, featured_image=?, category=?, author=?, date_created=?, last_update=?, status=? WHERE id=?");
+        $this->insertStmt = self::$PDO->prepare("INSERT INTO site_posts (post_type,guid,title,content,excerpt,featured_image,category, author,date_created,last_update,status)VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+        $this->deleteStmt = self::$PDO->prepare("DELETE FROM site_posts WHERE id=?");
     }
 
     public function findByType($post_type)
@@ -94,6 +82,7 @@ author,date_created,last_update,status)VALUES(?,?,?,?,?,?,?,?,?,?)");
         $object->setGuid($array['guid']);
         $object->setTitle($array['title']);
         $object->setContent($array['content']);
+        $object->setExcerpt($array['excerpt']);
 
         //featured image
         $post_featured_image = Models\Upload::getMapper("Upload")->find($array['featured_image']);
