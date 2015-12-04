@@ -210,6 +210,13 @@ class Report extends DomainObject
         return $this;
     }
 
+    public function getLocation()
+    {
+        return $this->location_district->getLocationName().
+            ', '.$this->location_lga->getLocationName().
+            ', '.$this->location_state->getLocationName();
+    }
+
     /**
      * @return mixed
      */

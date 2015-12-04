@@ -21,6 +21,9 @@ class Comment extends DomainObject
     private $content;
     private $status;
 
+    const COMMENT_TYPE_POST = 'post';
+    const COMMENT_TYPE_REPORT = 'report';
+
     public function __construct($id=null)
     {
         parent::__construct($id);
