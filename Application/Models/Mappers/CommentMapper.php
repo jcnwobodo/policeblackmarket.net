@@ -25,6 +25,7 @@ class CommentMapper extends Mapper
         $this->updateStmt = self::$PDO->prepare("UPDATE site_comments set parent=?, post_id=?, comment_author=?, comment_time=?, comment_type=?, content=?, status=? WHERE id=?");
         $this->insertStmt = self::$PDO->prepare("INSERT INTO site_comments (parent, post_id, comment_author, comment_time, comment_type, content, status) VALUES (?,?,?,?,?,?,?)");
         $this->deleteStmt = self::$PDO->prepare("DELETE FROM site_comments WHERE id=?");
+        $this->deleteByPostStmt = self::$PDO->prepare("DELETE FROM site_comments WHERE post_id=?");
     }
 
     public function findByPost($post_id)
@@ -39,6 +40,12 @@ class CommentMapper extends Mapper
         $this->selectByStatusStmt->execute( array($status) );
         $raw_data = $this->selectByStatusStmt->fetchAll(\PDO::FETCH_ASSOC);
         return $this->getCollection( $raw_data );
+    }
+
+    public function deleteByPostId($post_id)
+    {
+        $values = array( $post_id );
+        $this->deleteByPostStmt->execute( $values );
     }
 
     protected function targetClass()
