@@ -98,8 +98,8 @@ class DomainObjectWatcher
         if(is_object($object))
         {
             $object->mapper()->delete( $object );
-            $key = array_keys($array, $object);
-            unset($this->all[ $key[0] ]);
+            $key = $this->globalKey($object);
+            if(isset($this->all[ $key ])) unset($this->all[ $key ]);
             $this->processDeletedObjects($array);
         }
     }
