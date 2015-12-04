@@ -15,13 +15,15 @@ class PostsCommand extends Command
 {
     protected function doExecute(RequestContext $requestContext)
     {
-        $data = $requestContext->getResponseData();
-        $post_type = $data->getPostType();
-        $possible_view1 = $post_type == 'page' ? 'page-view.php' : 'post-view.php';
+        $data = array();
+        $data['post'] = $requestContext->getResponseData();
+        $post_type = $data['post']->getPostType();
+        $possible_view1 = $post_type == 'page' ? 'page-view.php' : 'page-news-single.php';
         $possible_views = array('single.php', $possible_view1);
         foreach($possible_views as $possible_view)
         {
             if($requestContext->viewExists($possible_view)) $requestContext->setView($possible_view);
         }
+        $requestContext->setResponseData($data);
     }
 }
