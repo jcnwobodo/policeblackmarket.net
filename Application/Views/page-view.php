@@ -7,21 +7,19 @@
  * Time:    12:08 PM
  **/
 
+$requestContest = \System\Request\RequestContext::instance();
+$data = $requestContest->getResponseData();
+$post = $data['post'];
+
 require_once("header.php");
 ?>
 <div class="row full-padding-top full-padding-bottom">
-    <div class="col-md-8">
-        <div class="">
-            <h3>Main Heading</h3>
-            <p class="text-left lead">
-                some content
-            </p>
-            <p class="text-justify">
-                more text
-            </p>
-        </div>
+    <div class="col-md-8 col-md-offset-1">
+        <h3 class="page-header"><?= $post->getTitle(); ?></h3>
+        <p class="text-left lead"><?= $post->getExcerpt(); ?></p>
+        <p class="text-justify"><?= $post->getContent(); ?></p>
     </div>
-    <div class="col-md-3 col-md-offset-1">
+    <div class="col-md-3">
         <?php include_once("includes/social-connect.php"); ?>
     </div>
 </div>
