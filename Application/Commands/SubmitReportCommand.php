@@ -90,7 +90,7 @@ class SubmitReportCommand extends Command
             }
 
             $report = new Report();
-            $report->setTitle($title)->setDescription($description)->setEventTime($event_time)->setReportTime($report_time);
+            $report->setTitle($title)->setDescription(format_text($description))->setEventTime($event_time)->setReportTime($report_time);
             $report->setCategories($report_categories);
             $report->setLocationState($location_state)->setLocationLga($location_lga)->setLocationDistrict($location_district)->setLocationScene($location_scene);
             $report->setNewsSources($evidence_news)->setVideoLinks($evidence_video);
