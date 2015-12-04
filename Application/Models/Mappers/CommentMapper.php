@@ -20,10 +20,18 @@ class CommentMapper extends Mapper
         parent::__construct();
         $this->selectStmt = self::$PDO->prepare("SELECT * FROM site_comments WHERE id=?");
         $this->selectAllStmt = self::$PDO->prepare("SELECT * FROM site_comments");
+        $this->selectByPostStmt = self::$PDO->prepare("SELECT * FROM site_comments WHERE post_id=?");
         $this->selectByStatusStmt = self::$PDO->prepare("SELECT * FROM site_comments WHERE status=?");
         $this->updateStmt = self::$PDO->prepare("UPDATE site_comments set parent=?, post_id=?, comment_author=?, comment_time=?, comment_type=?, content=?, status=? WHERE id=?");
         $this->insertStmt = self::$PDO->prepare("INSERT INTO site_comments (parent, post_id, comment_author, comment_time, comment_type, content, status) VALUES (?,?,?,?,?,?,?)");
         $this->deleteStmt = self::$PDO->prepare("DELETE FROM site_comments WHERE id=?");
+    }
+
+    public function findByPost($post_id)
+    {
+        $this->selectByPostStmt->execute( array($post_id) );
+        $raw_data = $this->selectByPostStmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $this->getCollection( $raw_data );
     }
 
     public function findByStatus($status)
@@ -50,7 +58,8 @@ class CommentMapper extends Mapper
         $parent = $this->find($array['parent']);
         if(! is_null($parent)) $object->setParent($parent);
         $object->setPostId($array['post_id']);
-        $object->setCommentAuthor($array['comment_author']);
+        $author = Models\User::getMapper('User')->find($array['comment_author']);
+        if(is_object($author)) $object->setCommentAuthor($author);
         $object->setCommentTime(DateTime::getDateTimeObjFromInt($array['comment_time']));
         $object->setCommentType($array['comment_type']);
         $object->setContent($array['content']);
@@ -65,7 +74,7 @@ class CommentMapper extends Mapper
         $values = array(
             $parent_id,
             $object->getPostId(),
-            $object->getCommentAuthor(),
+            $object->getCommentAuthor()->getId(),
             $object->getCommentTime()->getDateTimeInt(),
             $object->getCommentType(),
             $object->getContent(),
