@@ -17,7 +17,7 @@ require_once("header.php");
     require_once("sidebar.php");
     ?>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <h1 class="page-header">Manage Reports</h1>
+        <h1 class="page-header">Moderate Comments</h1>
         <div class="btn-group pull-right">
             <a href="<?php home_url('/'.$rc->getRequestUrlParam(0).'/'.$rc->getRequestUrlParam(1).'/?status=approved'); ?>" class="btn btn-success">Approved</a>
             <a href="<?php home_url('/'.$rc->getRequestUrlParam(0).'/'.$rc->getRequestUrlParam(1).'/?status=pending'); ?>" class="btn btn-primary">Pending</a>
@@ -26,7 +26,7 @@ require_once("header.php");
 
 
         <?php
-        if(is_object($data['reports']) and $data['reports']->size())
+        if(is_object($data['comments']) and $data['comments']->size())
         {
             ?>
             <form method="post">
@@ -34,28 +34,32 @@ require_once("header.php");
                     <table class="table table-stripped table-bordered table-hover full-margin-top">
                         <thead>
                         <tr>
-                            <td colspan="5" class="lead"><?= ucwords($data['status']); ?> Reports</td>
+                            <td colspan="3" class="lead"><?= ucwords($data['status']); ?> Reports' Comments</td>
                         </tr>
                         <tr>
                             <td>SN</td>
-                            <td>Title</td>
-                            <td>Date/Time</td>
-                            <td>Location</td>
+                            <td>Comment Details</td>
                             <td>&hellip;</td>
                         </tr>
                         </thead>
                         <tbody>
                         <?php
                         $sn = 0;
-                        foreach($data['reports'] as $report)
+                        foreach($data['comments'] as $comment)
                         {
                             ?>
                             <tr>
                                 <td><?= ++$sn; ?></td>
-                                <td><?= $report->getTitle(); ?></td>
-                                <td><?= $report->getEventTime()->getDateTimeStr(); ?></td>
-                                <td><?= $report->getLocationDistrict()->getLocationName().", ".$report->getLocationLga()->getLocationName().", ".$report->getLocationState()->getLocationName(); ?></td>
-                                <td><input type="checkbox" name="report-ids[]" value="<?= $report->getId(); ?>"></td>
+                                <td>
+                                    <p>
+                                        <span class="glyphicon glyphicon-user"></span> <?= $comment->getCommentAuthor()->getFirstName().' ('.$comment->getCommentAuthor()->getEmail().')'; ?>
+                                         <span class="glyphicon glyphicon-calendar"></span> <?= $comment->getCommentTime()->getDateTimeStr(); ?>
+                                    </p>
+                                    <p>
+                                        <?= $comment->getContent(); ?>
+                                    </p>
+                                </td>
+                                <td><input type="checkbox" name="comment-ids[]" value="<?= $comment->getId(); ?>"></td>
                             </tr>
                             <?php
                         }

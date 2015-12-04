@@ -122,4 +122,74 @@ class AdminAreaCommand extends SecureCommand
         $requestContext->setResponseData($data);
         $requestContext->setView('admin/manage-reports.php');
     }
+
+    protected function ManageComments(RequestContext $requestContext)
+    {
+        $status = $requestContext->fieldIsSet('status') ? $requestContext->getField('status') : 'pending';
+        $action = $requestContext->fieldIsSet('action') ? $requestContext->getField('action') : null;
+        $comment_ids = $requestContext->fieldIsSet('comment-ids') ? $requestContext->getField('comment-ids') : array();
+
+        switch(strtolower($action))
+        {
+            case 'approve' : {
+                foreach($comment_ids as $comment_id)
+                {
+                    $comment_obj = Comment::getMapper('Comment')->find($comment_id);
+                    if(is_object($comment_obj)) $comment_obj->setStatus(Comment::STATUS_APPROVED);
+                }
+            } break;
+            case 'delete' : {
+                foreach($comment_ids as $comment_id)
+                {
+                    $comment_obj = Comment::getMapper('Comment')->find($comment_id);
+                    if(is_object($comment_obj)) $comment_obj->setStatus(Comment::STATUS_DELETED);
+                }
+            } break;
+            case 'disapprove' : {
+                foreach($comment_ids as $comment_id)
+                {
+                    $comment_obj = Comment::getMapper('Comment')->find($comment_id);
+                    if(is_object($comment_obj)) $comment_obj->setStatus(Comment::STATUS_PENDING);
+                }
+            } break;
+            case 'restore' : {
+                foreach($comment_ids as $comment_id)
+                {
+                    $comment_obj = Comment::getMapper('Comment')->find($comment_id);
+                    if(is_object($comment_obj)) $comment_obj->setStatus(Comment::STATUS_APPROVED);
+                }
+            } break;
+            case 'delete permanently' : {
+                foreach($comment_ids as $comment_id)
+                {
+                    $comment_obj = Comment::getMapper('Comment')->find($comment_id);
+                    if(is_object($comment_obj)) $comment_obj->markDelete();
+                }
+            } break;
+            default : {}
+        }
+        DomainObjectWatcher::instance()->performOperations();
+
+        switch($status)
+        {
+            case 'pending' : {
+                $comments = Comment::getMapper('Comment')->findByStatus(Comment::STATUS_PENDING);
+            } break;
+            case 'approved' : {
+                $comments = Comment::getMapper('Comment')->findByStatus(Comment::STATUS_APPROVED);
+            } break;
+            case 'deleted' : {
+                $comments = Comment::getMapper('Comment')->findByStatus(Comment::STATUS_DELETED);
+            } break;
+            default : {
+                $comments = Comment::getMapper('Comment')->findAll();
+            }
+        }
+
+        $data = array();
+        $data['status'] = $status;
+        $data['comments'] = $comments;
+        $requestContext->setResponseData($data);
+        $requestContext->setView('admin/manage-comments.php');
+    }
 }

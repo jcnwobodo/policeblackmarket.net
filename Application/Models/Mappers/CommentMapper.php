@@ -98,7 +98,7 @@ class CommentMapper extends Mapper
         $values = array(
             $parent_id,
             $object->getPostId(),
-            $object->getCommentAuthor(),
+            $object->getCommentAuthor()->getId(),
             $object->getCommentTime()->getDateTimeInt(),
             $object->getCommentType(),
             $object->getContent(),
