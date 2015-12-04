@@ -16,3 +16,11 @@ function recursive_implode($glue, $pieces)
     }
     return implode($glue, $build);
 }
+
+function format_text($text)
+{
+    $paragraphs = explode("\n", $text);
+    $formatted = '<p>'.implode('</p><p>', $paragraphs).'</p>';
+
+    return $formatted;
+}
