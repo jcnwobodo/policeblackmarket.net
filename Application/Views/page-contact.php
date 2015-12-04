@@ -11,9 +11,9 @@ $response_data = \System\Request\RequestContext::instance()->getResponseData();
 include_once('header.php');
 ?>
     <form>
-        <div class="row">
+        <div class="row full-margin-bottom">
             <div class="col-md-10 col-md-offset-1 height-90vh">
-                <div class="lead"><h2>Get in touch with us</h2></div>
+                <h2 class="page-header">Get in touch with us</h2>
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-3">
@@ -69,12 +69,10 @@ include_once('header.php');
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-9 col-md-offset-3">
-                            <input name="send" id="send" type="submit" value="Send Message" class="btn btn-primary"/>
-                        </div>
-                    </div>
+                <div class="btn-group-lg pull-right">
+                    <button name="send" id="send" type="submit" class="btn btn-primary">
+                        Send <span class="glyphicon glyphicon-send"></span>
+                    </button>
                 </div>
             </div>
         </div>

@@ -50,13 +50,13 @@ require_once("header.php");
                         </div>
                         <div class="col-sm-9">
                             <div class="row">
-                                <div class="col-sm-5">
+                                <div class="col-xs-5">
                                     <?= drop_month('report_date[month]', isset($fields['report_date']['month']) ? $fields['report_date']['month'] : null ); ?>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-xs-3">
                                     <?= drop_month_days('report_date[day]', isset($fields['report_date']['day']) ? $fields['report_date']['day'] : null ); ?>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-xs-4">
                                     <?= drop_years('report_date[year]', isset($fields['report_date']['year']) ? $fields['report_date']['year'] : null ); ?>
                                 </div>
                             </div>
@@ -70,13 +70,13 @@ require_once("header.php");
                         </div>
                         <div class="col-sm-9">
                             <div class="row">
-                                <div class="col-sm-4">
+                                <div class="col-xs-4">
                                     <?= drop_hours('report_time[hour]', isset($fields['report_time']['hour']) ? $fields['report_time']['hour'] : null); ?>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-xs-4">
                                     <?= drop_minutes('report_time[minute]', isset($fields['report_time']['minute']) ? $fields['report_time']['minute'] : null); ?>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-xs-4">
                                     <?= drop_AmPM('report_time[am_pm]',  isset($fields['report_time']['am_pm']) ? $fields['report_time']['am_pm'] : date('A')); ?>
                                 </div>
                             </div>
@@ -270,7 +270,9 @@ require_once("header.php");
             </fieldset>
 
             <div class="btn-group pull-right">
-                    <input name="submit" id="submit-but" type="submit" value="SUBMIT REPORT" class="form-control btn-primary">
+                    <button name="submit" id="submit-but" type="submit" class="btn btn-primary">
+                        Submit Report <span class="glyphicon glyphicon-send"></span>
+                    </button>
             </div>
         </div>
     </form>
