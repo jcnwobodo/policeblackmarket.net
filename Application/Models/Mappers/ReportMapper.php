@@ -114,6 +114,7 @@ class ReportMapper extends Mapper
     {
         $values = array($object->getId());
         $this->deleteReportMeta($object);
+        $this->deleteReportComments($object);
         $this->deleteStmt->execute($values);
     }
 
@@ -140,6 +141,11 @@ class ReportMapper extends Mapper
     {
         $report_meta_mapper = MapperRegistry::getMapper('ReportMeta');
         $report_meta_mapper->deleteAllReportMeta($report);
+    }
+    public function deleteReportComments(Models\Report $report)
+    {
+        $comment_mapper = MapperRegistry::getMapper('Comment');
+        $comment_mapper->deleteByPostId($report->getId());
     }
     public function updateReportMeta(Models\Report $report)
     {

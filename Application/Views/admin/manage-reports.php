@@ -83,6 +83,7 @@ require_once("header.php");
                         case 'deleted' : {
                             ?>
                             <input name="action" type="submit" class="btn btn-success" value="Restore">
+                            <input name="action" type="submit" class="btn btn-danger" value="Delete Permanently">
                             <?php
                         } break;
                         default : {

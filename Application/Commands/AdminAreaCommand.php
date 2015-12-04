@@ -89,6 +89,13 @@ class AdminAreaCommand extends SecureCommand
                     if(is_object($report_obj)) $report_obj->setStatus(Report::STATUS_APPROVED);
                 }
             } break;
+            case 'delete permanently' : {
+                foreach($reports_ids as $reports_id)
+                {
+                    $report_obj = Report::getMapper('Report')->find($reports_id);
+                    if(is_object($report_obj)) $report_obj->markDelete();
+                }
+            } break;
             default : {}
         }
         DomainObjectWatcher::instance()->performOperations();
