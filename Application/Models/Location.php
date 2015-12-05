@@ -20,6 +20,10 @@ class Location extends DomainObject
     private $longitude;
     private $status;
 
+    const TYPE_STATE = 'state';
+    const TYPE_LGA = 'lga';
+    const TYPE_DISTRICT = 'district';
+
     public function __construct($id=null)
     {
         parent::__construct($id);

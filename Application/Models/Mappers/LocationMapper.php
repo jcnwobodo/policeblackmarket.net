@@ -21,6 +21,7 @@ class LocationMapper extends Mapper
         $this->selectAllStmt = self::$PDO->prepare("SELECT * FROM site_locations");
         $this->selectByTypeStmt = self::$PDO->prepare("SELECT * FROM site_locations WHERE location_type=?");
         $this->selectByStatusStmt = self::$PDO->prepare("SELECT * FROM site_locations WHERE status=?");
+        $this->selectTypeByStatusStmt = self::$PDO->prepare("SELECT * FROM site_locations WHERE location_type=? AND status=?");
         $this->updateStmt = self::$PDO->prepare("UPDATE site_locations set parent=?, location_name=?, slogan=?, location_type=?, latitude=?, longitude=?, status=? WHERE id=?");
         $this->insertStmt = self::$PDO->prepare("INSERT INTO site_locations (parent, location_name, slogan, location_type, latitude, longitude, status) VALUES (?,?,?,?,?,?,?)");
         $this->deleteStmt = self::$PDO->prepare("DELETE FROM site_locations WHERE id=?");
@@ -37,6 +38,13 @@ class LocationMapper extends Mapper
     {
         $this->selectByStatusStmt->execute( array($status) );
         $raw_data = $this->selectByStatusStmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $this->getCollection( $raw_data );
+    }
+
+    public function findTypeByStatus($type, $status)
+    {
+        $this->selectTypeByStatusStmt->execute( array($type, $status) );
+        $raw_data = $this->selectTypeByStatusStmt->fetchAll(\PDO::FETCH_ASSOC);
         return $this->getCollection( $raw_data );
     }
 
