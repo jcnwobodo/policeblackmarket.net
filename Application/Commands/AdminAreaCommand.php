@@ -192,4 +192,76 @@ class AdminAreaCommand extends SecureCommand
         $requestContext->setResponseData($data);
         $requestContext->setView('admin/manage-comments.php');
     }
+
+    protected function ManageLocations(RequestContext $requestContext)
+    {
+        $type = $requestContext->fieldIsSet('type') ? $requestContext->getField('type') : 'district';
+        $status = $requestContext->fieldIsSet('status') ? $requestContext->getField('status') : 'pending';
+        $action = $requestContext->fieldIsSet('action') ? $requestContext->getField('action') : null;
+        $location_ids = $requestContext->fieldIsSet('location-ids') ? $requestContext->getField('location-ids') : array();
+
+        switch(strtolower($action))
+        {
+            case 'approve' : {
+                foreach($location_ids as $location_id)
+                {
+                    $location_obj = Location::getMapper('Location')->find($location_id);
+                    if(is_object($location_obj)) $location_obj->setStatus(Location::STATUS_APPROVED);
+                }
+            } break;
+            case 'delete' : {
+                foreach($location_ids as $location_id)
+                {
+                    $location_obj = Location::getMapper('Location')->find($location_id);
+                    if(is_object($location_obj)) $location_obj->setStatus(Location::STATUS_DELETED);
+                }
+            } break;
+            case 'disapprove' : {
+                foreach($location_ids as $location_id)
+                {
+                    $location_obj = Location::getMapper('Location')->find($location_id);
+                    if(is_object($location_obj)) $location_obj->setStatus(Location::STATUS_PENDING);
+                }
+            } break;
+            case 'restore' : {
+                foreach($location_ids as $location_id)
+                {
+                    $location_obj = Location::getMapper('Location')->find($location_id);
+                    if(is_object($location_obj)) $location_obj->setStatus(Location::STATUS_APPROVED);
+                }
+            } break;
+            case 'delete permanently' : {
+                foreach($location_ids as $location_id)
+                {
+                    $location_obj = Location::getMapper('Location')->find($location_id);
+                    if(is_object($location_obj)) $location_obj->markDelete();
+                }
+            } break;
+            default : {}
+        }
+        DomainObjectWatcher::instance()->performOperations();
+
+        switch($status)
+        {
+            case 'pending' : {
+                $locations = Location::getMapper('Location')->findTypeByStatus($type, Location::STATUS_PENDING);
+            } break;
+            case 'approved' : {
+                $locations = Location::getMapper('Location')->findTypeByStatus($type, Location::STATUS_APPROVED);
+            } break;
+            case 'deleted' : {
+                $locations = Location::getMapper('Location')->findTypeByStatus($type, Location::STATUS_DELETED);
+            } break;
+            default : {
+                $locations = Location::getMapper('Location')->findAll();
+            }
+        }
+
+        $data = array();
+        $data['type'] = $type;
+        $data['status'] = $status;
+        $data['locations'] = $locations;
+        $requestContext->setResponseData($data);
+        $requestContext->setView('admin/manage-locations.php');
+    }
 }
