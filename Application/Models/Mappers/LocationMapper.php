@@ -18,10 +18,10 @@ class LocationMapper extends Mapper
     {
         parent::__construct();
         $this->selectStmt = self::$PDO->prepare("SELECT * FROM site_locations WHERE id=?");
-        $this->selectAllStmt = self::$PDO->prepare("SELECT * FROM site_locations");
-        $this->selectByTypeStmt = self::$PDO->prepare("SELECT * FROM site_locations WHERE location_type=?");
+        $this->selectAllStmt = self::$PDO->prepare("SELECT * FROM site_locations ORDER BY location_type, location_name");
+        $this->selectByTypeStmt = self::$PDO->prepare("SELECT * FROM site_locations WHERE location_type=? ORDER BY location_name");
         $this->selectByStatusStmt = self::$PDO->prepare("SELECT * FROM site_locations WHERE status=?");
-        $this->selectTypeByStatusStmt = self::$PDO->prepare("SELECT * FROM site_locations WHERE location_type=? AND status=?");
+        $this->selectTypeByStatusStmt = self::$PDO->prepare("SELECT * FROM site_locations WHERE location_type=? AND status=? ORDER BY location_name");
         $this->updateStmt = self::$PDO->prepare("UPDATE site_locations set parent=?, location_name=?, slogan=?, location_type=?, latitude=?, longitude=?, status=? WHERE id=?");
         $this->insertStmt = self::$PDO->prepare("INSERT INTO site_locations (parent, location_name, slogan, location_type, latitude, longitude, status) VALUES (?,?,?,?,?,?,?)");
         $this->deleteStmt = self::$PDO->prepare("DELETE FROM site_locations WHERE id=?");
