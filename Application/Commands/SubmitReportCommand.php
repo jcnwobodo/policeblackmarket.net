@@ -22,10 +22,10 @@ class SubmitReportCommand extends Command
     protected function doExecute(RequestContext $requestContext)
     {
         $data = array();
-        $data['categories'] = Category::getMapper('Category')->findByType('report');
-        $data['location-states'] = Location::getMapper('Location')->findByType('state');
-        $data['location-lgas'] = Location::getMapper('Location')->findByType('lga');
-        $data['location-districts'] = Location::getMapper('Location')->findByType('district');
+        $data['categories'] = Category::getMapper('Category')->findTypeByStatus(Category::TYPE_REPORT, Category::STATUS_APPROVED);
+        $data['location-states'] = Location::getMapper('Location')->findTypeByStatus(Location::TYPE_STATE, Location::STATUS_APPROVED);
+        $data['location-lgas'] = Location::getMapper('Location')->findTypeByStatus(Location::TYPE_LGA, Location::STATUS_APPROVED);
+        $data['location-districts'] = Location::getMapper('Location')->findTypeByStatus(Location::TYPE_DISTRICT, Location::STATUS_APPROVED);
         $data['page-title'] = "Submit Report";
 
         $requestContext->setView('page-submit-report.php');
