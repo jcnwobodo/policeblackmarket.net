@@ -196,7 +196,7 @@ class AdminAreaCommand extends SecureCommand
     protected function ManageLocations(RequestContext $requestContext)
     {
         $type = $requestContext->fieldIsSet('type') ? $requestContext->getField('type') : 'district';
-        $status = $requestContext->fieldIsSet('status') ? $requestContext->getField('status') : 'pending';
+        $status = $requestContext->fieldIsSet('status') ? $requestContext->getField('status') : 'approved';
         $action = $requestContext->fieldIsSet('action') ? $requestContext->getField('action') : null;
         $location_ids = $requestContext->fieldIsSet('location-ids') ? $requestContext->getField('location-ids') : array();
 
@@ -263,5 +263,116 @@ class AdminAreaCommand extends SecureCommand
         $data['locations'] = $locations;
         $requestContext->setResponseData($data);
         $requestContext->setView('admin/manage-locations.php');
+    }
+
+    protected function AddLocation(RequestContext $requestContext)
+    {
+        $data = array();
+        $types = array('state', 'lga', 'district');
+        $type = ( $requestContext->fieldIsSet('type') && in_array($requestContext->getField('type'), $types)) ? $requestContext->getField('type') : 'district';
+        $data['type'] = $type;
+
+        $fields = $requestContext->getAllFields();
+        switch(strtolower($type))
+        {
+            case(Location::TYPE_STATE) : {
+                if($requestContext->fieldIsSet('add'))
+                {
+                    //process state-add request
+                    $name = $fields['location-name'];
+                    $slogan = $fields['location-slogan'];
+                    $latitude = $fields['location-coordinates']['latitude'];
+                    $longitude = $fields['location-coordinates']['longitude'];
+
+                    if(strlen($name) and strlen($slogan) and is_numeric($latitude) and is_numeric($longitude))
+                    {
+                        $new_location = new Location();
+                        $new_location->setLocationName($name);
+                        $new_location->setSlogan($slogan);
+                        $new_location->setLatitude($latitude);
+                        $new_location->setLongitude($longitude);
+                        $new_location->setLocationType(Location::TYPE_STATE);
+                        $new_location->setStatus(Location::STATUS_APPROVED);
+
+                        $requestContext->setFlashData("{$name} state added successfully");
+                        $data['status'] = 1;
+                    }else{
+                        $requestContext->setFlashData('Mandatory fields not set');
+                        $data['status'] = 0;
+                    }
+                }
+            } break;
+            case(Location::TYPE_LGA) : {
+                $all_states = Location::getMapper('Location')->findTypeByStatus(Location::TYPE_STATE, Location::STATUS_APPROVED);
+                $data['states'] = $all_states;
+
+                if($requestContext->fieldIsSet('add'))
+                {
+                    //process LGA-add request
+                    $name = $fields['location-name'];
+                    $slogan = $fields['location-slogan'];
+                    $parent_state = Location::getMapper('Location')->find($fields['parent-state']);
+                    $latitude = $fields['location-coordinates']['latitude'];
+                    $longitude = $fields['location-coordinates']['longitude'];
+
+                    if(strlen($name) and is_object($parent_state) and is_numeric($latitude) and is_numeric($longitude))
+                    {
+                        $new_location = new Location();
+                        $new_location->setParent($parent_state);
+                        $new_location->setLocationName($name);
+                        $new_location->setSlogan($slogan);
+                        $new_location->setLatitude($latitude);
+                        $new_location->setLongitude($longitude);
+                        $new_location->setLocationType(Location::TYPE_LGA);
+                        $new_location->setStatus(Location::STATUS_APPROVED);
+
+                        $requestContext->setFlashData("{$name} LGA added successfully");
+                        $data['status'] = 1;
+                    }else{
+                        $requestContext->setFlashData('Mandatory fields not set');
+                        $data['status'] = 0;
+                    }
+                }
+            } break;
+            case(Location::TYPE_DISTRICT) : {
+                $all_states = Location::getMapper('Location')->findTypeByStatus(Location::TYPE_STATE, Location::STATUS_APPROVED);
+                $all_lgas = Location::getMapper('Location')->findTypeByStatus(Location::TYPE_LGA, Location::STATUS_APPROVED);
+                $data['states'] = $all_states;
+                $data['lgas'] = $all_lgas;
+
+                if($requestContext->fieldIsSet('add'))
+                {
+                    //process District-add request
+                    $name = $fields['location-name'];
+                    $slogan = $fields['location-slogan'];
+                    $parent_state = Location::getMapper('Location')->find($fields['parent-state']);
+                    $parent_lga = Location::getMapper('Location')->find($fields['parent-lga']);
+                    $latitude = $fields['location-coordinates']['latitude'];
+                    $longitude = $fields['location-coordinates']['longitude'];
+
+                    if(strlen($name) and is_object($parent_state) and is_object($parent_lga) and $parent_lga->getParent() == $parent_state and is_numeric($latitude) and is_numeric($longitude))
+                    {
+                        $new_location = new Location();
+                        $new_location->setParent($parent_lga);
+                        $new_location->setLocationName($name);
+                        $new_location->setSlogan($slogan);
+                        $new_location->setLatitude($latitude);
+                        $new_location->setLongitude($longitude);
+                        $new_location->setLocationType(Location::TYPE_DISTRICT);
+                        $new_location->setStatus(Location::STATUS_APPROVED);
+
+                        $requestContext->setFlashData("District '{$name}' added successfully");
+                        $data['status'] = 1;
+                    }else{
+                        $requestContext->setFlashData('Mandatory fields not set');
+                        $data['status'] = 0;
+                    }
+                }
+            }
+        }
+        DomainObjectWatcher::instance()->performOperations();
+
+        $requestContext->setResponseData($data);
+        $requestContext->setView('admin/add-location.php');
     }
 }
