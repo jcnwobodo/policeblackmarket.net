@@ -14,6 +14,7 @@
                     <li><a href="<?php home_url('/legal-notice/'); ?>" class="color2">Legal Notice</a></li>
                     <li><a href="<?php home_url('/about/'); ?>" class="color2">About</a></li>
                     <li><a href="<?php home_url('/terms-of-use/'); ?>" class="color2">Terms of Use</a></li>
+                    <li><a href="<?php home_url('/admin-area/'); ?>" class="color2">Admin Login</a></li>
                 </ul>
             </nav>
         </div>

@@ -9,6 +9,7 @@
 
 namespace Application\Commands;
 
+use Application\Models\Category;
 use System\Models\DomainObjectWatcher;
 use System\Request\RequestContext;
 use Application\Models\User;
@@ -379,5 +380,61 @@ class AdminAreaCommand extends SecureCommand
         $data['page-title'] = "Add Location (".ucwords($type).")";
         $requestContext->setResponseData($data);
         $requestContext->setView('admin/add-location.php');
+    }
+
+    protected function ManageCategories(RequestContext $requestContext)
+    {
+        $type = $requestContext->fieldIsSet('type') ? $requestContext->getField('type') : 'report';
+        $status = $requestContext->fieldIsSet('status') ? $requestContext->getField('status') : 'approved';
+        $action = $requestContext->fieldIsSet('action') ? $requestContext->getField('action') : null;
+        $category_ids = $requestContext->fieldIsSet('category-ids') ? $requestContext->getField('category-ids') : array();
+
+        switch(strtolower($action))
+        {
+            case 'delete' : {
+                foreach($category_ids as $category_id)
+                {
+                    $category_obj = Category::getMapper('Category')->find($category_id);
+                    if(is_object($category_obj)) $category_obj->setStatus(Category::STATUS_DELETED);
+                }
+            } break;
+            case 'restore' : {
+                foreach($category_ids as $category_id)
+                {
+                    $category_obj = Category::getMapper('Category')->find($category_id);
+                    if(is_object($category_obj)) $category_obj->setStatus(Category::STATUS_APPROVED);
+                }
+            } break;
+            case 'delete permanently' : {
+                foreach($category_ids as $category_id)
+                {
+                    $category_obj = Category::getMapper('Category')->find($category_id);
+                    if(is_object($category_obj)) $category_obj->markDelete();
+                }
+            } break;
+            default : {}
+        }
+        DomainObjectWatcher::instance()->performOperations();
+
+        switch($status)
+        {
+            case 'approved' : {
+                $categories = Category::getMapper('Category')->findTypeByStatus($type, Category::STATUS_APPROVED);
+            } break;
+            case 'deleted' : {
+                $categories = Category::getMapper('Category')->findTypeByStatus($type, Category::STATUS_DELETED);
+            } break;
+            default : {
+                $categories = Category::getMapper('Category')->findAll();
+            }
+        }
+
+        $data = array();
+        $data['type'] = $type;
+        $data['status'] = $status;
+        $data['categories'] = $categories;
+        $data['page-title'] = ucwords($status)." Categories (".ucwords($type).")";
+        $requestContext->setResponseData($data);
+        $requestContext->setView('admin/manage-categories.php');
     }
 }
