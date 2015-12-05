@@ -13,14 +13,14 @@ include_once('header.php');
     <form>
         <div class="row full-margin-bottom">
             <div class="col-md-10 col-md-offset-1 height-90vh">
-                <h2 class="page-header">Get in touch with us</h2>
+                <h2 class="page-header"><span class="glyphicon glyphicon-envelope"></span> Get in touch with us</h2>
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-3">
-                            <label for="sender-name">Name</label>
+                            <label for="sender-name"><span class="glyphicon glyphicon-user"></span> Name</label>
                         </div>
                         <div class="col-md-9">
-                            <input name="sender-name" id="sender-name" class="form-control" placeholder="Your Name"/>
+                            <input name="sender-name" id="sender-name" required type="text" class="form-control" placeholder="Your Name"/>
                         </div>
                     </div>
                 </div>
@@ -28,10 +28,10 @@ include_once('header.php');
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-3">
-                            <label for="sender-email">Email Address</label>
+                            <label for="sender-email"><span class="glyphicon glyphicon-envelope"></span> Email Address</label>
                         </div>
                         <div class="col-md-9">
-                            <input name="sender-email" id="sender-email" class="form-control" placeholder="youremail@website.com"/>
+                            <input name="sender-email" id="sender-email" required type="email" class="form-control" placeholder="youremail@website.com"/>
                         </div>
                     </div>
                 </div>
@@ -39,10 +39,10 @@ include_once('header.php');
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-3">
-                            <label for="sender-phone" class="text-nowrap">Mobile Number</label>
+                            <label for="sender-phone" class="text-nowrap"><span class="glyphicon glyphicon-phone"></span> Mobile Number</label>
                         </div>
                         <div class="col-md-9">
-                            <input name="sender-phone" id="sender-phone" class="form-control" placeholder="+234..."/>
+                            <input name="sender-phone" id="sender-phone" required type="tel" class="form-control" placeholder="08012345678"/>
                         </div>
                     </div>
                 </div>
@@ -50,28 +50,17 @@ include_once('header.php');
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-3">
-                            <label for="sender-location">Location</label>
+                            <label for="sender-message"><span class="glyphicon glyphicon-pencil"></span> Message</label>
                         </div>
                         <div class="col-md-9">
-                            <input name="sender-location" id="sender-location" type="text" class="form-control" placeholder="your location"/>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <label for="sender-message">Message</label>
-                        </div>
-                        <div class="col-md-9">
-                            <textarea name="sender-message" id="sender-message" class="form-control height-30vh" placeholder="Your message ..."></textarea>
+                            <textarea name="sender-message" id="sender-message" required class="form-control height-40vh" placeholder="Your message ..."></textarea>
                         </div>
                     </div>
                 </div>
 
                 <div class="btn-group-lg pull-right">
                     <button name="send" id="send" type="submit" class="btn btn-primary">
-                        Send <span class="glyphicon glyphicon-send"></span>
+                        <span class="glyphicon glyphicon-envelope"></span> Send Message
                     </button>
                 </div>
             </div>

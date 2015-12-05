@@ -26,6 +26,7 @@ class SubmitReportCommand extends Command
         $data['location-states'] = Location::getMapper('Location')->findByType('state');
         $data['location-lgas'] = Location::getMapper('Location')->findByType('lga');
         $data['location-districts'] = Location::getMapper('Location')->findByType('district');
+        $data['page-title'] = "Submit Report";
 
         $requestContext->setView('page-submit-report.php');
         $requestContext->setResponseData($data);

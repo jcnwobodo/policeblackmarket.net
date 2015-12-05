@@ -11,9 +11,9 @@ $data = \System\Request\RequestContext::instance()->getResponseData();
 
 require_once("header.php");
 ?>
-    <div class="row full-padding-top full-padding-bottom">
+    <div class="row full-padding-bottom">
         <div class="col-md-7 col-md-offset-1">
-            <h1 class="page-header"><?= site_info('name', false).' Press Room'; ?></h1>
+            <h1 class="page-header"><span class="glyphicon glyphicon-bullhorn"></span> <?= site_info('name', false).' Press Room'; ?></h1>
             <?php
             if(is_object($data['news']) and $data['news']->size())
             {

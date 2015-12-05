@@ -23,6 +23,7 @@ class NewsCommand extends Command
             if(is_object($news_post) and $news_post->getStatus() == Post::STATUS_APPROVED)
             {
                 $data['news'] = $news_post;
+                $data['page-title'] = $news_post->getTitle();
                 $requestContext->setView('page-news-single.php');
                 $requestContext->setResponseData($data);
                 return;
@@ -31,6 +32,7 @@ class NewsCommand extends Command
 
         $published_news = Post::getMapper('Post')->findByType(Post::TYPE_NEWS);
         $data['news'] = $published_news;
+        $data['page-title'] = "News";
         $requestContext->setView('page-news-list.php');
         $requestContext->setResponseData($data);
     }

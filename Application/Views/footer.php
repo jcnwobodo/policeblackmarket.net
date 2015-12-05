@@ -11,13 +11,13 @@
         <div class="col-lg-6 col-md-6">
             <nav role="navigation">
                 <ul class="list-inline">
-                    <li><a href="#">LEGAL NOTICE</a></li>
-                    <li><a href="#">ABOUT</a></li>
-                    <li><a href="#">SITE-MAP</a></li>
+                    <li><a href="<?php home_url('/legal-notice/'); ?>" class="color2">Legal Notice</a></li>
+                    <li><a href="<?php home_url('/about/'); ?>" class="color2">About</a></li>
+                    <li><a href="<?php home_url('/terms-of-use/'); ?>" class="color2">Terms of Use</a></li>
                 </ul>
             </nav>
         </div>
-        <div class="col-lg-6 col-md-6 text-right">
+        <div class="col-lg-6 col-md-6">
             <p>Designed and Developed by J. C. Nwobodo</p>
         </div>
     </div>

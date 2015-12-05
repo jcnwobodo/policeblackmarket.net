@@ -70,6 +70,7 @@ class ReportsCommand extends Command
 
                 $data['reports'] = $report;
                 $data['comments'] = $comments;
+                $data['page-title'] = $report->getTitle();
                 $requestContext->setView('page-reports-single.php');
                 $requestContext->setResponseData($data);
                 return;
@@ -78,6 +79,7 @@ class ReportsCommand extends Command
 
         $approved_reports = Report::getMapper('Report')->findByStatus(Report::STATUS_APPROVED);
         $data['reports'] = $approved_reports;
+        $data['page-title'] = "Reports";
         $requestContext->setView('page-reports-list.php');
         $requestContext->setResponseData($data);
     }

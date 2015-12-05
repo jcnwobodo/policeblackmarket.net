@@ -8,7 +8,7 @@
  */
 
 $site_info = array(
-    'name'                  => "Police Black-market",
+    'name'                  => "Police Black-Market",
     'description'           => "...",
     'motto'                 => "...",
     'contact_email'         => "...",

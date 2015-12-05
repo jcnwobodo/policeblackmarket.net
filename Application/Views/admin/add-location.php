@@ -37,7 +37,7 @@ require_once("header.php");
             <div class="form-group form-group-sm">
                 <div class="row">
                     <div class="col-sm-3">
-                        <label for="location-name">Name of <?= $data['type'];?></label>
+                        <label for="location-name">Name of <?= ucwords($data['type']);?></label>
                     </div>
                     <div class="col-sm-9">
                         <input name="location-name" id="location-name" type="text" class="form-control" required value="<?= isset($fields['location-name']) ? $fields['location-name'] : ''; ?>"/>

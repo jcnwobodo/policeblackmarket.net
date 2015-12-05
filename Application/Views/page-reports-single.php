@@ -53,19 +53,19 @@ require_once("header.php");
                 <div class="form-group form-group-sm">
                     <div class="row">
                         <div class="col-xs-3"><label for="author_name">Name</label></div>
-                        <div class="col-xs-9"><input name="author_name" id="author_name" type="text" class="form-control" placeholder="your name"/></div>
+                        <div class="col-xs-9"><input name="author_name" id="author_name" type="text" class="form-control" placeholder="your name" required/></div>
                     </div>
                 </div>
                 <div class="form-group form-group-sm">
                     <div class="row">
                         <div class="col-xs-3"><label for="author_email">Email</label></div>
-                        <div class="col-xs-9"><input name="author_email" id="author_email" type="text" class="form-control" placeholder="your email address"/></div>
+                        <div class="col-xs-9"><input name="author_email" id="author_email" type="text" class="form-control" placeholder="your-email@domain.com" required/></div>
                     </div>
                 </div>
                 <div class="form-group form-group-sm">
                     <div class="row">
                         <div class="col-sm-3"><label for="author_comment">Comment</label></div>
-                        <div class="col-sm-9"><textarea name="author_comment" id="author_comment" class="form-control height-10vh" placeholder="what's on your mind?"></textarea></div>
+                        <div class="col-sm-9"><textarea name="author_comment" id="author_comment" class="form-control height-10vh" placeholder="what's on your mind?" required></textarea></div>
                     </div>
                 </div>
                 <div class="text-center mid-margin-bottom <?= $data['status'] ? 'text-success bg-success' : 'text-danger bg-danger';?>"><?= $requestContest->getFlashData(); ?></div>

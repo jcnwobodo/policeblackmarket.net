@@ -17,6 +17,7 @@ class PostsCommand extends Command
     {
         $data = array();
         $data['post'] = $requestContext->getResponseData();
+        $data['page-title'] = $data['post']->getTitle();
         $post_type = $data['post']->getPostType();
         $possible_view1 = $post_type == 'page' ? 'page-view.php' : 'page-news-single.php';
         $possible_views = array('single.php', $possible_view1);

@@ -49,6 +49,7 @@ class AdminAreaCommand extends SecureCommand
         $data['num_pending_comments'] = $pending_comments ? $pending_comments->size() : 0;
         $data['num_deleted_comments'] = $deleted_comments ? $deleted_comments->size() : 0;
 
+        $data['page-title'] = "Admin Dashboard";
         $requestContext->setResponseData($data);
         $requestContext->setView('admin/dashboard.php');
     }
@@ -119,6 +120,7 @@ class AdminAreaCommand extends SecureCommand
         $data = array();
         $data['status'] = $status;
         $data['reports'] = $reports;
+        $data['page-title'] = ucwords($status)." Reports";
         $requestContext->setResponseData($data);
         $requestContext->setView('admin/manage-reports.php');
     }
@@ -189,6 +191,7 @@ class AdminAreaCommand extends SecureCommand
         $data = array();
         $data['status'] = $status;
         $data['comments'] = $comments;
+        $data['page-title'] = ucwords($status)." Comments";
         $requestContext->setResponseData($data);
         $requestContext->setView('admin/manage-comments.php');
     }
@@ -261,6 +264,7 @@ class AdminAreaCommand extends SecureCommand
         $data['type'] = $type;
         $data['status'] = $status;
         $data['locations'] = $locations;
+        $data['page-title'] = ucwords($status)." Locations (".ucwords($type).")";
         $requestContext->setResponseData($data);
         $requestContext->setView('admin/manage-locations.php');
     }
@@ -372,6 +376,7 @@ class AdminAreaCommand extends SecureCommand
         }
         DomainObjectWatcher::instance()->performOperations();
 
+        $data['page-title'] = "Add Location (".ucwords($type).")";
         $requestContext->setResponseData($data);
         $requestContext->setView('admin/add-location.php');
     }

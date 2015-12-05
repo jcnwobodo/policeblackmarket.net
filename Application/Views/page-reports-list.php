@@ -13,14 +13,14 @@ require_once("header.php");
 ?>
 <div class="row full-padding-bottom">
     <div class="col-md-10 col-md-offset-1">
-        <h1 class="page-header">Reports</h1>
+        <h1 class="page-header"><span class="glyphicon glyphicon-folder-open"></span> &nbsp;Reports</h1>
         <?php
         if(is_object($data['reports']) and $data['reports']->size())
         {
             foreach($data['reports'] as $report)
             {
                 ?>
-                <div class="full-margin-bottom">
+                <div class="full-margin-bottom border-width-1px border-color1 border-bottom">
                     <div class="row">
                         <div class="col-xs-12 lead"><?= $report->getTitle(); ?></div>
                     </div>

@@ -22,14 +22,14 @@ require_once("header.php");
 <div class="row full-margin-bottom">
     <form method="post">
         <div class="col-md-10 col-md-offset-1 full-margin-top">
-            <h1 class="page-header">Submit Report</h1>
+            <h1 class="page-header"><span class="glyphicon glyphicon-pencil"></span> Write a Report</h1>
             <div class="form-group form-group-sm">
                 <div class="row">
                     <div class="col-sm-2">
                         <label for="report_title">Report Title</label>
                     </div>
                     <div class="col-sm-10">
-                        <input name="report_title" id="report_title" type="text" maxlength="255" class="form-control" value="<?= isset($fields['report_title']) ? $fields['report_title'] : ''; ?>"/>
+                        <input name="report_title" id="report_title" required type="text" maxlength="255" class="form-control" value="<?= isset($fields['report_title']) ? $fields['report_title'] : ''; ?>"/>
                     </div>
                 </div>
             </div>
@@ -38,15 +38,15 @@ require_once("header.php");
 
             <!--report's info-->
             <fieldset>
-                <legend>Report Particulars</legend>
+                <legend><span class="glyphicon glyphicon-flag"></span> Report Particulars</legend>
                 <div class="form-group form-group-sm">
-                    <label for="report_description">Description</label>
-                    <textarea name="report_description" id="report_description" class="form-control height-20vh"><?= isset($fields['report_description']) ? $fields['report_description'] : ''; ?></textarea>
+                    <label for="report_description"><span class="glyphicon glyphicon-edit"></span> Description</label>
+                    <textarea name="report_description" id="report_description" required class="form-control height-50vh"><?= isset($fields['report_description']) ? $fields['report_description'] : ''; ?></textarea>
                 </div>
                 <div class="form-group form-group-sm">
                     <div class="row">
                         <div class="col-sm-3">
-                            <label for="report_date">Date</label>
+                            <label for="report_date"><span class="glyphicon glyphicon-calendar"></span> Date</label>
                         </div>
                         <div class="col-sm-9">
                             <div class="row">
@@ -66,7 +66,7 @@ require_once("header.php");
                 <div class="form-group form-group-sm">
                     <div class="row">
                         <div class="col-sm-3">
-                            <label for="report_time">Time</label>
+                            <label for="report_time"><span class="glyphicon glyphicon-time"></span> Time</label>
                         </div>
                         <div class="col-sm-9">
                             <div class="row">
@@ -86,7 +86,7 @@ require_once("header.php");
                 <div class="form-group form-group-sm">
                     <div class="row">
                         <div class="col-sm-3">
-                            <label for="report_categories">Categories</label>
+                            <label for="report_categories"><span class="glyphicon glyphicon-tags"></span> Categories</label>
                         </div>
                         <div class="col-sm-9">
                             <?php
@@ -106,16 +106,19 @@ require_once("header.php");
                 </div>
             </fieldset>
 
+        </div>
+        <div class="col-md-5">
+
             <!--location-->
             <fieldset>
-                <legend>Location</legend>
+                <legend><span class="glyphicon glyphicon-map-marker"> Location</span></legend>
                 <div class="form-group form-group-sm">
                     <div class="row">
                         <div class="col-sm-3">
                             <label for="location_state">State</label>
                         </div>
                         <div class="col-sm-9">
-                            <select name="location_state" class="form-control" id="location_state">
+                            <select name="location_state" class="form-control" id="location_state" required>
                                 <?php
                                 foreach($location_states as $state)
                                 {
@@ -134,7 +137,7 @@ require_once("header.php");
                             <label for="location_lga" title="Local Government Area">LGA</label>
                         </div>
                         <div class="col-sm-9">
-                            <select name="location_lga" class="form-control" id="location_lga">
+                            <select name="location_lga" class="form-control" id="location_lga" required>
                                 <?php
                                 foreach($location_lgas as $lga)
                                 {
@@ -153,7 +156,7 @@ require_once("header.php");
                             <label for="location_district">District</label>
                         </div>
                         <div class="col-sm-9">
-                            <select name="location_district" class="form-control" id="location_district">
+                            <select name="location_district" class="form-control" id="location_district" required>
                                 <?php
                                 foreach($location_districts as $district)
                                 {
@@ -172,18 +175,35 @@ require_once("header.php");
                             <label for="location_scene">Scene</label>
                         </div>
                         <div class="col-sm-9">
-                            <input name="location_scene" id="location_scene" type="text" maxlength="255" class="form-control" placeholder="e.g. No. 10 New Street, Town-name" value="<?= isset($fields['location_scene']) ? $fields['location_scene'] : ''; ?>"/>
+                            <input name="location_scene" id="location_scene" required type="text" maxlength="255" class="form-control" placeholder="e.g. No. 10 New Street, Town-name" value="<?= isset($fields['location_scene']) ? $fields['location_scene'] : ''; ?>"/>
                         </div>
                     </div>
                 </div>
             </fieldset>
 
-        </div>
-        <div class="col-md-5">
-
             <!--supporting evidences-->
             <fieldset>
-                <legend>Supporting Evidences</legend>
+                <legend><span class="glyphicon glyphicon-paperclip"></span> Supporting Evidences</legend>
+                <div class="form-group form-group-sm">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="evidence_photos1"><span class="glyphicon glyphicon-camera"></span> Photo</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input name="evidence_photos[]" id="evidence_photos1" type="file"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="evidence_video1"><span class="glyphicon glyphicon-facetime-video"></span> Video Link</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input name="evidence_video[]" id="evidence_video1" type="url" class="form-control" placeholder="http://" value="<?= isset($fields['evidence_video'][0]) ? $fields['evidence_video'][0] : ''; ?>"/>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group form-group-sm">
                     <div class="row">
                         <div class="col-sm-3">
@@ -191,34 +211,6 @@ require_once("header.php");
                         </div>
                         <div class="col-sm-9">
                             <input name="evidence_news[]" id="evidence_news1" type="url" class="form-control" placeholder="http://site1.com/item" value="<?= isset($fields['evidence_news'][0]) ? $fields['evidence_news'][0] : ''; ?>"/>
-                            <input name="evidence_news[]" id="evidence_news2" type="url" class="form-control" placeholder="http://site2.com/item" value="<?= isset($fields['evidence_news'][1]) ? $fields['evidence_news'][1] : ''; ?>"/>
-                            <input name="evidence_news[]" id="evidence_news3" type="url" class="form-control" placeholder="http://site3.com/item" value="<?= isset($fields['evidence_news'][2]) ? $fields['evidence_news'][2] : ''; ?>"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group form-group-sm">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label for="evidence_video1">Video Link</label>
-                        </div>
-                        <div class="col-sm-9">
-                            <input name="evidence_video[]" id="evidence_video1" type="url" class="form-control" placeholder="http://" value="<?= isset($fields['evidence_video'][0]) ? $fields['evidence_video'][0] : ''; ?>"/>
-                            <input name="evidence_video[]" id="evidence_video2" type="url" class="form-control" placeholder="http://" value="<?= isset($fields['evidence_video'][1]) ? $fields['evidence_video'][1] : ''; ?>"/>
-                            <input name="evidence_video[]" id="evidence_video3" type="url" class="form-control" placeholder="http://" value="<?= isset($fields['evidence_video'][2]) ? $fields['evidence_video'][2] : ''; ?>"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group form-group-sm">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label for="evidence_photos1">Photos</label>
-                        </div>
-                        <div class="col-sm-9">
-                            <input name="evidence_photos[]" id="evidence_photos1" type="file"/>
-                            <input name="evidence_photos[]" id="evidence_photos2" type="file"/>
-                            <input name="evidence_photos[]" id="evidence_photos3" type="file"/>
-                            <input name="evidence_photos[]" id="evidence_photos4" type="file"/>
-                            <input name="evidence_photos[]" id="evidence_photos5" type="file"/>
                         </div>
                     </div>
                 </div>
@@ -226,14 +218,14 @@ require_once("header.php");
 
             <!--reporter's info-->
             <fieldset>
-                <legend>Reporter's Data</legend>
+                <legend><span class="glyphicon glyphicon-user"></span> Reporter's Data</legend>
                 <div class="form-group form-group-sm">
                     <div class="row">
                         <div class="col-sm-3">
                             <label for="reporter_first-name">First Name</label>
                         </div>
                         <div class="col-sm-9">
-                            <input name="reporter_first-name" id="reporter_first-name" type="text" class="form-control" value="<?= isset($fields['reporter_first-name']) ? $fields['reporter_first-name'] : ''; ?>"/>
+                            <input name="reporter_first-name" id="reporter_first-name" required type="text" class="form-control" value="<?= isset($fields['reporter_first-name']) ? $fields['reporter_first-name'] : ''; ?>"/>
                         </div>
                     </div>
                 </div>
@@ -243,7 +235,7 @@ require_once("header.php");
                             <label for="reporter_last-name">Last Name</label>
                         </div>
                         <div class="col-sm-9">
-                            <input name="reporter_last-name" id="reporter_last-name" type="text" class="form-control" value="<?= isset($fields['reporter_last-name']) ? $fields['reporter_last-name'] : ''; ?>"/>
+                            <input name="reporter_last-name" id="reporter_last-name" required type="text" class="form-control" value="<?= isset($fields['reporter_last-name']) ? $fields['reporter_last-name'] : ''; ?>"/>
                         </div>
                     </div>
                 </div>
@@ -253,7 +245,7 @@ require_once("header.php");
                             <label for="reporter_email">Email Address</label>
                         </div>
                         <div class="col-sm-9">
-                            <input name="reporter_email" id="reporter_email" type="email" class="form-control" value="<?= isset($fields['reporter_email']) ? $fields['reporter_email'] : ''; ?>"/>
+                            <input name="reporter_email" id="reporter_email" required type="email" class="form-control" value="<?= isset($fields['reporter_email']) ? $fields['reporter_email'] : ''; ?>"/>
                         </div>
                     </div>
                 </div>
@@ -263,13 +255,13 @@ require_once("header.php");
                             <label for="reporter_phone">Phone</label>
                         </div>
                         <div class="col-sm-9">
-                            <input name="reporter_phone" id="reporter_phone" type="tel" class="form-control" value="<?= isset($fields['reporter_phone']) ? $fields['reporter_phone'] : ''; ?>">
+                            <input name="reporter_phone" id="reporter_phone" required type="tel" class="form-control" value="<?= isset($fields['reporter_phone']) ? $fields['reporter_phone'] : ''; ?>">
                         </div>
                     </div>
                 </div>
             </fieldset>
 
-            <div class="btn-group pull-right">
+            <div class="btn-group-lg pull-right">
                     <button name="submit" id="submit-but" type="submit" class="btn btn-primary">
                         Submit Report <span class="glyphicon glyphicon-send"></span>
                     </button>

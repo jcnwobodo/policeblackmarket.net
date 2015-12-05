@@ -1,5 +1,6 @@
 <?php
 $rc = \System\Request\RequestContext::instance();
+$page_title = isset($rc->getResponseData()['page-title']) ? $rc->getResponseData()['page-title'] : 'Home';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,9 +10,9 @@ $rc = \System\Request\RequestContext::instance();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="J. C. Nwobodo">
-    <link rel="icon" href="Assets/favicon.ico">
+    <link rel="icon" href="<?php home_url('/Assets/favicon.ico'); ?>">
 
-    <title>Starter Template for Bootstrap</title>
+    <title><?= $page_title; ?> -<?php site_info('name'); ?></title>
 
     <!-- Bootstrap core CSS -->
     <link href="<?php home_url('/Assets/css/style.css'); ?>" type="text/css" rel="stylesheet">
@@ -21,7 +22,7 @@ $rc = \System\Request\RequestContext::instance();
 <nav class="navbar navbar-inverse bg-color1 no-margin text-nowrap" style="border-radius: 0%">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">POLICE BLACK-MARKET</a>
+            <a class="navbar-brand" href="<?php home_url('/'); ?>"><span class="glyphicon glyphicon-eye-close"></span> <?= strtoupper(site_info('name')); ?></a>
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
