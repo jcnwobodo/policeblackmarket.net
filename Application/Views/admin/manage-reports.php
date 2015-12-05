@@ -17,7 +17,7 @@ require_once("header.php");
     require_once("sidebar.php");
     ?>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <h1 class="page-header">Manage Reports</h1>
+        <h3 class="page-header"><span class="glyphicon glyphicon-file"></span> Manage Reports</h3>
         <div class="btn-group pull-right">
             <a href="<?php home_url('/'.$rc->getRequestUrlParam(0).'/'.$rc->getRequestUrlParam(1).'/?status=approved'); ?>" class="btn btn-success">Approved</a>
             <a href="<?php home_url('/'.$rc->getRequestUrlParam(0).'/'.$rc->getRequestUrlParam(1).'/?status=pending'); ?>" class="btn btn-primary">Pending</a>

@@ -17,7 +17,7 @@ require_once("header.php");
     require_once("sidebar.php");
     ?>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <h1 class="page-header">Moderate Comments</h1>
+        <h3 class="page-header"><span class="glyphicon glyphicon-comment"></span> Moderate Comments</h3>
         <div class="btn-group pull-right">
             <a href="<?php home_url('/'.$rc->getRequestUrlParam(0).'/'.$rc->getRequestUrlParam(1).'/?status=approved'); ?>" class="btn btn-success">Approved</a>
             <a href="<?php home_url('/'.$rc->getRequestUrlParam(0).'/'.$rc->getRequestUrlParam(1).'/?status=pending'); ?>" class="btn btn-primary">Pending</a>
@@ -108,7 +108,7 @@ require_once("header.php");
         {
             ?>
             <div class="clear-both text-center text-primary">
-                <p class="lead">There are currently no <?= $data['status']; ?> reports.</p>
+                <p class="lead">There are currently no <?= $data['status']; ?> comments.</p>
             </div>
             <?php
         }
