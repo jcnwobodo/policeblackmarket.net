@@ -17,22 +17,15 @@ class CategoryMapper extends Mapper
     public function __construct()
     {
         parent::__construct();
-        $this->selectStmt = self::$PDO->prepare(
-            "SELECT * FROM site_categories WHERE id=?");
-        $this->selectAllStmt = self::$PDO->prepare(
-            "SELECT * FROM site_categories");
-        $this->selectByPamalinkStmt = self::$PDO->prepare(
-            "SELECT * FROM site_categories WHERE guid=?");
-        $this->selectByParentStmt = self::$PDO->prepare(
-            "SELECT * FROM site_categories WHERE parent=?");
-        $this->selectByTypeStmt = self::$PDO->prepare(
-            "SELECT * FROM site_categories WHERE type=?");
-        $this->updateStmt = self::$PDO->prepare(
-            "UPDATE site_categories set guid=?, parent=?, caption=? WHERE id=?");
-        $this->insertStmt = self::$PDO->prepare(
-            "INSERT INTO site_categories (guid,parent,caption)VALUES(?,?,?)");
-        $this->deleteStmt = self::$PDO->prepare(
-            "DELETE FROM site_categories WHERE id=?");
+        $this->selectStmt = self::$PDO->prepare("SELECT * FROM site_categories WHERE id=?");
+        $this->selectAllStmt = self::$PDO->prepare("SELECT * FROM site_categories");
+        $this->selectByPamalinkStmt = self::$PDO->prepare("SELECT * FROM site_categories WHERE guid=?");
+        $this->selectByParentStmt = self::$PDO->prepare("SELECT * FROM site_categories WHERE parent=? ORDER BY caption");
+        $this->selectByTypeStmt = self::$PDO->prepare("SELECT * FROM site_categories WHERE type=? ORDER BY caption");
+        $this->selectTypeByStatusStmt = self::$PDO->prepare("SELECT * FROM site_categories WHERE type=? AND status=? ORDER BY caption");
+        $this->updateStmt = self::$PDO->prepare("UPDATE site_categories set guid=?, parent=?, caption=?, type=?, status=? WHERE id=?");
+        $this->insertStmt = self::$PDO->prepare("INSERT INTO site_categories (guid,parent,caption,type,staus)VALUES(?,?,?,?,?)");
+        $this->deleteStmt = self::$PDO->prepare("DELETE FROM site_categories WHERE id=?");
     }
 
     public function findByPamalink($pamalink)
@@ -51,6 +44,13 @@ class CategoryMapper extends Mapper
     {
         $this->selectByTypeStmt->execute( array($type) );
         $raw_data = $this->selectByTypeStmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $this->getCollection( $raw_data );
+    }
+
+    public function findTypeByStatus($type, $status)
+    {
+        $this->selectTypeByStatusStmt->execute( array($type, $status) );
+        $raw_data = $this->selectTypeByStatusStmt->fetchAll(\PDO::FETCH_ASSOC);
         return $this->getCollection( $raw_data );
     }
 
@@ -75,6 +75,8 @@ class CategoryMapper extends Mapper
         if( ! is_null($parent_category)) $object->setParent($parent_category);
 
         $object->setCaption($array['caption']);
+        $object->setType($array['type']);
+        $object->setStatus($array['status']);
 
         return $object;
     }
@@ -82,9 +84,11 @@ class CategoryMapper extends Mapper
     protected function doInsert(Models\DomainObject $object )
     {
         $values = array(
-            $object->getPamalink(),
+            $object->getGuid(),
             $object->getParent(),
-            $object->getCaption()
+            $object->getCaption(),
+            $object->getType(),
+            $object->getStatus()
         );
         $this->insertStmt->execute( $values );
         $id = self::$PDO->lastInsertId();
@@ -94,9 +98,11 @@ class CategoryMapper extends Mapper
     protected function doUpdate(Models\DomainObject $object )
     {
         $values = array(
-            $object->getPamalink(),
+            $object->getGuid(),
             $object->getParent(),
             $object->getCaption(),
+            $object->getType(),
+            $object->getStatus(),
             $object->getId()
         );
         $this->updateStmt->execute( $values );

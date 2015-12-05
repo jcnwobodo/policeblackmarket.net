@@ -15,6 +15,10 @@ class Category extends DomainObject
     private $parent;
     private $caption;
     private $type; // report || post
+    private $status;
+
+    const TYPE_POST = 'post';
+    const TYPE_REPORT = 'report';
 
     public function __construct($id=null)
     {
@@ -69,6 +73,25 @@ class Category extends DomainObject
     public function setType($type)
     {
         $this->type = $type;
+        $this->markDirty();
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     * @return Category
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
         $this->markDirty();
         return $this;
     }
