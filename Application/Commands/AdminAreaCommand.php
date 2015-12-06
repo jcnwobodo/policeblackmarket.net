@@ -437,4 +437,77 @@ class AdminAreaCommand extends SecureCommand
         $requestContext->setResponseData($data);
         $requestContext->setView('admin/manage-categories.php');
     }
+
+    protected function AddCategory(RequestContext $requestContext)
+    {
+        $data = array();
+        $types = array('report', 'post');
+        $type = ( $requestContext->fieldIsSet('type') && in_array($requestContext->getField('type'), $types)) ? $requestContext->getField('type') : 'report';
+        $data['type'] = $type;
+
+        $fields = $requestContext->getAllFields();
+        switch(strtolower($type))
+        {
+            case(Category::TYPE_REPORT) : {
+                $existing_categories = Category::getMapper('Category')->findTypeByStatus(Category::TYPE_REPORT, Category::STATUS_APPROVED);
+                $data['categories'] = $existing_categories;
+
+                if($requestContext->fieldIsSet('add'))
+                {
+                    $caption = $fields['category-caption'];
+                    $guid = $fields['category-guid'];
+                    $parent = Category::getMapper('Category')->find($fields['category-parent']);
+
+                    if(strlen($caption) and strlen($guid))
+                    {
+                        $new_category = new Category();
+                        $new_category->setGuid($guid);
+                        if(is_object($parent)) $new_category->setParent($parent);
+                        $new_category->setCaption($caption);
+                        $new_category->setType(Category::TYPE_REPORT);
+                        $new_category->setStatus(Category::STATUS_APPROVED);
+
+                        $requestContext->setFlashData("Category '{$caption}' added successfully");
+                        $data['status'] = 1;
+                    }else{
+                        $requestContext->setFlashData('Mandatory field(s) not set');
+                        $data['status'] = 0;
+                    }
+                }
+            } break;
+            case(Location::TYPE_DISTRICT) : {
+                $existing_categories = Category::getMapper('Category')->findTypeByStatus(Category::TYPE_POST, Category::STATUS_APPROVED);
+                $data['categories'] = $existing_categories;
+
+
+                if($requestContext->fieldIsSet('add'))
+                {
+                    $caption = $fields['category-caption'];
+                    $guid = $fields['category-guid'];
+                    $parent = Category::getMapper('Category')->find($fields['category-parent']);
+
+                    if(strlen($caption) and strlen($guid))
+                    {
+                        $new_category = new Category();
+                        $new_category->setGuid($guid);
+                        if(is_object($parent)) $new_category->setParent($parent);
+                        $new_category->setCaption($caption);
+                        $new_category->setType(Category::TYPE_POST);
+                        $new_category->setStatus(Category::STATUS_APPROVED);
+
+                        $requestContext->setFlashData("Category '{$caption}' added successfully");
+                        $data['status'] = 1;
+                    }else{
+                        $requestContext->setFlashData('Mandatory fields not set');
+                        $data['status'] = 0;
+                    }
+                }
+            }
+        }
+        DomainObjectWatcher::instance()->performOperations();
+
+        $data['page-title'] = "Add Category (".ucwords($type).")";
+        $requestContext->setResponseData($data);
+        $requestContext->setView('admin/add-category.php');
+    }
 }
