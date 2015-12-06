@@ -19,10 +19,11 @@ $fields = $requestContext->getAllFields();
 
 require_once("header.php");
 ?>
-<div class="row full-margin-bottom">
-    <form method="post">
+<form method="post">
+    <div class="row full-margin-bottom">
         <div class="col-md-10 col-md-offset-1 full-margin-top">
             <h1 class="page-header"><span class="glyphicon glyphicon-pencil"></span> Write a Report</h1>
+            <?php if(isset($data['status'])){ ?><div class="text-center mid-margin-bottom lead <?= $data['status'] ? 'text-success bg-success' : 'text-danger bg-danger';?>"><?= $requestContext->getFlashData(); ?></div><?php } ?>
             <div class="form-group form-group-sm">
                 <div class="row">
                     <div class="col-sm-2">
@@ -261,14 +262,18 @@ require_once("header.php");
                 </div>
             </fieldset>
 
+        </div>
+    </div>
+    <div class="row full-margin-bottom">
+        <div class="col-sm-10 col-sm-offset-1">
             <div class="btn-group-lg pull-right">
-                    <button name="submit" id="submit-but" type="submit" class="btn btn-primary">
-                        Submit Report <span class="glyphicon glyphicon-send"></span>
-                    </button>
+                <button name="submit" id="submit-but" type="submit" class="btn btn-primary">
+                    Submit Report <span class="glyphicon glyphicon-send"></span>
+                </button>
             </div>
         </div>
-    </form>
-</div>
+    </div>
+</form>
 <?php
 require_once("footer.php");
 ?>

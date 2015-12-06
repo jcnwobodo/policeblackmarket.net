@@ -39,32 +39,37 @@ class SubmitReportCommand extends Command
 
     private function doSubmit(RequestContext $requestContext)
     {
-        $data = $requestContext->getAllFields();
-        $title = $data['report_title'];
-        $description = $data['report_description'];
-        $date = $data['report_date'];
-        $time = $data['report_time'];
-        $categories = isset($data['report_categories']) ? $data['report_categories'] : null;
-        $location_state = Location::getMapper('Location')->find($data['location_state']);
-        $location_lga = Location::getMapper('Location')->find($data['location_lga']);
-        $location_district = Location::getMapper('Location')->find($data['location_district']);
-        $location_scene = $data['location_scene'];
-        $evidence_news = $data['evidence_news'];
-        $evidence_video = $data['evidence_video'];
-        $evidence_photos = $data['evidence_photos']; //TODO handle photo upload
-        $reporter_first_name = $data['reporter_first-name'];
-        $reporter_last_name = $data['reporter_last-name'];
-        $reporter_email = $data['reporter_email'];
-        $reporter_phone = $data['reporter_phone'];
+        $data = $requestContext->getResponseData();
+        $data['status'] = false;
+
+        $fields = $requestContext->getAllFields();
+        $title = $fields['report_title'];
+        $description = $fields['report_description'];
+        $date = $fields['report_date'];
+        $time = $fields['report_time'];
+        $categories = isset($fields['report_categories']) ? $fields['report_categories'] : null;
+        $location_state = Location::getMapper('Location')->find($fields['location_state']);
+        $location_lga = Location::getMapper('Location')->find($fields['location_lga']);
+        $location_district = Location::getMapper('Location')->find($fields['location_district']);
+        $location_scene = $fields['location_scene'];
+        $evidence_news = $fields['evidence_news'];
+        $evidence_video = $fields['evidence_video'];
+        $evidence_photos = $fields['evidence_photos']; //TODO handle photo upload
+        $reporter_first_name = $fields['reporter_first-name'];
+        $reporter_last_name = $fields['reporter_last-name'];
+        $reporter_email = $fields['reporter_email'];
+        $reporter_phone = $fields['reporter_phone'];
 
         /*Ensure that mandatory data is supplied, then create a report object*/
         if(
-            strlen($title) &&
-            strlen($description) &&
-            checkdate($date['month'], $date['day'], $date['year']) &&
-            DateTime::checktime($time['hour'], $time['minute'], 0) &&
-            is_array($categories) &&
-            strlen($reporter_email))
+            strlen($title) and
+            strlen($description) and
+            checkdate($date['month'], $date['day'], $date['year']) and
+            DateTime::checktime($time['hour'], $time['minute'], 0) and
+            is_array($categories) and
+            strlen($reporter_email) and
+            $location_district->getParent() == $location_lga and $location_lga->getParent() == $location_state
+        )
         {
             $event_time = new DateTime();
             $report_time = new DateTime($date['year'], $date['month'], $date['day'], $time['hour'], $time['minute'], 0);
@@ -98,6 +103,14 @@ class SubmitReportCommand extends Command
             //TODO handle uploaded photos
             $report->setReporter($reporter);
             $report->setStatus($report::STATUS_PENDING);
+
+            $requestContext->setFlashData("Your report has been received and shall be reviewed within 24hrs.");
+            $data['status'] = true;
         }
+        else{
+            $requestContext->setFlashData("You need to supply valid data before you can proceed with report submission.");
+        }
+
+        $requestContext->setResponseData($data);
     }
 }

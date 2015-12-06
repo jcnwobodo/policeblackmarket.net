@@ -7,7 +7,9 @@
  * Time:    1:17 PM
  **/
 
-$data = \System\Request\RequestContext::instance()->getResponseData();
+$requestContext = \System\Request\RequestContext::instance();
+$data = $requestContext->getResponseData();
+$fields = $requestContext->getAllFields();
 
 include_once('header.php');
 ?>
@@ -16,25 +18,15 @@ include_once('header.php');
             <div class="col-md-10 col-md-offset-1 height-90vh">
                 <h2 class="page-header"><span class="glyphicon glyphicon-envelope"></span> Get in touch with us</h2>
 
-                <?php
-                if(isset($data['status']) and $data['status']==true){
-                    ?>
-                    <div class="bg-success text-success text-center lead">Congratulations! Your message has been delivered successfully.</div>
-                    <?php
-                }
-                elseif(isset($data['status'])){
-                    ?>
-                    <div class="bg-danger text-danger text-center lead">Your message could not be delivered at the moment, please try again later.</div>
-                    <?php
-                }
-                ?>
+                <?php if(isset($data['status'])){ ?><div class="text-center mid-margin-bottom lead <?= $data['status'] ? 'text-success bg-success' : 'text-danger bg-danger';?>"><?= $requestContext->getFlashData(); ?></div><?php } ?>
+
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-3">
                             <label for="sender-subject"><span class="glyphicon glyphicon-flag"></span> Subject</label>
                         </div>
                         <div class="col-md-9">
-                            <input name="sender-subject" id="sender-subject" required type="text" class="form-control" placeholder="Subject of discussion"/>
+                            <input name="sender-subject" id="sender-subject" required type="text" class="form-control" placeholder="Subject of discussion" value="<?= isset($fields['sender-subject'])?$fields['sender-subject']:'';?>"/>
                         </div>
                     </div>
                 </div>
@@ -44,7 +36,7 @@ include_once('header.php');
                             <label for="sender-name"><span class="glyphicon glyphicon-user"></span> Name</label>
                         </div>
                         <div class="col-md-9">
-                            <input name="sender-name" id="sender-name" required type="text" class="form-control" placeholder="Your Name"/>
+                            <input name="sender-name" id="sender-name" required type="text" class="form-control" placeholder="Your Name" value="<?= isset($fields['sender-name'])?$fields['sender-name']:'';?>"/>
                         </div>
                     </div>
                 </div>
@@ -55,7 +47,7 @@ include_once('header.php');
                             <label for="sender-email"><span class="glyphicon glyphicon-envelope"></span> Email Address</label>
                         </div>
                         <div class="col-md-9">
-                            <input name="sender-email" id="sender-email" required type="email" class="form-control" placeholder="youremail@website.com"/>
+                            <input name="sender-email" id="sender-email" required type="email" class="form-control" placeholder="your-email@website.com" value="<?= isset($fields['sender-email'])?$fields['sender-email']:'';?>"/>
                         </div>
                     </div>
                 </div>
@@ -66,7 +58,7 @@ include_once('header.php');
                             <label for="sender-phone" class="text-nowrap"><span class="glyphicon glyphicon-phone"></span> Mobile Number</label>
                         </div>
                         <div class="col-md-9">
-                            <input name="sender-phone" id="sender-phone" required type="tel" class="form-control" placeholder="08012345678"/>
+                            <input name="sender-phone" id="sender-phone" required type="tel" class="form-control" placeholder="08012345678" value="<?= isset($fields['sender-phone'])?$fields['sender-phone']:'';?>"/>
                         </div>
                     </div>
                 </div>
@@ -77,7 +69,7 @@ include_once('header.php');
                             <label for="sender-message"><span class="glyphicon glyphicon-pencil"></span> Message</label>
                         </div>
                         <div class="col-md-9">
-                            <textarea name="sender-message" id="sender-message" required class="form-control height-40vh" placeholder="Your message ..."></textarea>
+                            <textarea name="sender-message" id="sender-message" required class="form-control height-40vh" placeholder="Your message ..."><?= isset($fields['sender-message'])?$fields['sender-message']:'';?></textarea>
                         </div>
                     </div>
                 </div>

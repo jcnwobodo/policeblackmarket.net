@@ -29,14 +29,23 @@ class ContactCommand extends Command
         $names = $fields['sender-name'];
         $email = $fields['sender-email'];
         $phone = $fields['sender-phone'];
-        $text = "Names: ".$names."\nPhone: ".$phone."\n\nMessage\n".$fields['sender-message'];
-        $message = wordwrap(str_replace("\n.", "\n..",$text), 70);
+        $message = $fields['sender-message'];
+        $text = wordwrap(str_replace("\n.", "\n..", "Names: ".$names."\nPhone: ".$phone."\n\nMessage\n".$message ), 70);
         $send_to = site_info('contact_email', false);
 
-        if(mail($send_to, 'PBM- '.$subject, $message, "From: {$names} &lt;{$email}&gt;\r\n"))
-        {
-            $response_status = true;
+        if(strlen($subject) and strlen($names) and strlen($phone)==11 and strlen($message)){
+            if(mail($send_to, 'PBM- '.$subject, $message, "From: {$names} &lt;{$email}&gt;\r\n"))
+            {
+                $response_status = true;
+                $requestContext->setFlashData("Congratulations! Your message has been delivered successfully.");
+            }else{
+                $response_status = false;
+                $requestContext->setFlashData("An internal error has occurred!<br/>Your message could not be delivered at the moment, please try again later.");
+            }
+        }else{
+            $response_status = false;
+            $requestContext->setFlashData("You need to supply valid data before you can proceed.");
         }
-        $requestContext->setResponseData(array('content'=>"", 'status'=>$response_status, 'page-title'=>"Contact"));
+        $requestContext->setResponseData(array('status'=>$response_status, 'page-title'=>"Contact"));
     }
 }

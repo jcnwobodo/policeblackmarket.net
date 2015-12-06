@@ -7,8 +7,8 @@
  * Time:    7:03 PM
  **/
 
-$requestContest = \System\Request\RequestContext::instance();
-$data = $requestContest->getResponseData();
+$requestContext = \System\Request\RequestContext::instance();
+$data = $requestContext->getResponseData();
 $report = $data['reports'];
 $comments = $data['comments'];
 
@@ -68,7 +68,7 @@ require_once("header.php");
                         <div class="col-sm-9"><textarea name="author_comment" id="author_comment" class="form-control height-10vh" placeholder="what's on your mind?" required></textarea></div>
                     </div>
                 </div>
-                <div class="text-center mid-margin-bottom <?= $data['status'] ? 'text-success bg-success' : 'text-danger bg-danger';?>"><?= $requestContest->getFlashData(); ?></div>
+                <div class="text-center mid-margin-bottom <?= $data['status'] ? 'text-success bg-success' : 'text-danger bg-danger';?>"><?= $requestContext->getFlashData(); ?></div>
                 <div class="form-group form-group-sm pull-right">
                     <input name="post_comment" id="post_comment" type="submit" value="Submit Comment" class="btn btn-primary">
                 </div>
