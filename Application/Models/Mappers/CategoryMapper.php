@@ -24,7 +24,7 @@ class CategoryMapper extends Mapper
         $this->selectByTypeStmt = self::$PDO->prepare("SELECT * FROM site_categories WHERE type=? ORDER BY caption");
         $this->selectTypeByStatusStmt = self::$PDO->prepare("SELECT * FROM site_categories WHERE type=? AND status=? ORDER BY caption");
         $this->updateStmt = self::$PDO->prepare("UPDATE site_categories set guid=?, parent=?, caption=?, type=?, status=? WHERE id=?");
-        $this->insertStmt = self::$PDO->prepare("INSERT INTO site_categories (guid,parent,caption,type,staus)VALUES(?,?,?,?,?)");
+        $this->insertStmt = self::$PDO->prepare("INSERT INTO site_categories (guid,parent,caption,type,status)VALUES(?,?,?,?,?)");
         $this->deleteStmt = self::$PDO->prepare("DELETE FROM site_categories WHERE id=?");
     }
 
