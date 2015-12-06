@@ -43,6 +43,6 @@ class LoginCommand extends Command
             }
             $requestContext->setFlashData("something bad has happened");
         }
-        //$requestContext->setFlashData( $manager->getMessage() );
+        $requestContext->setFlashData( $manager->getMessage() );
 	}
 }
