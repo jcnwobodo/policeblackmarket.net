@@ -13,7 +13,7 @@ require_once("header.php");
 ?>
 <div class="row full-padding-bottom">
     <div class="col-md-10 col-md-offset-1">
-        <h1 class="page-header"><span class="glyphicon glyphicon-folder-open"></span> &nbsp;Reports</h1>
+        <h1 class="page-header"><span class="glyphicon glyphicon-flag"></span> &nbsp;Reports</h1>
         <?php
         if(is_object($data['reports']) and $data['reports']->size())
         {

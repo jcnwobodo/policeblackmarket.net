@@ -45,12 +45,9 @@ $page_title = isset($rc->getResponseData()['page-title']) ? $rc->getResponseData
         </div>
         <div id="navbar" class="collapse navbar-collapse navbar-right">
             <ul class="nav navbar-nav">
-                <li <?= $s = ($rc->isRequestUrl('') ? 'class="active"': ''); ?>><a href="<?php home_url('/');?>">HOME</a></li>
-                <li <?= $s = ($rc->isRequestUrl('submit-report') ? 'class="active"': ''); ?>><a href="<?php home_url('/submit-report/');?>">SUBMIT REPORT</a></li>
-                <li <?= $s = ($rc->isRequestUrl('reports') ? 'class="active"': ''); ?>><a href="<?php home_url('/reports/');?>">REPORTS</a></li>
-                <li <?= $s = ($rc->isRequestUrl('how-it-works') ? 'class="active"': ''); ?>><a href="<?php home_url('/how-it-works/');?>">HOW IT WORKS</a></li>
-                <li <?= $s = ($rc->isRequestUrl('news') ? 'class="active"': ''); ?>><a href="<?php home_url('/news/');?>">NEWS</a></li>
-                <li <?= $s = ($rc->isRequestUrl('contact') ? 'class="active"': ''); ?>><a href="<?php home_url('/contact/');?>">CONTACT</a></li>
+                <li <?= $s = ($rc->isRequestUrl('admin-area') ? 'class="active"': ''); ?>><a href="<?php home_url('/admin-area/');?>"><span class="glyphicon glyphicon-cog"></span> ADMIN-AREA</a></li>
+                <li <?= $s = ($rc->isRequestUrl('account-setting') ? 'class="active"': ''); ?>><a href="<?php home_url('/account-settings/');?>"><span class="glyphicon glyphicon-user"></span> MY ACCOUNT</a></li>
+                <li <?= $s = ($rc->isRequestUrl('logout') ? 'class="active"': ''); ?>><a href="<?php home_url('/logout/');?>"><span class="glyphicon glyphicon-log-out"></span> LOGOUT</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

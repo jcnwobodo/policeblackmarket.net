@@ -32,12 +32,12 @@ $page_title = isset($rc->getResponseData()['page-title']) ? $rc->getResponseData
         </div>
         <div id="navbar" class="collapse navbar-collapse navbar-right">
             <ul class="nav navbar-nav">
-                <li <?= $s = ($rc->isRequestUrl('') ? 'class="active"': ''); ?>><a href="<?php home_url('/');?>">HOME</a></li>
-                <li <?= $s = ($rc->isRequestUrl('submit-report') ? 'class="active"': ''); ?>><a href="<?php home_url('/submit-report/');?>">SUBMIT REPORT</a></li>
-                <li <?= $s = ($rc->isRequestUrl('reports') ? 'class="active"': ''); ?>><a href="<?php home_url('/reports/');?>">REPORTS</a></li>
-                <li <?= $s = ($rc->isRequestUrl('how-it-works') ? 'class="active"': ''); ?>><a href="<?php home_url('/how-it-works/');?>">HOW IT WORKS</a></li>
-                <li <?= $s = ($rc->isRequestUrl('news') ? 'class="active"': ''); ?>><a href="<?php home_url('/news/');?>">NEWS</a></li>
-                <li <?= $s = ($rc->isRequestUrl('contact') ? 'class="active"': ''); ?>><a href="<?php home_url('/contact/');?>">CONTACT</a></li>
+                <li <?= $s = ($rc->isRequestUrl('') ? 'class="active"': ''); ?>><a href="<?php home_url('/');?>"><span class="glyphicon glyphicon-home"></span> HOME</a></li>
+                <li <?= $s = ($rc->isRequestUrl('submit-report') ? 'class="active"': ''); ?>><a href="<?php home_url('/submit-report/');?>"><span class="glyphicon glyphicon-pencil"></span> SUBMIT REPORT</a></li>
+                <li <?= $s = ($rc->isRequestUrl('reports') ? 'class="active"': ''); ?>><a href="<?php home_url('/reports/');?>"><span class="glyphicon glyphicon-flag"></span> REPORTS</a></li>
+                <li <?= $s = ($rc->isRequestUrl('how-it-works') ? 'class="active"': ''); ?>><a href="<?php home_url('/how-it-works/');?>"><span class="glyphicon glyphicon-flash"></span> HOW IT WORKS</a></li>
+                <li <?= $s = ($rc->isRequestUrl('news') ? 'class="active"': ''); ?>><a href="<?php home_url('/news/');?>"><span class="glyphicon glyphicon-bullhorn"></span> NEWS</a></li>
+                <li <?= $s = ($rc->isRequestUrl('contact') ? 'class="active"': ''); ?>><a href="<?php home_url('/contact/');?>"><span class="glyphicon glyphicon-envelope"></span> CONTACT</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
