@@ -121,7 +121,7 @@ class RequestContext
     }
     public function isRequestUrl($url)
     {
-        return ( strtolower($url) == strtolower($this->getRequestUrl()) );
+        return ( strtolower($url) == strtolower($this->getRequestUrl()) or strtolower($url)==strtolower($this->getRequestUrlParam(0)));
     }
 
     public function addCommand($command)
