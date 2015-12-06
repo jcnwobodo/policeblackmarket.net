@@ -17,7 +17,7 @@ class Category extends DomainObject
     private $type; // report || post
     private $status;
 
-    const TYPE_POST = 'post';
+    const TYPE_NEWS = 'news';
     const TYPE_REPORT = 'report';
 
     public function __construct($id=null)

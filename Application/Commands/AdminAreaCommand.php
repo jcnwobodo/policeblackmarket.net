@@ -441,7 +441,7 @@ class AdminAreaCommand extends SecureCommand
     protected function AddCategory(RequestContext $requestContext)
     {
         $data = array();
-        $types = array('report', 'post');
+        $types = array('report', 'news');
         $type = ( $requestContext->fieldIsSet('type') && in_array($requestContext->getField('type'), $types)) ? $requestContext->getField('type') : 'report';
         $data['type'] = $type;
 
@@ -475,8 +475,8 @@ class AdminAreaCommand extends SecureCommand
                     }
                 }
             } break;
-            case(Location::TYPE_DISTRICT) : {
-                $existing_categories = Category::getMapper('Category')->findTypeByStatus(Category::TYPE_POST, Category::STATUS_APPROVED);
+            case(Category::TYPE_NEWS) : {
+                $existing_categories = Category::getMapper('Category')->findTypeByStatus(Category::TYPE_NEWS, Category::STATUS_APPROVED);
                 $data['categories'] = $existing_categories;
 
 
@@ -492,7 +492,7 @@ class AdminAreaCommand extends SecureCommand
                         $new_category->setGuid($guid);
                         if(is_object($parent)) $new_category->setParent($parent);
                         $new_category->setCaption($caption);
-                        $new_category->setType(Category::TYPE_POST);
+                        $new_category->setType(Category::TYPE_NEWS);
                         $new_category->setStatus(Category::STATUS_APPROVED);
 
                         $requestContext->setFlashData("Category '{$caption}' added successfully");
