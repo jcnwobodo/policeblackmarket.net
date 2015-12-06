@@ -108,10 +108,10 @@ require_once("header.php");
                     <div class="col-sm-3">
                         <label for="location-coordinates-latitude">Coordinates</label>
                     </div>
-                    <div class="col-sm-5">
+                    <div class="col-sm-5 col-xs-6">
                         <input name="location-coordinates[latitude]" id="location-coordinates-latitude" type="text" class="form-control" placeholder="Latitude" required value="<?= isset($fields['location-coordinates']['latitude']) ? $fields['location-coordinates']['latitude'] : ''; ?>"/>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-4 col-xs-6">
                         <input name="location-coordinates[longitude]" id="location-coordinates-longitude" type="text" class="form-control" placeholder="Longitude" required value="<?= isset($fields['location-coordinates']['longitude']) ? $fields['location-coordinates']['longitude'] : ''; ?>"/>
                     </div>
                 </div>
