@@ -25,16 +25,15 @@ class ContactCommand extends Command
         $response_status = false;
 
         $fields = $requestContext->getAllFields();
-        $names = $fields['names'];
-        $email = $fields['email'];
-        $phone = $fields['phone'];
-        $company = $fields['company'];
-        $address = $fields['address'];
-        $text = "Company: ".$company."\nAddress: ".$address."\nPhone: ".$phone."\n\nMessage\n".$fields['message'];
+        $subject = $fields['sender-subject'];
+        $names = $fields['sender-name'];
+        $email = $fields['sender-email'];
+        $phone = $fields['sender-phone'];
+        $text = "Names: ".$names."\nPhone: ".$phone."\n\nMessage\n".$fields['sender-message'];
         $message = wordwrap(str_replace("\n.", "\n..",$text), 70);
         $send_to = site_info('contact_email', false);
 
-        if(mail($send_to, 'Website Message From: '.$names, $message, "From: {$names}<{$email}>\r\n"))
+        if(mail($send_to, 'PBM- '.$subject, $message, "From: {$names} &lt;{$email}&gt;\r\n"))
         {
             $response_status = true;
         }

@@ -7,13 +7,37 @@
  * Time:    1:17 PM
  **/
 
-$response_data = \System\Request\RequestContext::instance()->getResponseData();
+$data = \System\Request\RequestContext::instance()->getResponseData();
+
 include_once('header.php');
 ?>
-    <form>
+    <form method="post" enctype="multipart/form-data" action="<?php home_url('/contact/send/'); ?>">
         <div class="row full-margin-bottom">
             <div class="col-md-10 col-md-offset-1 height-90vh">
                 <h2 class="page-header"><span class="glyphicon glyphicon-envelope"></span> Get in touch with us</h2>
+
+                <?php
+                if(isset($data['status']) and $data['status']==true){
+                    ?>
+                    <div class="bg-success text-success text-center lead">Congratulations! Your message has been delivered successfully.</div>
+                    <?php
+                }
+                elseif(isset($data['status'])){
+                    ?>
+                    <div class="bg-danger text-danger text-center lead">Your message could not be delivered at the moment, please try again later.</div>
+                    <?php
+                }
+                ?>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="sender-subject"><span class="glyphicon glyphicon-flag"></span> Subject</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input name="sender-subject" id="sender-subject" required type="text" class="form-control" placeholder="Subject of discussion"/>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-3">
