@@ -170,4 +170,8 @@ class Post extends DomainObject
         $this->markDirty();
         return $this;
     }
+    public function isPublished()
+    {
+        return $this->status == self::STATUS_PUBLISHED;
+    }
 }
