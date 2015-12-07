@@ -26,7 +26,7 @@ class PostMapper extends Mapper
         $this->selectByAuthorStmt = self::$PDO->prepare("SELECT * FROM site_posts WHERE author=? ORDER BY id DESC;");
         $this->selectByStatusStmt = self::$PDO->prepare("SELECT * FROM site_posts WHERE status=? ORDER BY id DESC;");
         $this->updateStmt = self::$PDO->prepare("UPDATE site_posts SET post_type=?, guid=?, title=?, content=?, excerpt=?, featured_image=?, category=?, author=?, date_created=?, last_update=?, status=? WHERE id=?");
-        $this->insertStmt = self::$PDO->prepare("INSERT INTO site_posts (post_type,guid,title,content,excerpt,featured_image,category, author,date_created,last_update,status)VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+        $this->insertStmt = self::$PDO->prepare("INSERT INTO site_posts (post_type,guid,title,content,excerpt,featured_image,category,author,date_created,last_update,status)VALUES(?,?,?,?,?,?,?,?,?,?,?)");
         $this->deleteStmt = self::$PDO->prepare("DELETE FROM site_posts WHERE id=?");
     }
 
@@ -110,7 +110,9 @@ class PostMapper extends Mapper
             $object->getGuid(),
             $object->getTitle(),
             $object->getContent(),
-            $object->getFeaturedImage()->getId(),
+            $object->getExcerpt(),
+            is_object($object->getFeaturedImage()) ? $object->getFeaturedImage()->getId() : NULL,
+            $object->getCategory()->getId(),
             $object->getAuthor()->getId(),
             $object->getDateCreated()->getDateTimeInt(),
             $object->getLastUpdate()->getDateTimeInt(),
@@ -128,7 +130,9 @@ class PostMapper extends Mapper
             $object->getGuid(),
             $object->getTitle(),
             $object->getContent(),
-            $object->getFeaturedImage()->getId(),
+            $object->getExcerpt(),
+            is_object($object->getFeaturedImage()) ? $object->getFeaturedImage()->getId() : NULL,
+            $object->getCategory()->getId(),
             $object->getAuthor()->getId(),
             $object->getDateCreated()->getDateTimeInt(),
             $object->getLastUpdate()->getDateTimeInt(),

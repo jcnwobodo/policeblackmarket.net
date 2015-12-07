@@ -26,11 +26,13 @@ class Post extends DomainObject
     private $last_update;
     private $status;
 
+    const STATUS_DELETED = 0;
+    const STATUS_PUBLISHED = 1;
+    const STATUS_DRAFT = 2;
+
     const TYPE_POST = 'post';
     const TYPE_PAGE = 'page';
     const TYPE_NEWS = 'news';
-
-    private $states = array('Deleted'=>0, 'Published'=>1, 'Draft'=>2);
 
     public function __construct($id=null)
     {
@@ -94,7 +96,7 @@ class Post extends DomainObject
 
     public function getExcerpt()
     {
-        return (strlen($this->excerpt) ? $this->excerpt."&hellip;" : subwords($this->content,0,50)."&hellip;" );
+        return (strlen($this->excerpt) ? $this->excerpt : subwords($this->content,0,80) );
     }
     public function setExcerpt($excerpt)
     {
@@ -167,29 +169,5 @@ class Post extends DomainObject
         $this->status = $status;
         $this->markDirty();
         return $this;
-    }
-    public function delete()
-    {
-        $this->setStatus($this->states['Deleted']);
-    }
-    public function publish()
-    {
-        $this->setStatus($this->states['Published']);
-    }
-    public function markDraft()
-    {
-        $this->setStatus($this->states['Draft']);
-    }
-    public function isDeleted()
-    {
-        return ($this->getStatus() == $this->states['Deleted']);
-    }
-    public function isPublished()
-    {
-        return ($this->getStatus() == $this->states['Published']);
-    }
-    public function isDraft()
-    {
-        return ($this->getStatus() == $this->states['Draft']);
     }
 }
