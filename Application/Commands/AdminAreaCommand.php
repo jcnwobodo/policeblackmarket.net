@@ -10,12 +10,14 @@
 namespace Application\Commands;
 
 use Application\Models\Category;
+use Application\Models\Post;
 use System\Models\DomainObjectWatcher;
 use System\Request\RequestContext;
 use Application\Models\User;
 use Application\Models\Comment;
 use Application\Models\Location;
 use Application\Models\Report;
+use System\Utilities\DateTime;
 
 class AdminAreaCommand extends SecureCommand
 {
@@ -455,7 +457,7 @@ class AdminAreaCommand extends SecureCommand
                 if($requestContext->fieldIsSet('add'))
                 {
                     $caption = $fields['category-caption'];
-                    $guid = $fields['category-guid'];
+                    $guid = strtolower($fields['category-guid']);
                     $parent = Category::getMapper('Category')->find($fields['category-parent']);
 
                     if(strlen($caption) and strlen($guid))
@@ -483,7 +485,7 @@ class AdminAreaCommand extends SecureCommand
                 if($requestContext->fieldIsSet('add'))
                 {
                     $caption = $fields['category-caption'];
-                    $guid = $fields['category-guid'];
+                    $guid = strtolower($fields['category-guid']);
                     $parent = Category::getMapper('Category')->find($fields['category-parent']);
 
                     if(strlen($caption) and strlen($guid))
@@ -509,5 +511,111 @@ class AdminAreaCommand extends SecureCommand
         $data['page-title'] = "Add Category (".ucwords($type).")";
         $requestContext->setResponseData($data);
         $requestContext->setView('admin/add-category.php');
+    }
+
+    protected function AddNewsPost(RequestContext $requestContext)
+    {
+        $data = array();
+
+        $data['mode'] = 'create-post';
+        $data['page-title'] = "Create News-Post";
+        $news_categories = Category::getMapper('Category')->findTypeByStatus(Category::TYPE_NEWS, Category::STATUS_APPROVED);
+        $data['categories'] = $news_categories;
+
+        $requestContext->setResponseData($data);
+        $requestContext->setView('admin/news-post-editor.php');
+
+        if($requestContext->fieldIsSet($data['mode']))
+        {
+            $this->processNewsPostEditor($requestContext);
+        }
+    }
+
+    protected function UpdateNewsPost(RequestContext $requestContext)
+    {
+        $data = array();
+
+        $data['mode'] = 'update-post';
+        $data['page-title'] = "Update News-Post";
+        $news_categories = Category::getMapper('Category')->findTypeByStatus(Category::TYPE_NEWS, Category::STATUS_APPROVED);
+        $data['categories'] = $news_categories;
+
+        if($requestContext->fieldIsSet('post-id')) $post = Post::getMapper('Post')->find($requestContext->getField('post-id'));
+        $fields = array();
+        $fields['post-title'] = $post->getTitle();
+        $fields['post-url'] = $post->getGuid();
+        $fields['post-content'] = remove_text_formatting($post->getContent());
+        $fields['post-excerpt'] = remove_text_formatting($post->getExcerpt());
+        $fields['post-category'] = $post->getCategory()->getId();
+        $fields['post-date']['month'] = $post->getDateCreated()->getMonth();
+        $fields['post-date']['day'] = $post->getDateCreated()->getDay();
+        $fields['post-date']['year'] = $post->getDateCreated()->getYear();
+        $fields['post-time']['hour'] = date('g', $post->getDateCreated()->getDateTimeInt() );
+        $fields['post-time']['minute'] = date('i', $post->getDateCreated()->getDateTimeInt() );
+        $fields['post-time']['am_pm'] = date('A', $post->getDateCreated()->getDateTimeInt() );
+        $data['post-id'] = $fields['post-id'] = $post->getId();
+        $data['fields'] = $fields;
+
+        $requestContext->setResponseData($data);
+        $requestContext->setView('admin/news-post-editor.php');
+
+        if($requestContext->fieldIsSet($data['mode']))
+        {
+            $this->processNewsPostEditor($requestContext);
+        }
+
+    }
+
+    private function processNewsPostEditor(RequestContext $requestContext)
+    {
+        $data = $requestContext->getResponseData();
+        $fields = $requestContext->getAllFields();
+
+        $title = $fields['post-title'];
+        $guid = strtolower( str_replace(array(' '), array('-'), $fields['post-url']) );
+        $content = $fields['post-content'];
+        $excerpt = $fields['post-excerpt'];
+        $category = Category::getMapper('Category')->find($fields['post-category']);
+        $date = $fields['post-date'];
+        $time = $fields['post-time'];
+        $time['hour'] = (strtolower($time['am_pm'])=='pm' and $time['hour']!=12)? ($time['hour']+12) : $time['hour'];
+        $time['hour'] = (strtolower($time['am_pm'])=='am' and $time['hour']==12)? 0 : $time['hour'];
+
+        if(
+            strlen($title)
+            and strlen($guid)
+            and strlen($content)
+            and is_object($category)
+            and checkdate($date['month'], $date['day'], $date['year'])
+            and DateTime::checktime($time['hour'], $time['minute'])
+        )
+        {
+            $post = $data['mode'] == 'create-post' ? new Post() : Post::getMapper('Post')->find($data['post-id']);
+            if(is_object($post))
+            {
+                $post->setPostType(Post::TYPE_NEWS);
+                $post->setGuid($guid);
+                $post->setTitle($title);
+                $post->setContent(format_text($content));
+                $post->setExcerpt(format_text($excerpt));
+                $post->setCategory($category);
+                $post->setAuthor($requestContext->getSession()->getSessionUser());
+                $post->setDateCreated(new DateTime($date['year'], $date['month'], $date['day'], $time['hour'], $time['minute'], 0));
+                $post->setLastUpdate(new DateTime());
+                $post->setStatus(Post::STATUS_DRAFT);
+
+                DomainObjectWatcher::instance()->performOperations();
+                $requestContext->setFlashData($data['mode'] == 'create-post' ? "Post created successfully" : "Post updated successfully");
+
+                $data['status'] = 1;
+                $data['post-id'] = $post->getId();
+                $data['mode'] = 'update-post';
+                $data['fields'] = &$fields;
+            }
+        }else{
+            $requestContext->setFlashData('Mandatory field(s) not set or invalid input detected');
+            $data['status'] = 0;
+        }
+        $requestContext->setResponseData($data);
     }
 }
