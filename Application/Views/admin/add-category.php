@@ -29,7 +29,7 @@ require_once("header.php");
                     <div class="col-md-12">
                         <div class="btn-group pull-right">
                             <a href="<?php home_url('/'.$rc->getRequestUrlParam(0).'/'.$rc->getRequestUrlParam(1).'/?type=report'); ?>" class="btn btn-primary">Report</a>
-                            <a href="<?php home_url('/'.$rc->getRequestUrlParam(0).'/'.$rc->getRequestUrlParam(1).'/?type=post'); ?>" class="btn btn-primary">News</a>
+                            <a href="<?php home_url('/'.$rc->getRequestUrlParam(0).'/'.$rc->getRequestUrlParam(1).'/?type=news'); ?>" class="btn btn-primary">News</a>
                         </div>
                     </div>
                 </div>
