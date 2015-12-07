@@ -566,6 +566,77 @@ class AdminAreaCommand extends SecureCommand
 
     }
 
+    protected function ManageNewsPosts(RequestContext $requestContext)
+    {
+        $status = $requestContext->fieldIsSet('status') ? $requestContext->getField('status') : 'published';
+        $action = $requestContext->fieldIsSet('action') ? $requestContext->getField('action') : null;
+        $post_ids = $requestContext->fieldIsSet('post-ids') ? $requestContext->getField('post-ids') : array();
+
+        switch(strtolower($action))
+        {
+            case 'delete' : {
+                foreach($post_ids as $post_id)
+                {
+                    $post_obj = Post::getMapper('Post')->find($post_id);
+                    if(is_object($post_obj)) $post_obj->setStatus(Post::STATUS_DELETED);
+                }
+            } break;
+            case 'restore' : {
+                foreach($post_ids as $post_id)
+                {
+                    $post_obj = Post::getMapper('Post')->find($post_id);
+                    if(is_object($post_obj)) $post_obj->setStatus(Post::STATUS_DRAFT);
+                }
+            } break;
+            case 'publish' : {
+                foreach($post_ids as $post_id)
+                {
+                    $post_obj = Post::getMapper('Post')->find($post_id);
+                    if(is_object($post_obj)) $post_obj->setStatus(Post::STATUS_PUBLISHED);
+                }
+            } break;
+            case 'un-publish' : {
+                foreach($post_ids as $post_id)
+                {
+                    $post_obj = Post::getMapper('Post')->find($post_id);
+                    if(is_object($post_obj)) $post_obj->setStatus(Post::STATUS_DRAFT);
+                }
+            } break;
+            case 'delete permanently' : {
+                foreach($post_ids as $post_id)
+                {
+                    $post_obj = Post::getMapper('Post')->find($post_id);
+                    if(is_object($post_obj)) $post_obj->markDelete();
+                }
+            } break;
+            default : {}
+        }
+        DomainObjectWatcher::instance()->performOperations();
+
+        switch($status)
+        {
+            case 'published' : {
+                $posts = Post::getMapper('Post')->findTypeByStatus(Post::TYPE_NEWS, Post::STATUS_PUBLISHED);
+            } break;
+            case 'draft' : {
+                $posts = Post::getMapper('Post')->findTypeByStatus(Post::TYPE_NEWS, Post::STATUS_DRAFT);
+            } break;
+            case 'deleted' : {
+                $posts = Post::getMapper('Post')->findTypeByStatus(Post::TYPE_NEWS, Post::STATUS_DELETED);
+            } break;
+            default : {
+                $posts = Post::getMapper('Post')->findAll();
+            }
+        }
+
+        $data = array();
+        $data['status'] = $status;
+        $data['posts'] = $posts;
+        $data['page-title'] = ucwords($status)." News Posts";
+        $requestContext->setResponseData($data);
+        $requestContext->setView('admin/manage-news-posts.php');
+    }
+
     private function processNewsPostEditor(RequestContext $requestContext)
     {
         $data = $requestContext->getResponseData();
