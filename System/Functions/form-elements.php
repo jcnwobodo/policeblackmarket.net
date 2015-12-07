@@ -16,7 +16,7 @@ function drop_num($upperpoint, $lowerpoint, $name, $current, $interval=1, $initi
     }
     for($yy = $lowerpoint; $yy <= $upperpoint; $yy+=$interval)
     {
-        $return_value .= '<option value='.($yy).' '.selected( (int)$current, $yy).'>&nbsp;'.($yy).'&nbsp;</option>';
+        $return_value .= '<option value='.($yy).' '.selected( (int)$current, $yy).'>'.($yy).'</option>';
     }
     $return_value .= '</select>';
     return $return_value;
@@ -27,13 +27,16 @@ function drop_years($name, $current_val=null)
     return drop_num(date('Y'), 2015, $name, is_null($current_val) ? date('j') : $current_val);
 }
 
-function drop_month($name, $current, $atr='class="form-control"')
+function drop_month($name, $current=null, $atr='class="form-control"')
 {
-    $months = array('January','Febuary','March','April','May','June','July','August','September','October','November','December');
+    $months = array('January','February','March','April','May','June','July','August','September','October','November','December');
+    $current = is_null($current) ? date('n') : $current;
     $return_value = '<select name="'.$name.'" '.$atr.'>';
-    for($yy = 1; $yy <= sizeof($months); $yy++)
+    $mn = 1;
+    foreach($months as $month)
     {
-        $return_value .= '<option value="'.($yy).'" '.selected($current, $yy).'>&nbsp;['.$yy.']&nbsp;'.$months[$yy-1].'&nbsp;</option>';
+        $return_value .= '<option value="'.$mn.'" '.selected((int)$current, $mn).'>'.$month.'</option>';
+        $mn++;
     }
     $return_value .= '</select>';
     return $return_value;

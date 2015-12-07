@@ -17,10 +17,17 @@ function recursive_implode($glue, $pieces)
     return implode($glue, $build);
 }
 
-function format_text($text)
+function format_text($raw_text)
 {
-    $paragraphs = explode("\n", $text);
-    $formatted = '<p>'.implode('</p><p>', $paragraphs).'</p>';
+    $paragraphs = explode("\n", $raw_text);
+    $formatted_text = '<p>'.implode('</p><p>', $paragraphs).'</p>';
 
-    return $formatted;
+    return $formatted_text;
+}
+
+function remove_text_formatting($formatted_text)
+{
+    $raw_text = str_replace("</p><p>","\n", $formatted_text);
+    $raw_text = str_replace(array("<p>","</p>"), array("",""), $raw_text);
+    return $raw_text;
 }
