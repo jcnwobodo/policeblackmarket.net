@@ -25,6 +25,7 @@ class PostMapper extends Mapper
         $this->selectByCategoryStmt = self::$PDO->prepare("SELECT * FROM site_posts WHERE category=? ORDER BY id DESC;");
         $this->selectByAuthorStmt = self::$PDO->prepare("SELECT * FROM site_posts WHERE author=? ORDER BY id DESC;");
         $this->selectByStatusStmt = self::$PDO->prepare("SELECT * FROM site_posts WHERE status=? ORDER BY id DESC;");
+        $this->selectTypeByStatusStmt = self::$PDO->prepare("SELECT * FROM site_posts WHERE post_type=? AND status=? ORDER BY id DESC;");
         $this->updateStmt = self::$PDO->prepare("UPDATE site_posts SET post_type=?, guid=?, title=?, content=?, excerpt=?, featured_image=?, category=?, author=?, date_created=?, last_update=?, status=? WHERE id=?");
         $this->insertStmt = self::$PDO->prepare("INSERT INTO site_posts (post_type,guid,title,content,excerpt,featured_image,category,author,date_created,last_update,status)VALUES(?,?,?,?,?,?,?,?,?,?,?)");
         $this->deleteStmt = self::$PDO->prepare("DELETE FROM site_posts WHERE id=?");
@@ -54,6 +55,13 @@ class PostMapper extends Mapper
     {
         $this->selectByStatusStmt->execute( array($status) );
         $raw_data = $this->selectByStatusStmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $this->getCollection( $raw_data );
+    }
+
+    public function findTypeByStatus($type, $status)
+    {
+        $this->selectTypeByStatusStmt->execute( array($type, $status) );
+        $raw_data = $this->selectTypeByStatusStmt->fetchAll(\PDO::FETCH_ASSOC);
         return $this->getCollection( $raw_data );
     }
 
