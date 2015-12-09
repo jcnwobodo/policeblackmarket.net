@@ -11,10 +11,14 @@ class AccessManager
 {
     private static $instance;
     private $message = null;
-    const SESSION_COOKIE_NAME = "PBM_SESSION_ID";
-    const SESSION_COOKIE_DOMAIN = "localhost";
+    private static $SESSION_COOKIE_DOMAIN;
+    private static $SESSION_COOKIE_NAME;
 
-    private function __construct(){}
+    private function __construct()
+    {
+        self::$SESSION_COOKIE_DOMAIN = site_info('session-cookie-domain', 0);
+        self::$SESSION_COOKIE_NAME = site_info('session-cookie-name', 0);
+    }
     public static function instance()
     {
         if( ! isset(self::$instance))
@@ -58,7 +62,7 @@ class AccessManager
     }
     public function validateSession(RequestContext $requestContext)
     {
-        $session_id = $requestContext->getCookie(self::SESSION_COOKIE_NAME);
+        $session_id = $requestContext->getCookie(self::$SESSION_COOKIE_NAME);
 //        print_r($session_id);
 //        exit;
         if(! is_null($session_id))
@@ -91,7 +95,7 @@ class AccessManager
         $session_id = $this->getUniqueId();
         $user_type = $UserObj->getUserType();
 
-        if(!is_null($user_type) and setcookie( self::SESSION_COOKIE_NAME, $session_id, null, '/', self::SESSION_COOKIE_DOMAIN) )
+        if(!is_null($user_type) and setcookie( self::$SESSION_COOKIE_NAME, $session_id, null, '/', self::$SESSION_COOKIE_DOMAIN) )
         {
             $session = new Session();
             $session->setSessionId($session_id);
