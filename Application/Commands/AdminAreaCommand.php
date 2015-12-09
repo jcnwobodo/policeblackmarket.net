@@ -673,7 +673,6 @@ class AdminAreaCommand extends SecureCommand
                 $post->setAuthor($requestContext->getSession()->getSessionUser());
                 $post->setDateCreated(new DateTime($date['year'], $date['month'], $date['day'], $time['hour'], $time['minute'], 0));
                 $post->setLastUpdate(new DateTime());
-                $post->setStatus(Post::STATUS_DRAFT);
 
                 DomainObjectWatcher::instance()->performOperations();
                 $requestContext->setFlashData($data['mode'] == 'create-post' ? "Post created successfully" : "Post updated successfully");
@@ -681,6 +680,177 @@ class AdminAreaCommand extends SecureCommand
                 $data['status'] = 1;
                 $data['post-id'] = $post->getId();
                 $data['mode'] = 'update-post';
+                $data['fields'] = &$fields;
+            }
+        }else{
+            $requestContext->setFlashData('Mandatory field(s) not set or invalid input detected');
+            $data['status'] = 0;
+        }
+        $requestContext->setResponseData($data);
+    }
+
+    protected function AddPage(RequestContext $requestContext)
+    {
+        $data = array();
+
+        $data['mode'] = 'create-page';
+        $data['page-title'] = "Create Page";
+
+        $requestContext->setResponseData($data);
+        $requestContext->setView('admin/page-editor.php');
+
+        if($requestContext->fieldIsSet($data['mode']))
+        {
+            $this->processPageEditor($requestContext);
+        }
+    }
+
+    protected function UpdatePage(RequestContext $requestContext)
+    {
+        $data = array();
+
+        $data['mode'] = 'update-page';
+        $data['page-title'] = "Update Page";
+
+        $page = $requestContext->fieldIsSet('page-id') ? Post::getMapper('Post')->find($requestContext->getField('page-id')) : null;
+        $fields = array();
+        if(is_object($page))
+        {
+            $fields['page-title'] = $page->getTitle();
+            $fields['page-url'] = $page->getGuid();
+            $fields['page-content'] = remove_text_formatting($page->getContent());
+            $fields['page-excerpt'] = remove_text_formatting($page->getExcerpt());
+            $fields['page-date']['month'] = $page->getDateCreated()->getMonth();
+            $fields['page-date']['day'] = $page->getDateCreated()->getDay();
+            $fields['page-date']['year'] = $page->getDateCreated()->getYear();
+            $fields['page-time']['hour'] = date('g', $page->getDateCreated()->getDateTimeInt() );
+            $fields['page-time']['minute'] = date('i', $page->getDateCreated()->getDateTimeInt() );
+            $fields['page-time']['am_pm'] = date('A', $page->getDateCreated()->getDateTimeInt() );
+            $data['page-id'] = $fields['page-id'] = $page->getId();
+        }
+        $data['fields'] = $fields;
+
+        $requestContext->setResponseData($data);
+        $requestContext->setView('admin/page-editor.php');
+
+        if($requestContext->fieldIsSet($data['mode']))
+        {
+            $this->processPageEditor($requestContext);
+        }
+
+    }
+
+    protected function ManagePages(RequestContext $requestContext)
+    {
+        $status = $requestContext->fieldIsSet('status') ? $requestContext->getField('status') : 'published';
+        $action = $requestContext->fieldIsSet('action') ? $requestContext->getField('action') : null;
+        $post_ids = $requestContext->fieldIsSet('page-ids') ? $requestContext->getField('page-ids') : array();
+
+        switch(strtolower($action))
+        {
+            case 'delete' : {
+                foreach($post_ids as $post_id)
+                {
+                    $post_obj = Post::getMapper('Post')->find($post_id);
+                    if(is_object($post_obj)) $post_obj->setStatus(Post::STATUS_DELETED);
+                }
+            } break;
+            case 'restore' : {
+                foreach($post_ids as $post_id)
+                {
+                    $post_obj = Post::getMapper('Post')->find($post_id);
+                    if(is_object($post_obj)) $post_obj->setStatus(Post::STATUS_DRAFT);
+                }
+            } break;
+            case 'publish' : {
+                foreach($post_ids as $post_id)
+                {
+                    $post_obj = Post::getMapper('Post')->find($post_id);
+                    if(is_object($post_obj)) $post_obj->setStatus(Post::STATUS_PUBLISHED);
+                }
+            } break;
+            case 'un-publish' : {
+                foreach($post_ids as $post_id)
+                {
+                    $post_obj = Post::getMapper('Post')->find($post_id);
+                    if(is_object($post_obj)) $post_obj->setStatus(Post::STATUS_DRAFT);
+                }
+            } break;
+            case 'delete permanently' : {
+                foreach($post_ids as $post_id)
+                {
+                    $post_obj = Post::getMapper('Post')->find($post_id);
+                    if(is_object($post_obj)) $post_obj->markDelete();
+                }
+            } break;
+            default : {}
+        }
+        DomainObjectWatcher::instance()->performOperations();
+
+        switch($status)
+        {
+            case 'published' : {
+                $posts = Post::getMapper('Post')->findTypeByStatus(Post::TYPE_PAGE, Post::STATUS_PUBLISHED);
+            } break;
+            case 'draft' : {
+                $posts = Post::getMapper('Post')->findTypeByStatus(Post::TYPE_PAGE, Post::STATUS_DRAFT);
+            } break;
+            case 'deleted' : {
+                $posts = Post::getMapper('Post')->findTypeByStatus(Post::TYPE_PAGE, Post::STATUS_DELETED);
+            } break;
+            default : {
+                $posts = Post::getMapper('Post')->findAll();
+            }
+        }
+
+        $data = array();
+        $data['status'] = $status;
+        $data['pages'] = $posts;
+        $data['page-title'] = ucwords($status)." Pages";
+        $requestContext->setResponseData($data);
+        $requestContext->setView('admin/manage-pages.php');
+    }
+
+    private function processPageEditor(RequestContext $requestContext)
+    {
+        $data = $requestContext->getResponseData();
+        $fields = $requestContext->getAllFields();
+
+        $title = $fields['page-title'];
+        $guid = strtolower( str_replace(array(' '), array('-'), $fields['page-url']) );
+        $content = $fields['page-content'];
+        $excerpt = $fields['page-excerpt'];
+        $date = $fields['page-date'];
+        $time = $fields['page-time'];
+        $time['hour'] = (strtolower($time['am_pm'])=='pm' and $time['hour']!=12)? ($time['hour']+12) : $time['hour'];
+        $time['hour'] = (strtolower($time['am_pm'])=='am' and $time['hour']==12)? 0 : $time['hour'];
+
+        if(
+            strlen($title)
+            and strlen($guid)
+            and strlen($content)
+            and checkdate($date['month'], $date['day'], $date['year'])
+            and DateTime::checktime($time['hour'], $time['minute'])
+        )
+        {
+            $post = $data['mode'] == 'create-page' ? new Post() : Post::getMapper('Post')->find($data['page-id']);
+            if(is_object($post))
+            {
+                $post->setPostType(Post::TYPE_PAGE);
+                $post->setGuid($guid);
+                $post->setTitle($title);
+                $post->setContent(format_text($content));
+                $post->setExcerpt(format_text($excerpt));
+                $post->setAuthor($requestContext->getSession()->getSessionUser());
+                $post->setDateCreated(new DateTime($date['year'], $date['month'], $date['day'], $time['hour'], $time['minute'], 0));
+                $post->setLastUpdate(new DateTime());
+
+                DomainObjectWatcher::instance()->performOperations();
+                $requestContext->setFlashData($data['mode'] == 'create-page' ? "Page created successfully" : "Page updated successfully");
+
+                $data['status'] = 1;
+                $data['page-id'] = $post->getId();
+                $data['mode'] = 'update-page';
                 $data['fields'] = &$fields;
             }
         }else{
