@@ -14,7 +14,7 @@ $post = $data['post'];
 require_once("header.php");
 ?>
 <div class="row full-padding-top full-padding-bottom">
-    <div class="col-md-8 col-md-offset-1">
+    <div class="col-md-7 col-md-offset-1 height-80vh">
         <h3 class="page-header"><?= $post->getTitle(); ?></h3>
         <p class="text-left lead"><?= $post->getExcerpt(); ?></p>
         <p class="text-justify"><?= $post->getContent(); ?></p>

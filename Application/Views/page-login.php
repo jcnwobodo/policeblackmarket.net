@@ -11,7 +11,7 @@ $requestContext = \System\Request\RequestContext::instance();
 $response_data = $requestContext->getFlashData();
 include_once('header.php');
 ?>
-<form action="<?php home_url('/login/')?>" enctype="multipart/form-data" method="post">
+<form enctype="multipart/form-data" method="post">
     <div class="row">
         <div class="col-md-6 col-md-offset-3 height-90vh">
             <h2 class="page-header"><span class="glyphicon glyphicon-log-in"></span> &nbsp;Admin Login</h2>

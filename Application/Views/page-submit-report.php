@@ -264,13 +264,18 @@ require_once("header.php");
 
         </div>
     </div>
-    <div class="row full-margin-bottom">
+    <div class="row">
         <div class="col-sm-10 col-sm-offset-1">
             <div class="btn-group-lg pull-right">
                 <button name="submit" id="submit-but" type="submit" class="btn btn-primary">
                     Submit Report <span class="glyphicon glyphicon-send"></span>
                 </button>
             </div>
+        </div>
+    </div>
+    <div class="row full-margin-bottom">
+        <div class="col-md-10 col-md-offset-1">
+            <?php include_once("includes/social-connect.php"); ?>
         </div>
     </div>
 </form>

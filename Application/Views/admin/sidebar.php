@@ -12,8 +12,8 @@ $method = $requestContext->getRequestUrlParam(1);
 
 $group1 = array('manage-reports', 'manage-comments', 'manage-locations', 'add-location', 'manage-categories', 'add-category');
 $group2 = array('add-user', 'manage-users');
-$group3 = array('add-news-post', 'manage-news-posts');
-$group4 = array('add-page','manage-pages');
+$group3 = array('add-news-post', 'manage-news-posts', 'update-news-post');
+$group4 = array('add-page','manage-pages', 'update-page');
 ?>
 <div class="col-sm-3 col-md-2 sidebar">
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">

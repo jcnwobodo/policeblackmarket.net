@@ -23,14 +23,14 @@ require_once("header.php");
         </h3>
 
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-sm-6">
                 <div class="btn-group">
                     <a href="<?php home_url('/'.$rc->getRequestUrlParam(0).'/'.$rc->getRequestUrlParam(1).'/?status='.$data['status'].'&type=district'); ?>" class="btn btn-primary">District</a>
                     <a href="<?php home_url('/'.$rc->getRequestUrlParam(0).'/'.$rc->getRequestUrlParam(1).'/?status='.$data['status'].'&type=lga'); ?>" class="btn btn-primary">LGA</a>
                     <a href="<?php home_url('/'.$rc->getRequestUrlParam(0).'/'.$rc->getRequestUrlParam(1).'/?status='.$data['status'].'&type=state'); ?>" class="btn btn-primary">State</a>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-sm-6">
                 <div class="btn-group pull-right">
                     <a href="<?php home_url('/'.$rc->getRequestUrlParam(0).'/'.$rc->getRequestUrlParam(1).'/?status=approved&type='.$data['type']); ?>" class="btn btn-success">Approved</a>
                     <a href="<?php home_url('/'.$rc->getRequestUrlParam(0).'/'.$rc->getRequestUrlParam(1).'/?status=pending&type='.$data['type']); ?>" class="btn btn-primary">Pending</a>

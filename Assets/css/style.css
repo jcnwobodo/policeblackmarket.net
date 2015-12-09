@@ -317,3 +317,12 @@
     font-size: 90%;
     font-weight: bold;
 }
+
+.text-icon-large{
+    height: 2em;
+    width: 2em;
+}
+
+.btn-left{
+    text-align: left;
+}

@@ -19,7 +19,7 @@ require_once("header.php");
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h3 class="page-header">
                 <span class="glyphicon glyphicon-bullhorn"></span> Manage News Posts
-                <a href="<?php home_url('/'.$rc->getRequestUrlParam(0).'/add-news-post/'); ?>" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> <span class="sr-only">Add Location</span></a>
+                <a href="<?php home_url('/'.$rc->getRequestUrlParam(0).'/add-news-post/'); ?>" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> <span class="sr-only">Add News Post</span></a>
             </h3>
 
             <div class="btn-group pull-right">
@@ -55,7 +55,13 @@ require_once("header.php");
                                 ?>
                                 <tr>
                                     <td><?= ++$sn; ?></td>
-                                    <td><strong><?= $post->getTitle(); ?></strong><p><?= $post->getExcerpt(); ?></p></td>
+                                    <td>
+                                        <strong><?= $post->getTitle(); ?></strong>
+                                        <p><?= $post->getExcerpt(); ?></p>
+                                        <p class="text-right no-margin">
+                                            <a class="btn" href="<?php home_url('/'.$rc->getRequestUrlParam(0).'/update-news-post/?post-id='.$post->getId()); ?>"><span class="glyphicon glyphicon-edit"></span> Edit Post</a>
+                                        </p>
+                                    </td>
                                     <td><?= $post->getDateCreated()->getDateTimeStr(); ?></td>
                                     <td><input type="checkbox" name="post-ids[]" value="<?= $post->getId(); ?>"></td>
                                 </tr>

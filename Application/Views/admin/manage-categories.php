@@ -23,13 +23,13 @@ require_once("header.php");
             </h3>
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-sm-6">
                     <div class="btn-group">
                         <a href="<?php home_url('/'.$rc->getRequestUrlParam(0).'/'.$rc->getRequestUrlParam(1).'/?status='.$data['status'].'&type=report'); ?>" class="btn btn-primary">Report</a>
                         <a href="<?php home_url('/'.$rc->getRequestUrlParam(0).'/'.$rc->getRequestUrlParam(1).'/?status='.$data['status'].'&type=post'); ?>" class="btn btn-primary">News</a>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-sm-6">
                     <div class="btn-group pull-right">
                         <a href="<?php home_url('/'.$rc->getRequestUrlParam(0).'/'.$rc->getRequestUrlParam(1).'/?status=approved&type='.$data['type']); ?>" class="btn btn-success">Approved</a>
                         <a href="<?php home_url('/'.$rc->getRequestUrlParam(0).'/'.$rc->getRequestUrlParam(1).'/?status=deleted&type='.$data['type']); ?>" class="btn btn-danger">Deleted</a>

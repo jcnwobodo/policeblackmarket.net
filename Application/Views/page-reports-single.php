@@ -26,7 +26,7 @@ require_once("header.php");
             <div class="text-justify"><?= $report->getDescription(); ?></div>
         </article>
         <div id="comments">
-            <form method="post" action="<?php home_url('/reports/?id='.$report->getId().'#comments'); ?>">
+            <form method="post" action="#comments">
                 <fieldset><legend><span class="glyphicon glyphicon-comment"></span> Comments</legend></fieldset>
                 <?php
                 if(is_object($comments) and $comments->size())
@@ -79,7 +79,8 @@ require_once("header.php");
         </div>
     </div>
     <div class="col-md-3">
-        sidebar
+        <h3 class="page-header">TRENDING</h3>
+        <?php include_once("includes/social-connect.php"); ?>
     </div>
 </div>
 <?php

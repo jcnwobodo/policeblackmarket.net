@@ -74,11 +74,13 @@ require_once("header.php");
         </ul>
     </div>
 </div>
-<div id="home-reports-filter-container" class="border-width-1px border-color1 border-surround mid-padding-all">
-    <?php
-    require_once("includes/filter-form.php");
-    ?>
-</div>
+
+<div class="row full-margin-bottom">
+        <div class="col-md-10 col-md-offset-1">
+            <?php include_once("includes/social-connect.php"); ?>
+        </div>
+    </div>
+
 <?php
 require_once("footer.php");
 ?>

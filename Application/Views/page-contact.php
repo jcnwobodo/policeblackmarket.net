@@ -14,7 +14,7 @@ $fields = $requestContext->getAllFields();
 include_once('header.php');
 ?>
     <form method="post" enctype="multipart/form-data" action="<?php home_url('/contact/send/'); ?>">
-        <div class="row full-margin-bottom">
+        <div class="row">
             <div class="col-md-10 col-md-offset-1 height-90vh">
                 <h2 class="page-header"><span class="glyphicon glyphicon-envelope"></span> Get in touch with us</h2>
 
@@ -79,6 +79,11 @@ include_once('header.php');
                         <span class="glyphicon glyphicon-envelope"></span> Send Message
                     </button>
                 </div>
+            </div>
+        </div>
+        <div class="row full-margin-bottom">
+            <div class="col-md-10 col-md-offset-1">
+                <?php include_once("includes/social-connect.php"); ?>
             </div>
         </div>
     </form>
