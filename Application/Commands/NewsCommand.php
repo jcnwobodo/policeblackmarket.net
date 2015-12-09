@@ -10,6 +10,7 @@
 namespace Application\Commands;
 
 use Application\Models\Post;
+use Application\Models\Comment;
 use System\Request\RequestContext;
 
 class NewsCommand extends Command
@@ -19,10 +20,21 @@ class NewsCommand extends Command
         $data = array();
         if(strlen($requestContext->getRequestUrlParam(1)))
         {
-            $news_post = Post::getMapper('Post')->find($requestContext->getRequestUrlParam(1));
-            if(is_object($news_post) and $news_post->getStatus() == Post::STATUS_APPROVED)
+            $news_post = Post::getMapper('Post')->findByPamalink($requestContext->getRequestUrlParam(1));
+            if(is_object($news_post) and $news_post->getStatus() == Post::STATUS_PUBLISHED)
             {
-                $data['news'] = $news_post;
+
+                if($requestContext->fieldIsSet('post_comment'))
+                {
+                    $requestContext->setResponseData($data);
+                    PostsCommand::handleCommentPost($requestContext, $news_post->getId());
+                    $data = $requestContext->getResponseData();
+                }
+
+                $comments = Comment::getMapper('Comment')->findByPost($news_post->getId());
+
+                $data['posts'] = $news_post;
+                $data['comments'] = $comments;
                 $data['page-title'] = $news_post->getTitle();
                 $requestContext->setView('page-news-single.php');
                 $requestContext->setResponseData($data);
@@ -30,7 +42,7 @@ class NewsCommand extends Command
             }
         }
 
-        $published_news = Post::getMapper('Post')->findByType(Post::TYPE_NEWS);
+        $published_news = Post::getMapper('Post')->findTypeByStatus(Post::TYPE_NEWS, Post::STATUS_PUBLISHED);
         $data['news'] = $published_news;
         $data['page-title'] = "News";
         $requestContext->setView('page-news-list.php');
