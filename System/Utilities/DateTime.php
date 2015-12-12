@@ -11,105 +11,72 @@ namespace System\Utilities;
 
 class DateTime
 {
-    private $year;
-	private $month;
-	private $day;
-    private $hour;
-    private $minute;
-    private $seconds;
+    private $micro_time;
 
-    public function __construct($year=null, $month=null, $day=null, $hour=null, $minute=null, $seconds=null)
+    public function __construct($micro_time=null)
     {
-        if(is_null($year) and is_null($month) and is_null($day))
-        {
-            $year = date("Y");
-            $month = date("m");
-            $day = date("d");
-        }
-        $this->setDate($year, $month, $day);
-
-        $hour = is_null($hour) or ($hour < 0 or $hour > 23) ? date("h") : $hour;
-        $minute = is_null($minute) or ($minute < 0 or $minute > 59) ? date("i") : $minute;
-        $seconds = is_null($seconds) or ($seconds < 0 or $seconds > 59) ? date("s") : $seconds;
-
-        $this->setTime($hour, $minute, $seconds);
+        $this->micro_time = is_null($micro_time) ? mktime() : $micro_time;
     }
-    public static function getDateTimeObjFromInt($dateTimeInt)
-    {
-        $year = date("Y", $dateTimeInt);
-        $month = date("m", $dateTimeInt);
-        $day = date("d", $dateTimeInt);
-        $hour = date("h", $dateTimeInt);
-        $minute = date("i", $dateTimeInt);
-        $seconds = date("s", $dateTimeInt);
 
-        return new self($year, $month, $day, $hour, $minute, $seconds);
+    public static function getDateTimeObjFromInt($micro_time)
+    {
+        return new self($micro_time);
     }
 
     public function setDate($year, $month, $day)
     {
         if(checkdate((int)$month, (int)$day, (int)$year) == true)
         {
-            $this->year = $year;
-            $this->month = $month;
-            $this->day = $day;
+            return mktime(date('g'), date('i'), date('s'), $month, $day, $year);
         }
-        else
-        {
-            throw new \Exception("Invalid date supplied: ".$month."-".$day."-".$year);
-        }
+        throw new \Exception("Invalid date supplied: ".$month."-".$day."-".$year);
     }
+
     public function setTime($hour, $minute, $seconds)
     {
         if($this::checktime((int)$hour, (int)$minute, (int)$seconds) == true)
         {
-            $this->hour = $hour;
-            $this->minute = $minute;
-            $this->seconds = $seconds;
+            return mktime($hour, $minute, $seconds, date('f'), date('d'), date('Y'));
         }
-        else
-        {
-            throw new \Exception("Invalid time supplied: ".$hour."-".$minute."-".$seconds);
-        }
+        throw new \Exception("Invalid time supplied: ".$hour."-".$minute."-".$seconds);
     }
 
     public function getDateTimeInt()
     {
-        return mktime($this->hour,$this->minute,$this->seconds,$this->month,$this->day,$this->year);
+        return $this->micro_time;
     }
-    public function getDateTimeStr($date_separator="-", $time_seperator=":")
+    public function getDateTimeStr($date_separator="-", $time_separator=":")
     {
-        return (string)$this->getYear().$date_separator.$this->getMonth().$date_separator.$this->getDay().'|'.
-            $this->getHour().$time_seperator.$this->getMinute().$time_seperator.$this->getSeconds();
+        return date("d{$date_separator}m{$date_separator}Y | g{$time_separator}i{$time_separator}s A",$this->micro_time);
     }
     public function getDateTimeStrF($format)
     {
-        return date($format, $this->getDateTimeInt());
+        return date($format, $this->micro_time);
     }
 
     public function getYear()
     {
-        return $this->year;
+        return date('Y',$this->micro_time);
     }
     public function getMonth()
     {
-        return $this->month;
+        return date('m',$this->micro_time);
     }
     public function getDay()
     {
-        return $this->day;
+        return date('d',$this->micro_time);
     }
     public function getHour()
     {
-        return $this->hour;
+        return date('g',$this->micro_time);
     }
     public function getMinute()
     {
-        return $this->minute;
+        return date('i',$this->micro_time);
     }
     public function getSeconds()
     {
-        return $this->seconds;
+        return date('s',$this->micro_time);
     }
 
     public static function checktime($hour=0, $minute=0, $seconds=0)

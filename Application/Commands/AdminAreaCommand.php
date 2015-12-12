@@ -671,7 +671,7 @@ class AdminAreaCommand extends SecureCommand
                 $post->setExcerpt(format_text($excerpt));
                 $post->setCategory($category);
                 $post->setAuthor($requestContext->getSession()->getSessionUser());
-                $post->setDateCreated(new DateTime($date['year'], $date['month'], $date['day'], $time['hour'], $time['minute'], 0));
+                $post->setDateCreated(new DateTime(mktime($time['hour'],$time['minute'],0,$date['month'],$date['day'],$date['year'])));
                 $post->setLastUpdate(new DateTime());
 
                 DomainObjectWatcher::instance()->performOperations();
@@ -842,7 +842,7 @@ class AdminAreaCommand extends SecureCommand
                 $post->setContent(format_text($content));
                 $post->setExcerpt(format_text($excerpt));
                 $post->setAuthor($requestContext->getSession()->getSessionUser());
-                $post->setDateCreated(new DateTime($date['year'], $date['month'], $date['day'], $time['hour'], $time['minute'], 0));
+                $post->setDateCreated(new DateTime(mktime($time['hour'],$time['minute'],0,$date['month'],$date['day'],$date['year']) ));
                 $post->setLastUpdate(new DateTime());
 
                 DomainObjectWatcher::instance()->performOperations();

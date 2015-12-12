@@ -72,7 +72,7 @@ class SubmitReportCommand extends Command
         )
         {
             $event_time = new DateTime();
-            $report_time = new DateTime($date['year'], $date['month'], $date['day'], $time['hour'], $time['minute'], 0);
+            $report_time = new DateTime(new DateTime(mktime($time['hour'],$time['minute'],0,$date['month'],$date['day'],$date['year']) ));
 
             $report_categories = new CategoryCollection();
             foreach($categories as $category)
