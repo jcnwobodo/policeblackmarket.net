@@ -30,12 +30,12 @@ $page_title = isset($rc->getResponseData()['page-title']) ? $rc->getResponseData
 
 </head>
 
-<body>
+<body class="bg-color3">
 
 <nav class="navbar navbar-inverse bg-color1 navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="<?php home_url('/'); ?>"><span class="glyphicon glyphicon-eye-close"></span> <?= strtoupper(site_info('name')); ?></a>
+            <a class="navbar-brand" href="<?php home_url('/'); ?>"><span class="glyphicon glyphicon-eye-close"></span> <?= strtoupper(site_info('name',0)); ?></a>
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>

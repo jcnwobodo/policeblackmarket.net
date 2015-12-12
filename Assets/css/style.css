@@ -204,6 +204,19 @@
 /*----------------------------------COLORS, MEDIA AND GRAPHICS STYLING-------------------------------------*/
 
 /*----colors----*/
+body{
+    background-color: #000000;
+}
+.main-container{
+    background-color: #ffffff;
+}
+.page-footer a, .page-footer p{
+    color: #6e6e6e;
+    text-decoration: none;
+}
+.page-footer a:hover, .page-footer a:focus{
+    color: #ffffff;
+}
 .color-inherit{
     color: inherit !important;
 }
@@ -214,7 +227,7 @@
     color: #3c3c3c;
 }
 .color3{
-    color: blue;
+    color: #ffffff;
 }
 .color4{
     color: orangered;
@@ -230,8 +243,8 @@
 .bg-color2{
     background-color: #3c3c3c;
 }
-.bg-color3, .active{
-    background-color: blue;
+.bg-color3{
+    background-color: #ffffff;
 }
 .bg-color4{
     background-color: orangered;
@@ -302,22 +315,6 @@
 }
 
 /*----Layouts----*/
-#home-reports-filter-container{
-    display: block;
-    position: fixed;
-    z-index: 90;
-    width: 30vw;
-    height: auto;
-    bottom: 0;
-    right: 0;
-    background-color: whitesmoke;
-}
-
-#home-reports-filter-container legend{
-    font-size: 90%;
-    font-weight: bold;
-}
-
 .text-icon-large{
     height: 2em;
     width: 2em;

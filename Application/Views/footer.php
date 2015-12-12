@@ -7,19 +7,19 @@
  * Time: 6:43 PM
  */
 ?>
-    <div class="row bg-color1 mid-padding-all">
-        <div class="col-lg-6 col-md-6">
+    <div class="row bg-color1 mid-padding-all page-footer">
+        <div class="col-md-6">
             <nav role="navigation">
                 <ul class="list-inline">
-                    <li><a href="<?php home_url('/legal-notice/'); ?>" class="color2">Legal Notice</a></li>
-                    <li><a href="<?php home_url('/about/'); ?>" class="color2">About</a></li>
-                    <li><a href="<?php home_url('/terms-of-use/'); ?>" class="color2">Terms of Use</a></li>
-                    <li><a href="<?php home_url('/admin-area/'); ?>" class="color2">Admin Login</a></li>
+                    <li><a href="<?php home_url('/about/'); ?>"><span class="glyphicon glyphicon-star-empty"></span> About</a></li>
+                    <li><a href="<?php home_url('/legal-notice/'); ?>"><span class="glyphicon glyphicon-info-sign"></span> Legal Notice</a></li>
+                    <li><a href="<?php home_url('/terms-of-use/'); ?>"><span class="glyphicon glyphicon-list-alt"></span> Terms of Use</a></li>
+                    <li><a href="<?php home_url('/admin-area/'); ?>"><span class="glyphicon glyphicon-dashboard"></span> Admin Area</a></li>
                 </ul>
             </nav>
         </div>
-        <div class="col-lg-6 col-md-6">
-            <p>Designed and Developed by J. C. Nwobodo</p>
+        <div class="col-md-6">
+            <p><span class="glyphicon glyphicon-heart"></span> Developed with the Love of Nigeria in Mind</p>
         </div>
     </div>
 </div><!-- /.container-fluid-->

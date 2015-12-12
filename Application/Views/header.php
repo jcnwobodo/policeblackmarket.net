@@ -42,5 +42,5 @@ $page_title = isset($rc->getResponseData()['page-title']) ? $rc->getResponseData
         </div><!--/.nav-collapse -->
     </div>
 </nav>
-<div class="container-fluid">
+<div class="main-container container-fluid">
     <!--rest of the body-->

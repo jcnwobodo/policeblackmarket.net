@@ -28,4 +28,9 @@ $requestContext = System\Request\RequestContext::instance();
         <a href="<?php site_info('youtube_channel'); ?>" target="_blank" class="btn btn-default btn-left" title="<?php site_info('name'); ?> on Youtube"><img src="<?php home_url('/Assets/icons/youtube.png'); ?>" class="text-icon-large"> Youtube</a>
         <a href="<?php site_info('google_plus'); ?>" target="_blank" class="btn btn-default btn-left" title="<?php site_info('name'); ?> on Google+"><img src="<?php home_url('/Assets/icons/gp.png'); ?>" class="text-icon-large"> +Google</a>
     </div>
+
+    <h4 class="page-header"><span class="glyphicon glyphicon-bullhorn"></span> STAY UPDATED</h4>
+    <div>
+
+    </div>
 </div>
