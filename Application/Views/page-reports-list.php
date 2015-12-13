@@ -33,7 +33,7 @@ require_once("header.php");
                     <div class="row">
                         <div class="col-xs-12 text-right">
                             <div class="btn-group btn-group-xs">
-                                <a href="#" class="btn"><span class="glyphicon glyphicon-calendar"></span> <?= $report->getReportTime()->getDateTimeStr(); ?></a>
+                                <a href="#" class="btn"><span class="glyphicon glyphicon-calendar"></span> <?= $report->getEventTime()->getDateTimeStr(); ?></a>
                                 <a href="<?php home_url('/reports/?id='.$report->getId()); ?>" class="btn"><span class="glyphicon glyphicon-play"></span> Read More</a>
                                 <a href="<?php home_url('/reports/?id='.$report->getId().'#comments'); ?>" class="btn"><span class="glyphicon glyphicon-comment"></span> Post Comment</a>
                             </div>

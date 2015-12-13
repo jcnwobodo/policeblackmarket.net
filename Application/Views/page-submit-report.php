@@ -19,7 +19,7 @@ $fields = $requestContext->getAllFields();
 
 require_once("header.php");
 ?>
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     <div class="row full-margin-bottom">
         <div class="col-md-10 col-md-offset-1 full-margin-top">
             <h1 class="page-header"><span class="glyphicon glyphicon-pencil"></span> Write a Report</h1>
@@ -191,7 +191,7 @@ require_once("header.php");
                             <label for="evidence_photos1"><span class="glyphicon glyphicon-camera"></span> Photo</label>
                         </div>
                         <div class="col-sm-9">
-                            <input name="evidence_photos[]" id="evidence_photos1" type="file"/>
+                            <input name="evidence_photos1" id="evidence_photos1" type="file"/>
                         </div>
                     </div>
                 </div>
