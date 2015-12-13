@@ -165,7 +165,7 @@ class Report extends DomainObject
      * @param mixed $location_lga
      * @return Report
      */
-    public function setLocationLga($location_lga)
+    public function setLocationLga(Location $location_lga)
     {
         $this->location_lga = $location_lga;
         $this->markDirty();
@@ -184,7 +184,7 @@ class Report extends DomainObject
      * @param mixed $location_district
      * @return Report
      */
-    public function setLocationDistrict($location_district)
+    public function setLocationDistrict(Location $location_district)
     {
         $this->location_district = $location_district;
         $this->markDirty();

@@ -18,24 +18,18 @@ class UploadMapper extends Mapper
     public function __construct()
     {
         parent::__construct();
-        $this->selectStmt = self::$PDO->prepare(
-            "SELECT * FROM site_uploads WHERE id=?");
-        $this->selectAllStmt = self::$PDO->prepare(
-            "SELECT * FROM site_uploads");
-        $this->selectByTypeStmt = self::$PDO->prepare(
-            "SELECT * FROM site_uploads WHERE MIME_type=?");
-        $this->updateStmt = self::$PDO->prepare(
-            "UPDATE site_uploads SET MIME_type=?, upload_time=?, location=? WHERE id=?");
-        $this->insertStmt = self::$PDO->prepare(
-            "INSERT INTO site_uploads (MIME_type,upload_time,location)VALUES(?,?,?)");
-        $this->deleteStmt = self::$PDO->prepare(
-            "DELETE FROM site_uploads WHERE id=?");
+        $this->selectStmt = self::$PDO->prepare("SELECT * FROM site_uploads WHERE id=?");
+        $this->selectAllStmt = self::$PDO->prepare("SELECT * FROM site_uploads");
+        $this->selectByStatusStmt = self::$PDO->prepare("SELECT * FROM site_uploads WHERE status=?");
+        $this->updateStmt = self::$PDO->prepare("UPDATE site_uploads SET author=?, upload_time=?, location=?, file_name=?, file_size=?, status=? WHERE id=?");
+        $this->insertStmt = self::$PDO->prepare("INSERT INTO site_uploads (author,upload_time,location,file_name,file_size,status)VALUES(?,?,?,?,?,?)");
+        $this->deleteStmt = self::$PDO->prepare("DELETE FROM site_uploads WHERE id=?");
     }
 
-    public function findByMIMEType($mime_type)
+    public function findByStatus($status)
     {
-        $this->selectByTypeStmt->execute( array($mime_type) );
-        $raw_data = $this->selectByTypeStmt->fetchAll(\PDO::FETCH_ASSOC);
+        $this->selectByStatusStmt->execute( array($status) );
+        $raw_data = $this->selectByStatusStmt->fetchAll(\PDO::FETCH_ASSOC);
         return $this->getCollection( $raw_data );
     }
 
@@ -53,9 +47,13 @@ class UploadMapper extends Mapper
     {
         $class = $this->targetClass();
         $object = new $class($array['id']);
-        $object->setMIMEType($array['MIME_type']);
+        $author = Models\User::getMapper('User')->find($array['author']);
+        if(is_object($author)) $object->setAuthor();
         $object->setUploadTime(DateTime::getDateTimeObjFromInt($array['upload_time']));
         $object->setLocation($array['location']);
+        $object->setFileName($array['file_name']);
+        $object->setFileSize($array['file_size']);
+        $object->setStatus($array['status']);
 
         return $object;
     }
@@ -63,9 +61,12 @@ class UploadMapper extends Mapper
     protected function doInsert(Models\DomainObject $object )
     {
         $values = array(
-            $object->getMIMEType(),
+            is_object($object->getAuthor()) ? $object->getAuthor()->getId() : NULL,
             $object->getUploadTime()->getDateTimeInt(),
-            $object->getLocation()
+            $object->getLocation(),
+            $object->getFileName(),
+            $object->getFileSize(),
+            $object->getStatus()
         );
         $this->insertStmt->execute( $values );
         $id = self::$PDO->lastInsertId();
@@ -75,9 +76,12 @@ class UploadMapper extends Mapper
     protected function doUpdate(Models\DomainObject $object )
     {
         $values = array(
-            $object->getMIMEType(),
+            is_object($object->getAuthor()) ? $object->getAuthor()->getId() : NULL,
             $object->getUploadTime()->getDateTimeInt(),
             $object->getLocation(),
+            $object->getFileName(),
+            $object->getFileSize(),
+            $object->getStatus(),
             $object->getId()
         );
         $this->updateStmt->execute( $values );

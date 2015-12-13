@@ -13,67 +13,17 @@ use System\Utilities\DateTime;
 
 class Upload extends DomainObject
 {
-    private $MIME_type;
+    private $author;
     private $upload_time;
     private $location;
-    private $guid;
-    private $author;
+    private $file_name;
+    private $file_size;
+    private $status;
 
     public function __construct($id=null)
     {
         parent::__construct($id);
-    }
-
-    public function getMIMEType()
-    {
-        return $this->MIME_type;
-    }
-    public function setMIMEType($MIME_type)
-    {
-        $this->MIME_type = $MIME_type;
-        $this->markDirty();
-        return $this;
-    }
-
-    public function getUploadTime()
-    {
-        return $this->upload_time;
-    }
-    public function setUploadTime(DateTime $upload_time)
-    {
-        $this->upload_time = $upload_time;
-        $this->markDirty();
-        return $this;
-    }
-
-    public function getLocation()
-    {
-        return $this->location;
-    }
-    public function setLocation(Location $location)
-    {
-        $this->location = $location;
-        $this->markDirty();
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getGuid()
-    {
-        return $this->guid;
-    }
-
-    /**
-     * @param mixed $guid
-     * @return Upload
-     */
-    public function setGuid($guid)
-    {
-        $this->guid = $guid;
-        $this->markDirty();
-        return $this;
+        $this->setStatus(self::STATUS_PENDING);
     }
 
     /**
@@ -94,4 +44,100 @@ class Upload extends DomainObject
         $this->markDirty();
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUploadTime()
+    {
+        return $this->upload_time;
+    }
+
+    /**
+     * @param mixed $upload_time
+     * @return Upload
+     */
+    public function setUploadTime(DateTime $upload_time)
+    {
+        $this->upload_time = $upload_time;
+        $this->markDirty();
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * @param mixed $location
+     * @return Upload
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+        $this->markDirty();
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFileName()
+    {
+        return $this->file_name;
+    }
+
+    /**
+     * @param mixed $file_name
+     * @return Upload
+     */
+    public function setFileName($file_name)
+    {
+        $this->file_name = $file_name;
+        $this->markDirty();
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFileSize()
+    {
+        return $this->file_size;
+    }
+
+    /**
+     * @param mixed $file_size
+     * @return Upload
+     */
+    public function setFileSize($file_size)
+    {
+        $this->file_size = $file_size;
+        $this->markDirty();
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     * @return Upload
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+        $this->markDirty();
+        return $this;
+    }
+
 }
