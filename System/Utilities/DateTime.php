@@ -23,24 +23,6 @@ class DateTime
         return new self($micro_time);
     }
 
-    public function setDate($year, $month, $day)
-    {
-        if(checkdate((int)$month, (int)$day, (int)$year) == true)
-        {
-            return mktime(date('g'), date('i'), date('s'), $month, $day, $year);
-        }
-        throw new \Exception("Invalid date supplied: ".$month."-".$day."-".$year);
-    }
-
-    public function setTime($hour, $minute, $seconds)
-    {
-        if($this::checktime((int)$hour, (int)$minute, (int)$seconds) == true)
-        {
-            return mktime($hour, $minute, $seconds, date('f'), date('d'), date('Y'));
-        }
-        throw new \Exception("Invalid time supplied: ".$hour."-".$minute."-".$seconds);
-    }
-
     public function getDateTimeInt()
     {
         return $this->micro_time;

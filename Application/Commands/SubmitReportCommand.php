@@ -71,8 +71,10 @@ class SubmitReportCommand extends Command
             $location_district->getParent() == $location_lga and $location_lga->getParent() == $location_state
         )
         {
-            $event_time = new DateTime();
-            $report_time = new DateTime(new DateTime(mktime($time['hour'],$time['minute'],0,$date['month'],$date['day'],$date['year']) ));
+            $time['hour'] = (strtolower($time['am_pm'])=='pm' and $time['hour']!=12)? ($time['hour']+12) : $time['hour'];
+            $time['hour'] = (strtolower($time['am_pm'])=='am' and $time['hour']==12)? 0 : $time['hour'];
+            $event_time = new DateTime(mktime($time['hour'],$time['minute'],0,$date['month'],$date['day'],$date['year']));
+            $report_time = new DateTime();
 
             $report_categories = new CategoryCollection();
             foreach($categories as $category)
