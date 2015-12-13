@@ -10,12 +10,15 @@
 namespace Application\Commands;
 
 use Application\Models\Collections\CategoryCollection;
+use Application\Models\Collections\UploadCollection;
 use Application\Models\Location;
 use Application\Models\Report;
+use Application\Models\Upload;
 use Application\Models\User;
 use System\Request\RequestContext;
 use Application\Models\Category;
 use System\Utilities\DateTime;
+use System\Utilities\UploadHandler;
 
 class SubmitReportCommand extends Command
 {
@@ -43,6 +46,7 @@ class SubmitReportCommand extends Command
         $data['status'] = false;
 
         $fields = $requestContext->getAllFields();
+        $files = $requestContext->getAllFiles();
         $title = $fields['report_title'];
         $description = $fields['report_description'];
         $date = $fields['report_date'];
@@ -54,7 +58,7 @@ class SubmitReportCommand extends Command
         $location_scene = $fields['location_scene'];
         $evidence_news = $fields['evidence_news'];
         $evidence_video = $fields['evidence_video'];
-        $evidence_photos = $fields['evidence_photos']; //TODO handle photo upload
+        $evidence_photos = isset($files['evidence_photos1']) ? $files['evidence_photos1'] : null;
         $reporter_first_name = $fields['reporter_first-name'];
         $reporter_last_name = $fields['reporter_last-name'];
         $reporter_email = $fields['reporter_email'];
@@ -76,13 +80,6 @@ class SubmitReportCommand extends Command
             $event_time = new DateTime(mktime($time['hour'],$time['minute'],0,$date['month'],$date['day'],$date['year']));
             $report_time = new DateTime();
 
-            $report_categories = new CategoryCollection();
-            foreach($categories as $category)
-            {
-                $category_obj = Category::getMapper('Category')->find($category);
-                if(!is_null($category_obj)) $report_categories->add($category_obj);
-            }
-
             $reporter = User::getMapper('User')->findByEmail($reporter_email);
             if(!is_object($reporter))
             {
@@ -97,17 +94,66 @@ class SubmitReportCommand extends Command
                 $reporter->mapper()->insert($reporter);
             }
 
-            $report = new Report();
-            $report->setTitle($title)->setDescription(format_text($description))->setEventTime($event_time)->setReportTime($report_time);
-            $report->setCategories($report_categories);
-            $report->setLocationState($location_state)->setLocationLga($location_lga)->setLocationDistrict($location_district)->setLocationScene($location_scene);
-            $report->setNewsSources($evidence_news)->setVideoLinks($evidence_video);
-            //TODO handle uploaded photos
-            $report->setReporter($reporter);
-            $report->setStatus($report::STATUS_PENDING);
+            //Handle photo upload
+            $photo_handled = true;
+            $photo_collection = new UploadCollection();
+            //TODO enhance code to support multiple file upload
+            if(!is_null($evidence_photos))
+            {
+                $photo_handled = false;
+                $uploader = new UploadHandler('evidence_photos1', uniqid('reports_'));
+                $uploader->setAllowedExtensions(array('jpg','png','gif'));
+                $uploader->setUploadDirectory("Uploads".DIRECTORY_SEPARATOR.date('Y')."-".date('M'));
+                $uploader->setMaxUploadSize(3);
+                $uploader->doUpload();
+                if($uploader->getUploadStatus())
+                {
+                    $photo = new Upload();
+                    $photo->setAuthor($reporter);
+                    $photo->setUploadTime(new DateTime());
+                    $photo->setLocation($uploader->getUploadDirectory());
+                    $photo->setFileName($uploader->getOutputFileName().".".$uploader->getFileExtension());
+                    $photo->setFileSize($uploader->getFileSize());
 
-            $requestContext->setFlashData("Your report has been received and shall be reviewed within 24hrs.");
-            $data['status'] = true;
+                    $photo_collection->add($photo);
+                    $photo_handled = true;
+                }
+                else
+                {
+                    $data['status'] = false;
+                    $requestContext->setFlashData("Error Uploading Photo - ".$uploader->getStatusMessage());
+                }
+            }
+
+
+            if($photo_handled)
+            {
+                $report_categories = new CategoryCollection();
+                foreach($categories as $category)
+                {
+                    $category_obj = Category::getMapper('Category')->find($category);
+                    if(!is_null($category_obj)) $report_categories->add($category_obj);
+                }
+
+                $report = new Report();
+                $report->setTitle($title);
+                $report->setDescription(format_text($description));
+                $report->setEventTime($event_time);
+                $report->setReportTime($report_time);
+                $report->setCategories($report_categories);
+                $report->setLocationState($location_state);
+                $report->setLocationLga($location_lga);
+                $report->setLocationDistrict($location_district);
+                $report->setLocationScene($location_scene);
+                $report->setPhotos($photo_collection);
+                $report->setNewsSources($evidence_news);
+                $report->setVideoLinks($evidence_video);
+                $report->setReporter($reporter);
+                $report->setStatus($report::STATUS_PENDING);
+
+                $requestContext->setFlashData("Your report has been received and shall be reviewed within 24hrs.");
+                $data['status'] = true;
+            }
         }
         else{
             $requestContext->setFlashData("You need to supply valid data before you can proceed with report submission.");
