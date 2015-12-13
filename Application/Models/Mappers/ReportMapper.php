@@ -26,15 +26,18 @@ class ReportMapper extends Mapper
          *      selectByTimeRangeStmt
          *      selectByLocationStmt
         **/
-        $this->selectByStatusStmt = self::$PDO->prepare("SELECT * FROM pbm_reports WHERE status=?");
+        $this->selectByStatusStmt = self::$PDO->prepare("SELECT * FROM pbm_reports WHERE status=:post_status ORDER BY id DESC LIMIT :row_count OFFSET :offset");
         $this->updateStmt = self::$PDO->prepare("UPDATE pbm_reports SET title=?, description=?, event_time=?, report_time=?, location_state=?, location_lga=?, location_district=?, location_scene=?, reporter=?, status=? WHERE id=?");
         $this->insertStmt = self::$PDO->prepare("INSERT INTO pbm_reports (title, description, event_time, report_time, location_state,location_lga, location_district, location_scene, reporter, status) VALUES (?,?,?,?,?,?,?,?,?,?)");
         $this->deleteStmt = self::$PDO->prepare("DELETE FROM pbm_reports WHERE id=?");
     }
 
-    public function findByStatus($status)
+    public function findByStatus($post_status, $row_count=10, $offset=0)
     {
-        $this->selectByStatusStmt->execute( array($status) );
+        $this->selectByStatusStmt->bindParam(':post_status', $post_status, \PDO::PARAM_STR);
+        $this->selectByStatusStmt->bindParam(':row_count', $row_count, \PDO::PARAM_INT);
+        $this->selectByStatusStmt->bindParam(':offset', $offset, \PDO::PARAM_INT);
+        $this->selectByStatusStmt->execute();
         $raw_data = $this->selectByStatusStmt->fetchAll(\PDO::FETCH_ASSOC);
         return $this->getCollection( $raw_data );
     }

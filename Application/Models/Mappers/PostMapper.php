@@ -20,21 +20,23 @@ class PostMapper extends Mapper
         parent::__construct();
         $this->selectStmt = self::$PDO->prepare("SELECT * FROM site_posts WHERE id=?");
         $this->selectAllStmt = self::$PDO->prepare("SELECT * FROM site_posts ORDER BY id DESC;");
-        $this->selectByTypeStmt = self::$PDO->prepare("SELECT * FROM site_posts WHERE post_type=? ORDER BY id DESC;");
+        $this->selectByTypeStmt = self::$PDO->prepare("SELECT * FROM site_posts WHERE post_type=:post_type ORDER BY id DESC LIMIT :row_count OFFSET :offset;");
         $this->selectByPamalinkStmt = self::$PDO->prepare("SELECT * FROM site_posts WHERE guid=?");
         $this->selectByCategoryStmt = self::$PDO->prepare("SELECT * FROM site_posts WHERE category=? ORDER BY id DESC;");
         $this->selectByAuthorStmt = self::$PDO->prepare("SELECT * FROM site_posts WHERE author=? ORDER BY id DESC;");
         $this->selectByStatusStmt = self::$PDO->prepare("SELECT * FROM site_posts WHERE status=? ORDER BY id DESC;");
-        $this->selectTypeByStatusStmt = self::$PDO->prepare("SELECT * FROM site_posts WHERE post_type=? AND status=? ORDER BY id DESC;");
+        $this->selectTypeByStatusStmt = self::$PDO->prepare("SELECT * FROM site_posts WHERE post_type=:post_type AND status=:post_status ORDER BY id DESC LIMIT :row_count OFFSET :offset;");
         $this->updateStmt = self::$PDO->prepare("UPDATE site_posts SET post_type=?, guid=?, title=?, content=?, excerpt=?, featured_image=?, category=?, author=?, date_created=?, last_update=?, status=? WHERE id=?");
         $this->insertStmt = self::$PDO->prepare("INSERT INTO site_posts (post_type,guid,title,content,excerpt,featured_image,category,author,date_created,last_update,status)VALUES(?,?,?,?,?,?,?,?,?,?,?)");
         $this->deleteStmt = self::$PDO->prepare("DELETE FROM site_posts WHERE id=?");
     }
 
-    public function findByType($post_type)
+    public function findByType($post_type,$row_count=10,$offset=0)
     {
-        //TODO: move up logic to parent class as in Mapper::findHelper()
-        $this->selectByTypeStmt->execute( array($post_type) );
+        $this->selectByTypeStmt->bindParam(':post_type', $post_type, \PDO::PARAM_STR);
+        $this->selectByTypeStmt->bindParam(':row_count', $row_count, \PDO::PARAM_INT);
+        $this->selectByTypeStmt->bindParam(':offset', $offset, \PDO::PARAM_INT);
+        $this->selectByTypeStmt->execute();
         $raw_data = $this->selectByTypeStmt->fetchAll(\PDO::FETCH_ASSOC);
         return $this->getCollection( $raw_data );
     }
@@ -58,9 +60,13 @@ class PostMapper extends Mapper
         return $this->getCollection( $raw_data );
     }
 
-    public function findTypeByStatus($type, $status)
+    public function findTypeByStatus($post_type, $post_status, $row_count=10, $offset=0)
     {
-        $this->selectTypeByStatusStmt->execute( array($type, $status) );
+        $this->selectTypeByStatusStmt->bindParam(':post_type', $post_type, \PDO::PARAM_STR);
+        $this->selectTypeByStatusStmt->bindParam(':post_status', $post_status, \PDO::PARAM_INT);
+        $this->selectTypeByStatusStmt->bindParam(':row_count', $row_count, \PDO::PARAM_INT);
+        $this->selectTypeByStatusStmt->bindParam(':offset', $offset, \PDO::PARAM_INT);
+        $this->selectTypeByStatusStmt->execute();
         $raw_data = $this->selectTypeByStatusStmt->fetchAll(\PDO::FETCH_ASSOC);
         return $this->getCollection( $raw_data );
     }
