@@ -21,13 +21,13 @@ require_once("header.php");
                 {
                     ?>
                     <div class="full-margin-bottom border-width-1px border-color1 border-bottom">
-                        <div><h3 class="page-header"><span class="glyphicon glyphicon-file"></span> <?= $post->getTitle(); ?></h3></div>
+                        <div><h4 class="page-header"><span class="glyphicon glyphicon-file"></span> <?= $post->getTitle(); ?></h4></div>
                         <div class="row">
                             <div class="col-sm-3">
                                 <div class="img-thumbnail">image</div>
                             </div>
                             <div class="col-sm-9">
-                                <p class="text-justify"><?= $post->getExcerpt(); ?> &hellip;</p>
+                                <p class="text-justify"><?= $post->getExcerpt(); ?></p>
                             </div>
                         </div>
                         <div class="row">
