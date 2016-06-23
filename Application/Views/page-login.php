@@ -14,10 +14,10 @@ include_once('header.php');
 <form enctype="multipart/form-data" method="post">
     <div class="row">
         <div class="col-md-6 col-md-offset-3 height-90vh">
-            <h2 class="page-header"><span class="glyphicon glyphicon-log-in"></span> &nbsp;Admin Login</h2>
+            <h2 class="page-header"><span class="glyphicon glyphicon-log-in"></span> &nbsp;Member Login</h2>
 
             <?php
-            if($requestContext->fieldIsSet('login'))
+            if($requestContext->fieldIsSet('login', INPUT_POST))
             {
                 ?>
                 <div class="row">

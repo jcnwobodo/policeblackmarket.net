@@ -11,7 +11,7 @@ namespace Application\Models;
 
 use System\Utilities\DateTime;
 
-class Comment extends DomainObject
+class Comment extends A_DomainObject
 {
     private $parent;
     private $post_id;
@@ -23,6 +23,10 @@ class Comment extends DomainObject
 
     const COMMENT_TYPE_POST = 'post';
     const COMMENT_TYPE_REPORT = 'report';
+
+    const STATUS_APPROVED = 1;
+    const STATUS_PENDING = 2;
+    const STATUS_DELETED = 0;
 
     public function __construct($id=null)
     {

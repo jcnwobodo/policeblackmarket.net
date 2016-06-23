@@ -1,10 +1,18 @@
 <?php
+/**
+ * Phoenix Laboratories NG.
+ * Author: J. C. Nwobodo (phoenixlabs.ng@gmail.com)
+ * Project: BareBones PHP Framework
+ * Date:    1/7/2016
+ * Time:    8:11 PM
+ **/
+
 namespace System\Request;
 
 use System\Models\DomainObjectWatcher;
 use System\Exceptions;
 use Application\Models\Session;
-use System\Auth\AccessManager;
+use Application\Utilities\AccessManager;
 
 class RequestContext
 {
@@ -13,16 +21,19 @@ class RequestContext
     private $session;
     private $request_url;
     private $request_url_params;
-    private $request_command = array();
+    private $request_commands = array();
     private $request_data = array();
     private $request_cookies = array();
     private $request_files = array();
-    private $flash_data = null;
-    private $response_data = null;
-    private static $views_directory = 'Application/Views/';
+    private $flash_data = "";
+    private $response_data = array();
+    private $views_directory;
     private $view;
 
 
+    /**
+     * @return RequestContext
+     */
     public static function instance()
     {
         if( ! isset(self::$instance))
@@ -31,20 +42,36 @@ class RequestContext
         }
         return self::$instance;
     }
+
+    /**
+     * RequestContext constructor.
+     */
     private function __construct()
     {
-        filter_input_array(INPUT_POST);
-        filter_input_array(INPUT_GET);
-        $array = array_merge($_POST, $_GET );
-        $this->sanitizeInput($array);
-        $this->setRequestUrl("/www/leapscope/police-black-market", ""); //no slashes at the end of address
-        $this->request_url_params = $this->setRequestUrlParamsArray();
-        $this->setRequestDataArray($array);
-        $this->addCommand( isset($this->request_url_params[0]) ? $this->request_url_params[0] : "Default" );
-        $this->request_cookies = filter_input_array(INPUT_COOKIE);
-        $this->request_files = $_FILES;
+        //capture relevant inputs
+        $this->request_cookies = $_COOKIE;
+        $this->request_files = &$_FILES;
+        $post_input_array = $_POST;
+        $get_input_array = $_GET;
+
+        //sanitize inputs
+        $this->sanitizeInput($post_input_array);
+        $this->sanitizeInput($get_input_array);
+
+        //store inputs
+        $this->setRequestData($post_input_array,INPUT_POST);
+        $this->setRequestData($get_input_array, INPUT_GET);
+
+        $this->setRequestUrl( site_info('deployment-path',false) , ""); //no slashes at the end of address
+        $this->request_url_params = $this->processRequestUrlIntoArray();
+
+        $this->views_directory = site_info('views-directory', false);
+        $this->addControl( isset($this->request_url_params[0]) ? $this->request_url_params[0] : "Default" );
     }
 
+    /**
+     * @param $array
+     */
     private function sanitizeInput(&$array)
     {
         if ($array !== FALSE && $array !== null)
@@ -62,14 +89,23 @@ class RequestContext
             }
         }
     }
-    private function setRequestDataArray($array)
+
+    /**
+     * @param $array
+     * @param $request_type
+     */
+    private function setRequestData($array, $request_type)
     {
         if(!empty($array) and $array !== FALSE && $array !== null)
         {
-            $this->request_data = $array;
+            $this->request_data[$request_type] = $array;
         }
     }
-    private function setRequestUrlParamsArray()
+
+    /**
+     * @return array
+     */
+    private function processRequestUrlIntoArray()
     {
         $raw = explode("/", $this->request_url);
         $processed = array();
@@ -80,12 +116,34 @@ class RequestContext
         return $processed;
     }
 
+    /**
+     * @param $url
+     * @param bool $replace
+     */
     public function redirect($url, $replace=true)
     {
         DomainObjectWatcher::instance()->performOperations();
         header("Location:{$url}", $replace);
     }
 
+    /**
+     *
+     */
+    public function redirectIfSessionExists()
+    {
+        $possible_session = $this->getSession();
+        if(! is_null($possible_session))
+        {
+            $user = $possible_session->getUser();
+            $privilege = $user->getDefaultPrivilege();
+            $redirect_url = home_url( '/'.$privilege->defaultController(), false );
+            $this->redirect($redirect_url);
+        }
+    }
+
+    /**
+     * @return Session
+     */
     public function getSession()
     {
         if(!isset($this->session))
@@ -94,23 +152,50 @@ class RequestContext
         }
         return $this->session;
     }
+
+    /**
+     * @param Session $session
+     * @return $this
+     */
     public function setSession(Session $session)
     {
         $this->session = $session;
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getRequestUrl()
     {
         return implode('/' , $this->request_url_params);
     }
-    public function setRequestUrl($replace_path='', $replacement='')
+
+    /**
+     * @param string $replace_path
+     * @param string $replacement
+     */
+    private function setRequestUrl($replace_path='', $replacement='')
     {
         $complete_url = $_SERVER['REQUEST_URI'];
         $complete_url_arr = explode('?', $complete_url);
         $fore_q_mark = $complete_url_arr[0];
-        $this->request_url = substr( str_replace(strtolower($replace_path), $replacement, strtolower($fore_q_mark)) , 1);
+        $this->request_url = substr( str_ireplace($replace_path, $replacement, $fore_q_mark) , 1);
     }
+
+    /**
+     * @param $url
+     * @return bool
+     */
+    public function isRequestUrl($url)
+    {
+        return ( strtolower($url) == strtolower($this->getRequestUrl()) or strtolower($url)==strtolower($this->getRequestUrlParam(0)));
+    }
+
+    /**
+     * @param $index
+     * @return mixed || null
+     */
     public function getRequestUrlParam($index)
     {
         if(isset($this->request_url_params[(int)$index]))
@@ -119,47 +204,86 @@ class RequestContext
         }
         return null;
     }
-    public function isRequestUrl($url)
-    {
-        return ( strtolower($url) == strtolower($this->getRequestUrl()) or strtolower($url)==strtolower($this->getRequestUrlParam(0)));
-    }
 
-    public function addCommand($command)
+    /**
+     * @param string $command
+     * @return $this
+     */
+    public function addControl($command)
     {
-        $this->request_command[] = $command;
-        return $this;
-    }
-    public function getCommandChain()
-    {
-        return $this->request_command;
-    }
-    public function resetCommandChain()
-    {
-        $this->request_command = array();
+        $this->request_commands[] = $command;
         return $this;
     }
 
-    public function fieldIsSet($field_name)
+    /**
+     * @return array
+     */
+    public function getControlChain()
     {
-        if(isset($this->request_data[$field_name]))
+        return $this->request_commands;
+    }
+
+    /**
+     * @return $this
+     */
+    public function resetControlChain()
+    {
+        $this->request_commands = array();
+        return $this;
+    }
+
+    /**
+     * @param $field_name
+     * @param $request_type
+     * @return bool
+     */
+    public function fieldIsSet($field_name, $request_type)
+    {
+        if(isset($this->request_data[$request_type][$field_name]))
         {
             return true;
         }
         return false;
     }
-    public function getField($field_name)
+
+    /**
+     * @param $field_name
+     * @param $request_type
+     * @return mixed
+     * @throws Exceptions\FormFieldNotFoundException
+     */
+    public function getField($field_name, $request_type)
     {
-        if(isset($this->request_data[$field_name]))
+        if(isset($this->request_data[$request_type][$field_name]))
         {
-            return $this->request_data[$field_name];
+            return $this->request_data[$request_type][$field_name];
         }
         throw new Exceptions\FormFieldNotFoundException("field '{$field_name}' not found in current request context");
     }
-    public function getAllFields()
+
+    public function getFieldIfSet($field_name, $request_type)
     {
-        return $this->request_data;
+        if ($this->fieldIsSet($field_name, $request_type)) return $this->getField($field_name, $request_type);
+        else return null;
     }
 
+    /**
+     * @param $request_type
+     * @return mixed || array
+     */
+    public function getAllFields($request_type)
+    {
+        if(isset($this->request_data[$request_type]))
+        {
+            return $this->request_data[$request_type];
+        }
+        return null;
+    }
+
+    /**
+     * @param $name
+     * @return mixed
+     */
     public function getCookie($name)
     {
         if(isset( $this->request_cookies[$name] ))
@@ -168,11 +292,19 @@ class RequestContext
         }
         return null;
     }
+
+    /**
+     * @return array
+     */
     public function getAllCookies()
     {
         return $this->request_cookies;
     }
 
+    /**
+     * @param $name
+     * @return null
+     */
     public function getFile($name)
     {
         if(isset( $this->request_files[$name] ))
@@ -181,30 +313,54 @@ class RequestContext
         }
         return null;
     }
+
+    /**
+     * @return array
+     */
     public function getAllFiles()
     {
         return $this->request_files;
     }
 
+    /**
+     * @return array
+     */
     public function getResponseData()
     {
         return $this->response_data;
     }
-    public function setResponseData($data)
+
+    /**
+     * @param array $data
+     * @return RequestContext
+     */
+    public function setResponseData(array $data)
     {
-        $this->response_data = $data;
+        $this->response_data = array_merge($this->response_data, $data);
+        return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getFlashData()
     {
         return $this->flash_data;
     }
+
+    /**
+     * @param string $flash_data
+     * @return RequestContext
+     */
     public function setFlashData($flash_data)
     {
         $this->flash_data = $flash_data;
         return $this;
     }
 
+    /**
+     * @return null
+     */
     public function getView()
     {
         if(isset($this->view))
@@ -213,25 +369,38 @@ class RequestContext
         }
         return null;
     }
+
+    /**
+     * @param $view
+     * @return $this
+     */
     public function setView($view)
     {
         $this->view = $view;
         return $this;
     }
 
+    /**
+     *
+     */
     public function invokeView()
     {
         if($this->viewExists($this->getView()))
         {
-            require_once($this::$views_directory.$this->getView());
+            require_once($this->views_directory."/".$this->getView());
         }
         else
         {
-            echo "<h1>File Not Found.</h1><h4>{$this::$views_directory}{$this->getView()}</h4>";
+            echo "<h1>File Not Found.</h1><h4>{$this->views_directory}/{$this->getView()}</h4>";
         }
     }
+
+    /**
+     * @param $view
+     * @return bool
+     */
     public function viewExists($view)
     {
-        return (is_file($this::$views_directory.$view)) ? true : false;
+        return (is_file($this->views_directory."/".$view)) ? true : false;
     }
 }

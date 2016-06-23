@@ -11,7 +11,7 @@ namespace Application\Models;
 
 use System\Utilities\DateTime;
 
-class Upload extends DomainObject
+class Upload extends A_DomainObject
 {
     private $author;
     private $upload_time;

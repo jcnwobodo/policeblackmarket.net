@@ -1,7 +1,7 @@
 <?php
 /**
  * Phoenix Laboratories NG.
- * Author: J. C. Nwobodo (jc.nwobodo@gmail.com)
+ * Author: J. C. Nwobodo (phoenixlabs.ng@gmail.com)
  * Project: PoliceBlackMarket
  * Date:    12/13/2015
  * Time:    7:12 AM
@@ -9,14 +9,13 @@
 
 namespace System\Utilities;
 
+/**
+ * Takes file index in $_FILES super-global and returns and Upload object
+  ASSUMPTIONS
+ * Max upload size is 50 MB i.e max upload size for most Apache servers
+ */
 class UploadHandler
 {
-    /*
-     * Takes file index in $_FILES super-global and returns and Upload object
-      ASSUMPTIONS
-     * Max upload size is 50 MB i.e max upload size for most Apache servers
-     */
-
     private $file_name;
     private $file_size;
     private $file_location;
@@ -41,7 +40,7 @@ class UploadHandler
             $this->temp_name = $_FILES[$input_name]['tmp_name'];
             $this->file_type = $_FILES[$input_name]['type'];
             $var = explode('.', $this->file_name);
-            $this->file_extension = $var[sizeof($var) - 1];
+            $this->file_extension = strtolower($var[sizeof($var) - 1]);
             $this->output_file_name = $output_name;
             $this->file_status = true;
         }
@@ -51,7 +50,7 @@ class UploadHandler
     {
         if ( !($this->file_size <= $this->getMaxUploadSize()))
         {
-            $this->status_message = "File is too large: {$this->file_size}. Max size allowed: {$this->getMaxUploadSize()}";
+            $this->status_message = "File is too large: ".get_file_size_unit($this->file_size).". Max size allowed: ".get_file_size_unit($this->getMaxUploadSize());
         }
         elseif ( !is_array($this->allowed_extensions) or !in_array($this->file_extension, $this->allowed_extensions))
         {

@@ -9,7 +9,7 @@
 
 namespace Application\Models;
 
-class ReportMeta extends DomainObject
+class ReportMeta extends A_DomainObject
 {
     private $report_id;
     private $meta_type;

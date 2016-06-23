@@ -10,11 +10,9 @@
 namespace Application\Models;
 
 use System\Utilities\DateTime;
-use Application\Models\Collections\CategoryCollection;
-use Application\Models\Collections\ReportCollection;
-use Application\Models\Collections\UploadCollection;
+use System\Models\Collections\Collection;
 
-class Report extends DomainObject
+class Report extends A_DomainObject
 {
     private $title;
     private $description;
@@ -31,6 +29,10 @@ class Report extends DomainObject
     private $photos; //meta
     private $reporter; //meta
     private $status; // pending || approved
+
+    const STATUS_APPROVED = 1;
+    const STATUS_PENDING = 2;
+    const STATUS_DELETED = 0;
 
     public function __construct($id=null)
     {
@@ -127,7 +129,7 @@ class Report extends DomainObject
      * @param mixed $categories
      * @return Report
      */
-    public function setCategories(CategoryCollection $categories)
+    public function setCategories(Collection $categories)
     {
         $this->categories = $categories;
         $this->markDirty();
@@ -229,7 +231,7 @@ class Report extends DomainObject
      * @param mixed $related_reports
      * @return Report
      */
-    public function setRelatedReports(ReportCollection $related_reports)
+    public function setRelatedReports(Collection $related_reports)
     {
         $this->related_reports = $related_reports;
         return $this;
@@ -287,7 +289,7 @@ class Report extends DomainObject
      */
     public function getPhotos()
     {
-        if(! isset($this->photos)) $this->photos = new UploadCollection();
+        if(! isset($this->photos)) $this->photos = new Collection(Upload::getMapper('Upload'));
         return $this->photos;
     }
 
@@ -295,7 +297,7 @@ class Report extends DomainObject
      * @param mixed $photos
      * @return Report
      */
-    public function setPhotos(UploadCollection $photos)
+    public function setPhotos(Collection $photos)
     {
         $this->photos = $photos;
         return $this;

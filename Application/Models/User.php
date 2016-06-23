@@ -11,7 +11,7 @@ namespace Application\Models;
 
 use System\Utilities\DateTime;
 
-class User extends DomainObject
+class User extends A_DomainObject
 {
     private $username;
     private $password;
@@ -171,6 +171,12 @@ class User extends DomainObject
         $this->nickname = $nickname;
         $this->markDirty();
         return $this;
+    }
+
+
+    public function getNames()
+    {
+        return implode(" ", array($this->first_name, $this->last_name));
     }
 
     /**

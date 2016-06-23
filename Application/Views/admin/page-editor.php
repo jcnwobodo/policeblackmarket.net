@@ -13,7 +13,7 @@ $data = $rc->getResponseData();
 switch($data['mode'])
 {
     case('create-page'):{
-        $fields = $rc->getAllFields();
+        $fields = $rc->getAllFields(INPUT_POST);
         $default_action = array('name'=>$data['mode'], 'label'=>"Create Page");
     } break;
     case('update-page'):{

@@ -205,7 +205,10 @@
 
 /*----colors----*/
 body{
-    background-color: #000000;
+    background-color: #eeeeee;
+}
+.width-controller{
+    max-width: 1240px;
 }
 .main-container{
     background-color: #ffffff;

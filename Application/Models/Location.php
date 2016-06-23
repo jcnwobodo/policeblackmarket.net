@@ -10,7 +10,7 @@
 namespace Application\Models;
 
 
-class Location extends DomainObject
+class Location extends A_DomainObject
 {
     private $parent;
     private $location_name;
@@ -23,6 +23,10 @@ class Location extends DomainObject
     const TYPE_STATE = 'state';
     const TYPE_LGA = 'lga';
     const TYPE_DISTRICT = 'district';
+
+    const STATUS_APPROVED = 1;
+    const STATUS_PENDING = 2;
+    const STATUS_DELETED = 0;
 
     public function __construct($id=null)
     {

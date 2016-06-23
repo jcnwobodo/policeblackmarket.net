@@ -50,7 +50,8 @@ require_once("header.php");
             ?>
         </div>
     </div>
-<div class="row full-margin-bottom">
+    <hr/>
+    <div class="row full-margin-bottom">
         <div class="col-md-10 col-md-offset-1">
             <?php include_once("includes/social-connect.php"); ?>
         </div>

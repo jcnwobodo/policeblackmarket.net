@@ -7,7 +7,8 @@
  * Time:    1:06 PM
  **/
 
-$rc = \System\Request\RequestContext::instance();
+$requestContext = $rc = \System\Request\RequestContext::instance();
+$data = $requestContext->getResponseData();
 $page_title = isset($rc->getResponseData()['page-title']) ? $rc->getResponseData()['page-title'] : 'Home';
 ?>
 <!DOCTYPE html>
@@ -46,7 +47,7 @@ $page_title = isset($rc->getResponseData()['page-title']) ? $rc->getResponseData
         <div id="navbar" class="collapse navbar-collapse navbar-right">
             <ul class="nav navbar-nav">
                 <li <?= $s = ($rc->isRequestUrl('admin-area') ? 'class="active"': ''); ?>><a href="<?php home_url('/admin-area/');?>"><span class="glyphicon glyphicon-cog"></span> ADMIN-AREA</a></li>
-                <li <?= $s = ($rc->isRequestUrl('account-setting') ? 'class="active"': ''); ?>><a href="<?php home_url('/account-settings/');?>"><span class="glyphicon glyphicon-user"></span> MY ACCOUNT</a></li>
+                <!--<li <?= $s = ($rc->isRequestUrl('my-account') ? 'class="active"': ''); ?>><a href="<?php home_url('/my-account/');?>"><span class="glyphicon glyphicon-user"></span> MY ACCOUNT</a></li>-->
                 <li <?= $s = ($rc->isRequestUrl('logout') ? 'class="active"': ''); ?>><a href="<?php home_url('/logout/');?>"><span class="glyphicon glyphicon-log-out"></span> LOGOUT</a></li>
             </ul>
         </div><!--/.nav-collapse -->

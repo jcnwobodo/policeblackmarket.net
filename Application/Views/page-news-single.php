@@ -78,9 +78,10 @@ require_once("header.php");
         </div>
         <div class="col-md-3 clear-right">
             <h3 class="page-header">Recent</h3>
-            <?php include_once("includes/social-connect.php"); ?>
         </div>
     </div>
+    <hr/>
+    <?php include_once("includes/social-connect.php"); ?>
 <?php
 require_once("footer.php");
 ?>

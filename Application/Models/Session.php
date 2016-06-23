@@ -3,7 +3,7 @@ namespace Application\Models;
 
 use System\Utilities\DateTime;
 
-class Session extends DomainObject
+class Session extends A_DomainObject
 {
     private $session_id;
     private $session_user;

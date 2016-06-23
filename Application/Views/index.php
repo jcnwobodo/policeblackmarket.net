@@ -52,7 +52,7 @@ require_once("header.php");
                 <h5 class="page-header no-margin"><strong><?= $report->getTitle(); ?></strong></h5>
                 <div class="row">
                     <div class="col-sm-9">
-                        <p class="text-left"><?= subwords($report->getDescription(), 0, 50); ?> &hellip;</p>
+                        <p class="text-left"><?= sub_words($report->getDescription(), 0, 50); ?> &hellip;</p>
                     </div>
                     <div class="col-sm-3">
                         <p class="img-thumbnail tiny-padding-all mid-margin-top">image</p>
@@ -114,7 +114,7 @@ require_once("header.php");
                 ?>
                 <h4 class="page-header"><span class="glyphicon glyphicon-info-sign"></span> ABOUT <?= strtoupper(site_info('name',0)); ?></h4>
                 <div class="full-margin-bottom full-margin-top">
-                    <p class="text-left"><?= subwords($page->getContent(), 0, 100); ?></p>
+                    <p class="text-left"><?= sub_words($page->getContent(), 0, 100); ?></p>
                     <div class="btn-group btn-group-xs text-left">
                         <a href="<?php home_url('/'.$page->getGuid().'/'); ?>" class="btn"><span class="glyphicon glyphicon-play"></span> Learn More</a>
                     </div>
@@ -130,9 +130,9 @@ require_once("header.php");
                 ?>
                 <h4 class="page-header"><span class="glyphicon glyphicon-question-sign"></span> HOW IT WORKS</h4>
                 <div class="full-margin-bottom full-margin-top">
-                    <p class="text-left"><?= subwords($page->getContent(), 0, 100); ?></p>
+                    <p class="text-left"><?= sub_words($page->getContent(), 0, 100); ?></p>
                     <div class="btn-group btn-group-xs text-left">
-                        <a href="<?php home_url('/'.$page->getGuid().'/'); ?>" class="btn"><span class="glyphicon glyphicon-play"></span> Learn More</a>
+                        <a href="<?php home_url('/page/'.$page->getGuid().'/'); ?>" class="btn"><span class="glyphicon glyphicon-play"></span> Learn More</a>
                     </div>
                 </div>
                 <?php

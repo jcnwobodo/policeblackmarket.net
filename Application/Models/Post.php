@@ -11,7 +11,7 @@ namespace Application\Models;
 
 use System\Utilities\DateTime;
 
-class Post extends DomainObject
+class Post extends A_DomainObject
 {
     private $parent;
     private $post_type;

@@ -7,22 +7,23 @@
  * Time: 6:43 PM
  */
 ?>
-    <div class="row bg-color1 mid-padding-all page-footer">
-        <div class="col-md-6">
-            <nav role="navigation">
-                <ul class="list-inline">
-                    <li><a href="<?php home_url('/about/'); ?>"><span class="glyphicon glyphicon-star-empty"></span> About</a></li>
-                    <li><a href="<?php home_url('/legal-notice/'); ?>"><span class="glyphicon glyphicon-info-sign"></span> Legal Notice</a></li>
-                    <li><a href="<?php home_url('/terms-of-use/'); ?>"><span class="glyphicon glyphicon-list-alt"></span> Terms of Use</a></li>
-                    <li><a href="<?php home_url('/admin-area/'); ?>"><span class="glyphicon glyphicon-dashboard"></span> Admin Area</a></li>
-                </ul>
-            </nav>
-        </div>
-        <div class="col-md-6">
-            <p><span class="glyphicon glyphicon-heart"></span> Developed with the Love of Nigeria in Mind</p>
-        </div>
+</div><!-- /container-fluid-->
+
+<nav class="navbar navbar-inverse bg-color1 no-margin text-nowrap" style="border-radius: 0%">
+    <div class="container-fluid width-controller">
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="<?php home_url('/about/'); ?>"><span class="glyphicon glyphicon-star-empty"></span> About</a></li>
+                <li><a href="<?php home_url('/legal-notice/'); ?>"><span class="glyphicon glyphicon-info-sign"></span> Legal Notice</a></li>
+                <li><a href="<?php home_url('/terms-of-use/'); ?>"><span class="glyphicon glyphicon-list-alt"></span> Terms of Use</a></li>
+                <li><a href="<?php home_url('/admin-area/'); ?>"><span class="glyphicon glyphicon-dashboard"></span> Admin Area</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a><span class="glyphicon glyphicon-heart"></span> Designed and Developed for the Love of Nigeria</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
     </div>
-</div><!-- /.container-fluid-->
+</nav>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->

@@ -60,6 +60,10 @@ class DateTime
     {
         return date('s',$this->micro_time);
     }
+    public function getAmPm()
+    {
+        return date('A',$this->micro_time);
+    }
 
     public static function checktime($hour=0, $minute=0, $seconds=0)
     {

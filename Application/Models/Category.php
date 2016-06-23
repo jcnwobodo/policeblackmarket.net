@@ -9,7 +9,7 @@
 
 namespace Application\Models;
 
-class Category extends DomainObject
+class Category extends A_DomainObject
 {
     private $guid;
     private $parent;
@@ -19,6 +19,10 @@ class Category extends DomainObject
 
     const TYPE_NEWS = 'news';
     const TYPE_REPORT = 'report';
+
+    const STATUS_APPROVED = 1;
+    const STATUS_PENDING = 2;
+    const STATUS_DELETED = 0;
 
     public function __construct($id=null)
     {

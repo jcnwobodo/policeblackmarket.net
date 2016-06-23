@@ -13,7 +13,7 @@ $data = $rc->getResponseData();
 switch($data['mode'])
 {
     case('create-post'):{
-        $fields = $rc->getAllFields();
+        $fields = $rc->getAllFields(INPUT_POST);
         $default_action = array('name'=>'create-post', 'label'=>"Create Post");
     } break;
     case('update-post'):{

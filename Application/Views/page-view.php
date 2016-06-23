@@ -9,12 +9,12 @@
 
 $requestContest = \System\Request\RequestContext::instance();
 $data = $requestContest->getResponseData();
-$post = $data['post'];
+$post = $data['item'];
 
 require_once("header.php");
 ?>
 <div class="row full-padding-top full-padding-bottom">
-    <div class="col-md-7 col-md-offset-1 height-80vh">
+    <div class="col-md-7 col-md-offset-1 height-90vh">
         <h3 class="page-header"><?= $post->getTitle(); ?></h3>
         <p class="text-left lead"><?= $post->getExcerpt(); ?></p>
         <p class="text-justify"><?= $post->getContent(); ?></p>

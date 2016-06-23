@@ -27,7 +27,7 @@ require_once("header.php");
                             <div class="img-thumbnail">image</div>
                         </div>
                         <div class="col-sm-9">
-                            <p class="text-justify"><?= subwords($report->getDescription(), 0, 80); ?> &hellip;</p>
+                            <p class="text-justify"><?= sub_words($report->getDescription(), 0, 80); ?> &hellip;</p>
                         </div>
                     </div>
                     <div class="row">

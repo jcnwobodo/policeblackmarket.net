@@ -15,8 +15,8 @@ $location_states = $data['location-states'];
 $location_lgas = $data['location-lgas'];
 $location_districts = $data['location-districts'];
 
-$fields = $requestContext->getAllFields();
-
+$fields = $requestContext->getAllFields(INPUT_POST);
+if(isset($data['status']) and $data['status']==true) $fields = [];
 require_once("header.php");
 ?>
 <form method="post" enctype="multipart/form-data">
